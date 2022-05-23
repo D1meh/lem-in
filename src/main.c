@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 18:49:31 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/23 19:07:20 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int    registerLine(t_data *anthill, char *line, unsigned int index) {
     printf("-> |%s|\n", line);
+    if (line[0] == '#' && ft_strcmp(line, "##start") && ft_strcmp(line, "##end"))
+        return 0;
     if (index == 0)
     {
         int nbAnts = ft_atoi(line);
@@ -35,13 +37,19 @@ void	printError() {
 	exit(1);
 }
 
+void    parseLines(char ** lines) {
+
+    for (size_t i = 0 ; lines[i] != NULL ; i++) {
+        if (lines[i][0] == '#' && ft_strcmp(lines[i], "##start") && ft_strcmp(lines[i], "##end"))
+            continue ;
+        printf("%s\n", lines[i]);
+    }
+}
+
 void    readInput(t_data *anthill, int fd) {
     char            *line = NULL;
-    char            *prevLine;
-    unsigned int    index = 0;
     while (1)
     {
-        prevLine = line;
         if (get_next_line(fd, &line) < 1)
             break;
         registerLine(anthill, line, index);
