@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 18:21:34 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:25:44 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void    readInput(t_data *anthill, int fd) {
             break;
         registerLine(anthill, line, index);
         if (prevLine)
-            free(line);
+            free(prevLine);
         index++;
     }
+    if (prevLine)
+        free(prevLine);
     registerLine(anthill, line, index);
     free(line);
 }
