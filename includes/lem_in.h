@@ -7,7 +7,10 @@
 # include <unistd.h>
 # include "lib.h"
 
-# define BUFFER_SIZE 1024
+# define	BUFFER_SIZE		1024
+# define	STDIN			0
+# define	STDOUT			1
+# define	STDERR			2
 
 typedef enum bool {
 	false,
@@ -20,7 +23,7 @@ typedef struct s_room {
 	int				x;
 	int				y;
 	int				type;	// 0 = normal, 1 = start, 2 = end
-	int				*links;
+	char			**links;
 	struct s_room	*prev;
 	struct s_room	*next;
 }	t_room;

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 18:25:44 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:49:31 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int    registerLine(t_data *anthill, char *line, unsigned int index) {
         int nbAnts = ft_atoi(line);
         if (nbAnts <= 0)
             return (-1);
-        anthill->ants = malloc(sizeof(t_ant) * nbAnts);
+        anthill->ants = ft_malloc(sizeof(t_ant), nbAnts);
         anthill->nbAnts = nbAnts;
+        printf("nbAnts : %d\n", anthill->nbAnts);
     }
     else if (index > 0)
     {
