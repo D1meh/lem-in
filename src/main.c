@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 19:07:20 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/23 19:08:33 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,12 @@ void    parseLines(char ** lines) {
 }
 
 void    readInput(t_data *anthill, int fd) {
-    char            *line = NULL;
-    while (1)
-    {
-        if (get_next_line(fd, &line) < 1)
-            break;
-        registerLine(anthill, line, index);
-        if (prevLine)
-            free(prevLine);
-        index++;
-    }
-    if (prevLine)
-        free(prevLine);
-    registerLine(anthill, line, index);
-    free(line);
+	char	**tab = NULL;
+	char	*line = NULL;
+
+	while (get_next_line(fd, &line) > 0)
+		ft_pushback(tab, line);
+	ft_pushback(tab, line);
 }
 
 int main() {
