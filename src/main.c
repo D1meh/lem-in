@@ -36,23 +36,12 @@ void	printError() {
 }
 
 void    readInput(t_data *anthill, int fd) {
-    char            *line = NULL;
-    char            *prevLine;
-    unsigned int    index = 0;
-    while (1)
-    {
-        prevLine = line;
-        if (get_next_line(fd, &line) < 1)
-            break;
-        registerLine(anthill, line, index);
-        if (prevLine)
-            free(prevLine);
-        index++;
-    }
-    if (prevLine)
-        free(prevLine);
-    registerLine(anthill, line, index);
-    free(line);
+	char	**tab = NULL;
+	char	*line = NULL;
+
+	while (get_next_line(fd, &line) > 0)
+		ft_pushback(tab, line);
+	ft_pushback(tab, line);
 }
 
 int main() {
