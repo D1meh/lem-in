@@ -1,11 +1,11 @@
-NAME = lem-in
+NAME =	lem-in
 
-SRCS = 
-OBJS = $(SRCS:.c=.o)
+SRCS =	$(wildcard lib/*.c) $(wildcard src/*.c) $(wildcard gnl/*.c)
+OBJS =	$(SRCS:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+RM = rm -rf
 
 all: $(NAME)
 
@@ -13,10 +13,10 @@ $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) -o $(NAME) $(SRCS)
 
 clean:
-			rm -f $(OBJS)
+			${RM} $(OBJS)
 
 fclean:		clean
-			rm -f $(NAME)
+			${RM} $(NAME)
 
 re:			fclean all
 

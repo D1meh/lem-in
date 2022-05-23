@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 10:43:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 17:09:29 by epfennig         ###   ########.fr       */
+/*   Created: 2022/05/23 17:10:21 by epfennig          #+#    #+#             */
+/*   Updated: 2022/05/23 17:22:23 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lib.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char			*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int			i;
-	int			j;
-	char		*str;
+	size_t		i;
+	size_t		j;
+	char		*dest;
 
-	if (s1 == NULL || s2 == NULL || !(str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
-		return (NULL);
-	str[0] = '\0';
 	i = 0;
 	j = 0;
-	while (s1[i] != '\0')
+	if (!(dest = (char *)malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		str[i] = s1[i];
+		if (i >= start && j < len)
+		{
+			dest[j] = s[i];
+			j++;
+		}
 		i++;
 	}
-	while (s2[j] != '\0')
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
-	return (str);
+	dest[j] = '\0';
+	return (dest);
 }

@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 10:43:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 17:09:29 by epfennig         ###   ########.fr       */
+/*   Created: 2022/05/23 17:11:37 by epfennig          #+#    #+#             */
+/*   Updated: 2022/05/23 17:12:03 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lib.h"
+# include "../includes/lib.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char			*ft_memalloc(size_t size)
 {
-	int			i;
-	int			j;
 	char		*str;
+	size_t		i;
 
-	if (s1 == NULL || s2 == NULL || !(str = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
-		return (NULL);
-	str[0] = '\0';
 	i = 0;
-	j = 0;
-	while (s1[i] != '\0')
+	if (!(str = malloc(size)))
+		return (NULL);
+	while (i < size)
 	{
-		str[i] = s1[i];
+		str[i] = 0;
 		i++;
 	}
-	while (s2[j] != '\0')
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
 	return (str);
 }
