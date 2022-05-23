@@ -11,6 +11,8 @@
 # define	STDIN			0
 # define	STDOUT			1
 # define	STDERR			2
+# define RED "\e[1;31m"
+# define RESET "\e[0m"
 
 typedef enum bool {
 	false,

@@ -8,10 +8,11 @@ static int tabLen(char **tab) {
 }
 
 char	**ft_pushback(char **tab, char *val) {
-	char **ret = malloc(sizeof(char*) * (tabLen(tab) +2 ));
+	int len = tabLen(tab);
+	char **ret = malloc(sizeof(char *) * (len + 2));
 	int i = 0;
-
-	while (i < tabLen(tab)) {
+	
+	while (i < len) {
 		ret[i] = tab[i];
 		i++;
 	}
