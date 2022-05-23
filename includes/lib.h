@@ -8,6 +8,8 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, int n);
 int 	ft_strlen(char *str);
 int		ft_strfree(char **ptr);
+int 	ft_atoi(char *s);
+int 	ft_isspace(char *s);
 
 char	*ft_memalloc(size_t size);
 char	*ft_strjoin(char *s1, char *s2);
