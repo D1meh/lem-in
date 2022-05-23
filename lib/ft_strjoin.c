@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../includes/lib.h"
+
 
 char    *ft_strjoin(char *s1, char *s2)
 {

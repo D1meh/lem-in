@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/lib.h"
+
 int ft_strlen(char *str)
 {
-    int i = 0;
-    if (!str)
-        return 0;
-    while (str[i])
-        i++;
-    return i;
+	return (*str == 0 ? 0 : ft_strlen(str+1) + 1);
 }
+
