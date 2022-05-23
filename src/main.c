@@ -18,26 +18,31 @@ int    registerLine(t_data *anthill, char *line) {
     return 1;
 }
 
-void    readInput(t_data *anthill, int fd) {
-
-    // char    *buff = malloc(sizeof(char) * 0);
-    char    *line;
-    // char    *tmp = NULL;
-
-    // size_t  r = 0;
-    while (42)
-    {    
-        if (get_next_line(fd, &line) < 1) {
-            registerLine(anthill, line);
-            break ;
-        }
-        registerLine(anthill, line);
-    }
+void	printError() {
+	write(2, "ERROR", 5);
+	exit(1);
 }
 
-int main(int ac, char **av) {
-    (void)ac;
-    (void)av;
+void    readInput(t_data *anthill, int fd) {
+
+    char    *line;
+	char	**splitLine;
+	int		count = 0;
+
+    while (get_next_line(fd, &line) < 1 && ft_strlen(line) && !ft_isspace(line)) {
+
+		if (line[0] == 'L') {
+			free(line);
+			printError();
+		}
+
+		
+
+		free(line);
+	}
+}
+
+int main(void) {
     
     t_data  anthill;
 
