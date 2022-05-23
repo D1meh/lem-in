@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 21:37:18 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/23 22:06:39 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void    storeNbAnts(char *line, t_data *anthill) {
 }
 
 int storeRoom(char *line, int type) {
+    if (!line)
+        ft_exit_error("Invalid format for 'the_rooms'.\n");
+
     char    **tab = ft_split(line, ' ');
     int     len = 0;
     while (tab[++len]);
@@ -53,6 +56,9 @@ int storeRoom(char *line, int type) {
 }
 
 void storeLinks(char *line) {
+    if (!line)
+        ft_exit_error("Invalid format for 'the_links'.\n");
+    
     char    **tab = ft_split(line, '-');
     int     len = 0;
     while (tab[++len]);
@@ -67,11 +73,13 @@ void    parseLines(char **lines, t_data *anthill) {
     int     part = 0; // number_of_ants - the_rooms - the_links
     int     type = 0;
     for (size_t i = 0 ; lines[i] != NULL ; i++) {
-
+        if (!lines[i] || !lines[i][0])
+            break ;
         /* Skip comments */
         if (lines[i][0] == '#' && ft_strcmp(lines[i], "##start") && ft_strcmp(lines[i], "##end"))
             continue ;
 
+        /* Check if line is start or end node */
         type = 0;
         if (ft_strcmp(lines[i], "##start") == 0)
             type = 1;
@@ -120,5 +128,5 @@ int main() {
     char **lines = readInput();
     parseLines(lines, &anthill);
     printf("Done\n");
-    system("leaks lem-in");
+    // system("leaks lem-in");
 }
