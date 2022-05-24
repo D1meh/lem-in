@@ -21,7 +21,7 @@ void    free_tab(char **tab) {
 
 void    ft_exit_error(char *error) {
     write(STDERR, RED, ft_strlen(RED));
-    write(STDERR, "Error: ", 7);
+    write(STDERR, "ERROR\n", 6);
     write(STDERR, error, ft_strlen(error));
     write(STDERR, RESET, ft_strlen(RESET));
     exit(EXIT_FAILURE);
@@ -48,7 +48,8 @@ int storeRoom(char *line, int type, t_data *anthill) {
     int     len = 0;
     while (tab[++len]);
     if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2]))
-        ft_exit_error("Invalid format for 'the_rooms'.\n");
+        //ft_exit_error("Invalid format for 'the_rooms'.\n");
+		return 0;
     
 	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
 	addRoom(&(anthill->rooms), new);
@@ -57,7 +58,7 @@ int storeRoom(char *line, int type, t_data *anthill) {
     return 1;
 }
 
-void storeLinks(char *line) {
+int storeLinks(char *line) {
     if (!line)
         ft_exit_error("Invalid format for 'the_links'.\n");
     
@@ -65,10 +66,12 @@ void storeLinks(char *line) {
     int     len = 0;
     while (tab[++len]);
     if (len != 2)
-        ft_exit_error("Invalid format for 'the_links'.\n");
+        //ft_exit_error("Invalid format for 'the_links'.\n");
+		return 0;
     
     printf("Link -> %s\n", line);
     free_tab(tab);
+	return 1;
 }
 
 void    parseLines(char **lines, t_data *anthill) {
@@ -105,13 +108,18 @@ void    parseLines(char **lines, t_data *anthill) {
             }
             if (type != 0)
                 i++;
-            storeRoom(lines[i], type, anthill);
+            if (!storeRoom(lines[i], type, anthill))
+				break ;
         }
         /* Store the_links */
         else if (part == 2) {
-            storeLinks(lines[i]);
+            if (!storeLinks(lines[i]))
+				break ;
         }
     }
+	browseRooms(anthill->rooms);
+	if (!validStartEnd(anthill->rooms))
+		ft_exit_error("Invalid format for 'the_rooms'.\n");
 }
 
 char    **readInput() {
@@ -132,5 +140,5 @@ int main() {
     char **lines = readInput();
     parseLines(lines, &anthill);
     printf("Done\n");
-    // system("leaks lem-in");
+    //system("leaks lem-in");
 }

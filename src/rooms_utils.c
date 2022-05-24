@@ -28,3 +28,30 @@ void	addRoom(t_room **roomList, t_room *new) {
 	} else
 		*roomList = new;
 }
+
+bool	validStartEnd(t_room *roomlist) {
+	bool start = false, end = false;
+
+	while (roomlist) {
+
+		if (roomlist->type == 1) {
+			if (start)
+				ft_exit_error("Too many starts\n");
+			start = true;
+		} else if (roomlist->type == 2) {
+			if (end)
+				ft_exit_error("Too many ends\n");
+			end = true;
+		}
+
+		roomlist = roomlist->next;
+	}
+	return start && end;
+}
+
+void	browseRooms(t_room *roomList) {
+	while (roomList) {
+		printf("-> %s : x=%d, y=%d, type=%d\n", roomList->name, roomList->x, roomList->y, roomList->type);
+		roomList = roomList->next;
+	}
+}

@@ -50,6 +50,9 @@ int		get_next_line(int fd, char **line);
 
 void    ft_exit_error(char *error);
 void	addRoom(t_room **roomList, t_room *new);
+void	browseRooms(t_room *roomList);
+
+bool	validStartEnd(t_room *roomlist);
 
 t_room	*createRoom(char *name, int x, int y, int type);
 t_room	*lastRoom(t_room *roomList);
