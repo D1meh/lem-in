@@ -17,7 +17,7 @@ char	**ft_pushback(char **tab, char *val) {
 		i++;
 	}
 	free(tab);
-	ret[i] = val;
+	ret[i] = ft_strdup(val);
 	ret[i+1] = NULL;
 	return ret;
 }

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:27:55 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 18:44:59 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/24 18:18:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@ void    *ft_malloc(size_t sizeOf, size_t size) {
 
     void    *ptr = malloc(sizeOf * size);
     if (!ptr)
-   		ft_exit_error("Failed to allocate memory\n");
+   		exitError("Failed to allocate memory\n");
     return (ptr);
 }

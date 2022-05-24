@@ -48,13 +48,16 @@ typedef struct s_data {
 
 int		get_next_line(int fd, char **line);
 
-void    ft_exit_error(char *error);
+void    exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
 
+bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
-
+bool	noDouble(t_room *roomList, t_room *elt);
 t_room	*createRoom(char *name, int x, int y, int type);
 t_room	*lastRoom(t_room *roomList);
+t_room	*findRoomByName(char *name, t_room *rooms);
+
 
 #endif

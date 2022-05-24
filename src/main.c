@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 22:06:39 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/24 19:22:34 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,59 +19,78 @@ void    free_tab(char **tab) {
     free(tab);
 }
 
-void    ft_exit_error(char *error) {
+void    exitError(char *error) {
     write(STDERR, RED, ft_strlen(RED));
     write(STDERR, "ERROR\n", 6);
     write(STDERR, error, ft_strlen(error));
     write(STDERR, RESET, ft_strlen(RESET));
+    system("leaks lem-in");
     exit(EXIT_FAILURE);
 }
 
 void    storeNbAnts(char *line, t_data *anthill) {
     if (!line)
-        ft_exit_error("Invalid format for 'number of ants'.\n");
+        exitError("Invalid format for 'number_of_ants'.\n");
     if (!ft_strisdigit(line))
-        ft_exit_error("Invalid format for 'number of ants'.\n");
+        exitError("Invalid format for 'number of ants'.\n");
     long int nbAnts = ft_atoi(line);
     if (nbAnts <= 0)
-        ft_exit_error("Invalid number of ants.\n");
+        exitError("Invalid number of ants.\n");
     anthill->ants = ft_malloc(sizeof(t_ant), nbAnts);
     anthill->nbAnts = nbAnts;
     printf("Ants -> %ld\n", nbAnts);
 }
 
-int storeRoom(char *line, int type, t_data *anthill) {
+bool storeRoom(char *line, int type, t_data *anthill) {
     if (!line)
-        ft_exit_error("Invalid format for 'the_rooms'.\n");
+        exitError("Invalid format for 'the_rooms'.\n");
 
     char    **tab = ft_split(line, ' ');
     int     len = 0;
     while (tab[++len]);
-    if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2]))
-        //ft_exit_error("Invalid format for 'the_rooms'.\n");
-		return 0;
+    if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2])) {
+        free_tab(tab);
+    	return false;
+    }
     
 	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
+    if (!noDouble(anthill->rooms, new)) {
+        free_tab(tab);
+        free(new->name);
+        free(new);
+        return true;
+    }
 	addRoom(&(anthill->rooms), new);
     printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
     free_tab(tab);
-    return 1;
+    return true;
 }
 
-int storeLinks(char *line) {
-    if (!line)
-        ft_exit_error("Invalid format for 'the_links'.\n");
+bool    storeLinks(char *line, t_data *anthill) {
     
     char    **tab = ft_split(line, '-');
     int     len = 0;
     while (tab[++len]);
     if (len != 2)
-        //ft_exit_error("Invalid format for 'the_links'.\n");
-		return 0;
+		return false;
     
+    t_room *r1 = findRoomByName(tab[0], anthill->rooms);
+    t_room *r2 = findRoomByName(tab[1], anthill->rooms);
+    if (!r1 || !r2) {
+        free_tab(tab);
+        return true;
+    }
+    
+    if (avoidDoubleLink(r1, tab[1])) {
+       r1->links = ft_pushback(r1->links, tab[1]);
+    }
+    if (avoidDoubleLink(r2, tab[0])) {
+        r2->links = ft_pushback(r2->links, tab[0]);
+    }
+
     printf("Link -> %s\n", line);
     free_tab(tab);
-	return 1;
+	return true;
 }
 
 void    parseLines(char **lines, t_data *anthill) {
@@ -113,13 +132,13 @@ void    parseLines(char **lines, t_data *anthill) {
         }
         /* Store the_links */
         else if (part == 2) {
-            if (!storeLinks(lines[i]))
+            if (!storeLinks(lines[i], anthill))
 				break ;
         }
     }
 	browseRooms(anthill->rooms);
 	if (!validStartEnd(anthill->rooms))
-		ft_exit_error("Invalid format for 'the_rooms'.\n");
+		exitError("Invalid start or end node for 'the_rooms'.\n");
 }
 
 char    **readInput() {
@@ -128,8 +147,10 @@ char    **readInput() {
 
 	while (get_next_line(STDIN, &line) > 0) {
 		tab = ft_pushback(tab, line);
+        free(line);
     }
 	tab = ft_pushback(tab, line);
+    free(line);
     return (tab);
 }
 
@@ -140,5 +161,5 @@ int main() {
     char **lines = readInput();
     parseLines(lines, &anthill);
     printf("Done\n");
-    //system("leaks lem-in");
+    system("leaks lem-in");
 }
