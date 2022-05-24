@@ -32,24 +32,26 @@ void    storeNbAnts(char *line, t_data *anthill) {
         ft_exit_error("Invalid format for 'number of ants'.\n");
     if (!ft_strisdigit(line))
         ft_exit_error("Invalid format for 'number of ants'.\n");
-    int nbAnts = ft_atoi(line);
+    long int nbAnts = ft_atoi(line);
     if (nbAnts <= 0)
         ft_exit_error("Invalid number of ants.\n");
     anthill->ants = ft_malloc(sizeof(t_ant), nbAnts);
     anthill->nbAnts = nbAnts;
-    printf("Ants -> %s\n", line);
+    printf("Ants -> %ld\n", nbAnts);
 }
 
-int storeRoom(char *line, int type) {
+int storeRoom(char *line, int type, t_data *anthill) {
     if (!line)
         ft_exit_error("Invalid format for 'the_rooms'.\n");
 
     char    **tab = ft_split(line, ' ');
     int     len = 0;
     while (tab[++len]);
-    if (len != 3)
+    if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2]))
         ft_exit_error("Invalid format for 'the_rooms'.\n");
     
+	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
+	addRoom(&(anthill->rooms), new);
     printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
     free_tab(tab);
     return 1;
@@ -72,6 +74,8 @@ void storeLinks(char *line) {
 void    parseLines(char **lines, t_data *anthill) {
     int     part = 0; // number_of_ants - the_rooms - the_links
     int     type = 0;
+	anthill->rooms = NULL;
+
     for (size_t i = 0 ; lines[i] != NULL ; i++) {
         if (!lines[i] || !lines[i][0])
             break ;
@@ -101,7 +105,7 @@ void    parseLines(char **lines, t_data *anthill) {
             }
             if (type != 0)
                 i++;
-            storeRoom(lines[i], type);
+            storeRoom(lines[i], type, anthill);
         }
         /* Store the_links */
         else if (part == 2) {

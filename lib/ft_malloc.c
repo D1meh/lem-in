@@ -11,14 +11,12 @@
 /* ************************************************************************** */
 
 #include "../includes/lib.h"
+#include "../includes/lem_in.h"
 
 void    *ft_malloc(size_t sizeOf, size_t size) {
 
     void    *ptr = malloc(sizeOf * size);
     if (!ptr)
-    {
-        write(2, "Error: Failed to allocate memory\n", 33);
-        exit(EXIT_FAILURE);
-    }
+   		ft_exit_error("Failed to allocate memory\n");
     return (ptr);
 }

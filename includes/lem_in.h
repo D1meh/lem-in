@@ -41,11 +41,17 @@ typedef struct s_data {
 
 	t_room		*rooms;
 	t_ant		*ants;
-	int			nbAnts;
+	long int	nbAnts;
 	int			nbRooms;
 
 }	t_data;
 
-int				get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line);
+
+void    ft_exit_error(char *error);
+void	addRoom(t_room **roomList, t_room *new);
+
+t_room	*createRoom(char *name, int x, int y, int type);
+t_room	*lastRoom(t_room *roomList);
 
 #endif
