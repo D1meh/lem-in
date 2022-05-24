@@ -54,7 +54,7 @@ void	browseRooms(t_room *roomList);
 
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
-bool	noDouble(t_room *roomList, t_room *elt);
+bool	avoidDoubeRoom(t_room *roomList, t_room *elt);
 t_room	*createRoom(char *name, int x, int y, int type);
 t_room	*lastRoom(t_room *roomList);
 t_room	*findRoomByName(char *name, t_room *rooms);

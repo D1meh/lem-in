@@ -61,7 +61,8 @@ t_room	*findRoomByName(char *name, t_room *rooms) {
 
 void	browseRooms(t_room *roomList) {
 	while (roomList) {
-		printf("Room -> Name[%s][%d][%d]\t%s\tLinks[", roomList->name, roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "Middle");
+		printf("Room -> Name[%s][%d][%d]\t%s\tLinks[", roomList->name, \
+			roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		int i = 0;
 		while (roomList->links && roomList->links[i])
 			printf("'%s', ", roomList->links[i++]);
@@ -76,15 +77,17 @@ void	browseRooms(t_room *roomList) {
 bool avoidDoubleLink(t_room *room, char *link) {
 	int i = 0;
 
+	if (ft_strcmp(room->name, link) == 0)
+		return false;
 	while (room->links && room->links[i]) {
-		if (ft_strcmp(room->links[i], link) == 0 || ft_strcmp(room->name, link) == 0)
+		if (ft_strcmp(room->links[i], link) == 0)
 			return false;
 		i++;
 	}
 	return true;
 }
 
-bool	noDouble(t_room *roomList, t_room *elt) {
+bool	avoidDoubeRoom(t_room *roomList, t_room *elt) {
 	while (roomList) {
 		if (ft_strcmp(roomList->name, elt->name) == 0 || (roomList->x == elt->x && roomList->y == elt->y))
 			return false;

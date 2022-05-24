@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/24 19:22:34 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/24 23:11:30 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void    storeNbAnts(char *line, t_data *anthill) {
     if (!ft_strisdigit(line))
         exitError("Invalid format for 'number of ants'.\n");
     long int nbAnts = ft_atoi(line);
-    if (nbAnts <= 0)
+    if (nbAnts <= 0 || nbAnts > 99999)
         exitError("Invalid number of ants.\n");
     anthill->ants = ft_malloc(sizeof(t_ant), nbAnts);
     anthill->nbAnts = nbAnts;
@@ -42,19 +42,23 @@ void    storeNbAnts(char *line, t_data *anthill) {
 }
 
 bool storeRoom(char *line, int type, t_data *anthill) {
-    if (!line)
+    if (!line) {
+        printf("Debug 1\n");
         exitError("Invalid format for 'the_rooms'.\n");
+    }
 
     char    **tab = ft_split(line, ' ');
     int     len = 0;
     while (tab[++len]);
     if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2])) {
+        printf("Debug 2\n");
         free_tab(tab);
     	return false;
     }
     
 	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
-    if (!noDouble(anthill->rooms, new)) {
+    if (!avoidDoubeRoom(anthill->rooms, new)) {
+        printf("Debug 3\n");
         free_tab(tab);
         free(new->name);
         free(new);
@@ -81,14 +85,12 @@ bool    storeLinks(char *line, t_data *anthill) {
         return true;
     }
     
-    if (avoidDoubleLink(r1, tab[1])) {
+    if (avoidDoubleLink(r1, tab[1]))
        r1->links = ft_pushback(r1->links, tab[1]);
-    }
-    if (avoidDoubleLink(r2, tab[0])) {
+    if (avoidDoubleLink(r2, tab[0]))
         r2->links = ft_pushback(r2->links, tab[0]);
-    }
 
-    printf("Link -> %s\n", line);
+    // printf("Link -> %s\n", line);
     free_tab(tab);
 	return true;
 }
@@ -138,7 +140,7 @@ void    parseLines(char **lines, t_data *anthill) {
     }
 	browseRooms(anthill->rooms);
 	if (!validStartEnd(anthill->rooms))
-		exitError("Invalid start or end node for 'the_rooms'.\n");
+		exitError("Invalid end or start for 'the_rooms'.\n");
 }
 
 char    **readInput() {
@@ -146,6 +148,8 @@ char    **readInput() {
 	char	*line = NULL;
 
 	while (get_next_line(STDIN, &line) > 0) {
+        if (!line || !line[0])
+            break ;
 		tab = ft_pushback(tab, line);
         free(line);
     }
@@ -161,5 +165,5 @@ int main() {
     char **lines = readInput();
     parseLines(lines, &anthill);
     printf("Done\n");
-    system("leaks lem-in");
+    // system("leaks lem-in");
 }
