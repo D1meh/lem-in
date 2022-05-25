@@ -32,5 +32,7 @@ char	**ft_pushback(char **tab, char *val);
 char	**ft_split(char const *s, char c);
 
 long int 	ft_atoi(char *s);
+char		*ft_itoa(int n);
+
 
 #endif
