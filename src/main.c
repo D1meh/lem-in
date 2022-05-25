@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/24 23:11:30 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/25 13:34:35 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,6 @@ void    free_tab(char **tab) {
     while (tab[i])
         free(tab[i++]);
     free(tab);
-}
-
-void    exitError(char *error) {
-    write(STDERR, RED, ft_strlen(RED));
-    write(STDERR, "ERROR\n", 6);
-    write(STDERR, error, ft_strlen(error));
-    write(STDERR, RESET, ft_strlen(RESET));
-    system("leaks lem-in");
-    exit(EXIT_FAILURE);
 }
 
 void    storeNbAnts(char *line, t_data *anthill) {

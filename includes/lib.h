@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+# define	STDIN			0
+# define	STDOUT			1
+# define	STDERR			2
+# define    RED "\e[1;31m"
+# define    RESET "\e[0m"
 
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, int n);

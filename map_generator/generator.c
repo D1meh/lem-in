@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include "../includes/lem_in.h"
 
 char *randomName() {
@@ -12,7 +13,7 @@ char *randomName() {
     if (!randomName)
         return NULL;
 
-    for (int n = 0 ; n < length ; n++) {
+    for (size_t n = 0 ; n < length ; n++) {
         int index = rand() % (int)(sizeof(charset) -1);
         randomName[n] = charset[index];
     }
@@ -29,7 +30,18 @@ int main(int ac, char **av) {
         {
             exitError("Wrong parameters for generator\n");
         }
-        int len = ft_atoi(av[1]);
+        char    *filename = ft_strjoin(av[1], "_generated.map");
+        int     fd = open(filename, O_CREAT | O_TRUNC | O_RDWR);
+
+        int     len = ft_atoi(av[1]);
+        unsigned int x = 0;
+        unsigned int y = 0;
+        unsigned int maxX = sqrt((double)(len));
+        unsigned int maxY = sqrt((double)(len));
+        while (len--) {
+            printf("%s %u %u\n", randomName(), x, y);
+
+        }
 
     }
     return (0);

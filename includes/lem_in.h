@@ -5,14 +5,17 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include "lib.h"
 
 # define	BUFFER_SIZE		1024
 # define	STDIN			0
 # define	STDOUT			1
 # define	STDERR			2
-# define RED "\e[1;31m"
-# define RESET "\e[0m"
+# define	RED "\e[1;31m"
+# define	RESET "\e[0m"
 
 typedef enum bool {
 	false,
