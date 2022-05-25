@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/25 13:34:35 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/25 17:23:08 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ bool storeRoom(char *line, int type, t_data *anthill) {
     int     len = 0;
     while (tab[++len]);
     if (len != 3 || !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2])) {
-        printf("Debug 2\n");
         free_tab(tab);
     	return false;
     }
     
 	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
     if (!avoidDoubeRoom(anthill->rooms, new)) {
-        printf("Debug 3\n");
         free_tab(tab);
         free(new->name);
         free(new);
