@@ -28,7 +28,9 @@ typedef struct s_room {
 	int				x;
 	int				y;
 	int				type;	// 0 = normal, 1 = start, 2 = end
-	char			**links;
+	int				nbOfLinks;
+	//char			**links;
+	struct s_room	**links;
 	struct s_room	*prev;
 	struct s_room	*next;
 }	t_room;
@@ -54,6 +56,7 @@ int		get_next_line(int fd, char **line);
 void    exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
+void	pushback_room(t_room *r, t_room *roomList, char *link);
 
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);

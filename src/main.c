@@ -76,12 +76,11 @@ bool    storeLinks(char *line, t_data *anthill) {
         return true;
     }
     
-    if (avoidDoubleLink(r1, tab[1]))
-       r1->links = ft_pushback(r1->links, tab[1]);
-    if (avoidDoubleLink(r2, tab[0]))
-        r2->links = ft_pushback(r2->links, tab[0]);
+	if (avoidDoubleLink(r1, tab[1]))
+		pushback_room(r1, anthill->rooms, tab[1]);
+	if (avoidDoubleLink(r2, tab[0]))
+		pushback_room(r2, anthill->rooms, tab[0]);
 
-    // printf("Link -> %s\n", line);
     free_tab(tab);
 	return true;
 }

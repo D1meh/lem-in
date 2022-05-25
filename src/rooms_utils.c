@@ -7,6 +7,7 @@ t_room	*createRoom(char *name, int x, int y, int type) {
 	ret->x = x;
 	ret->y = y;
 	ret->type = type;
+	ret->nbOfLinks = 0;
 	ret->links = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
@@ -64,8 +65,8 @@ void	browseRooms(t_room *roomList) {
 		printf("Room -> Name[%s][%d][%d]\t%s\tLinks[", roomList->name, \
 			roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		int i = 0;
-		while (roomList->links && roomList->links[i])
-			printf("'%s', ", roomList->links[i++]);
+		while (roomList->links && i < roomList->nbOfLinks)
+			printf("'%s', ", roomList->links[i++]->name);
 		if (!(roomList->links))
 			printf("NULL]\n");
 		else
@@ -74,13 +75,33 @@ void	browseRooms(t_room *roomList) {
 	}
 }
 
+void	pushback_room(t_room *r, t_room *roomList, char *link) {
+	t_room **ret = malloc(sizeof(t_room*) * (r->nbOfLinks + 1));
+	int i = 0;
+
+	while (i < r->nbOfLinks) {
+		ret[i] = r->links[i];
+		i++;
+	}
+	while (roomList) {
+		if (ft_strcmp(link, roomList->name) == 0) {
+			ret[i] = roomList;
+			break ;
+		}
+		roomList = roomList->next;
+	}
+	free(r->links);
+	r->links = ret;
+	r->nbOfLinks++;
+}
+
 bool avoidDoubleLink(t_room *room, char *link) {
 	int i = 0;
 
 	if (ft_strcmp(room->name, link) == 0)
 		return false;
-	while (room->links && room->links[i]) {
-		if (ft_strcmp(room->links[i], link) == 0)
+	while (i < room->nbOfLinks) {
+		if (ft_strcmp(link, room->links[i]->name) == 0)
 			return false;
 		i++;
 	}
