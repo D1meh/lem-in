@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/26 09:56:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/26 15:34:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ bool storeRoom(char *line, int type, t_data *anthill) {
         free_tab(tab);
     	return false;
     }
-    
-	t_room	*new = createRoom(ft_strdup(tab[0]), ft_atoi(tab[1]), ft_atoi(tab[2]), type);
+    unsigned int x = ft_atoi(tab[1]);
+    unsigned int y = ft_atoi(tab[2]);
+	t_room	*new = createRoom(ft_strdup(tab[0]), x, y, type);
     if (!avoidDoubeRoom(anthill->rooms, new)) {
         free_tab(tab);
         free(new->name);
@@ -56,6 +57,11 @@ bool storeRoom(char *line, int type, t_data *anthill) {
         return true;
     }
 	addRoom(&(anthill->rooms), new);
+
+    x > anthill->maxX ? anthill->maxX = x : 0;
+    y > anthill->maxY ? anthill->maxY = y : 0;
+
+    
     printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
     free_tab(tab);
     return true;
@@ -148,12 +154,40 @@ char    **readInput() {
     return (tab);
 }
 
+
+void print_map(t_data *anthill) {
+    unsigned int    x = 0;
+    unsigned int    y = 0;
+    t_room          *r = NULL;
+
+    while (y <= anthill->maxY) {
+       
+        while (x <= anthill->maxX) {
+
+            r = findRoomByPos(anthill->rooms, x, y);
+            if (r) {
+                printf("\t%s", r->name);
+            }
+            else
+                printf("\t---");
+            x++;
+        }
+        printf("\n");
+        x = 0;
+        y++;
+    }
+}
+
 int main() {
 
     t_data  anthill;
 
+    anthill.maxX = 0;
+    anthill.maxY = 0;
     char **lines = readInput();
     parseLines(lines, &anthill);
+    print_map(&anthill);
+    concretizer(&anthill);
     printf("Done\n");
     // system("leaks lem-in");
 }

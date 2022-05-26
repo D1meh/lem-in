@@ -1,6 +1,6 @@
 #include "../includes/lem_in.h"
 
-t_room	*createRoom(char *name, int x, int y, int type) {
+t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	t_room *ret = ft_malloc(sizeof(t_room), 1);
 
 	ret->name = name;
@@ -125,6 +125,16 @@ t_room	*getSpecificRoom(t_room *roomList, int type) {
 	while (roomList) {
 		if (roomList->type == type)
 			return roomList;
+		roomList = roomList->next;
+	}
+	return NULL;
+}
+
+t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y) {
+	while (roomList) {
+		if (roomList->x == x && roomList->y == y) {
+			return roomList;
+		}
 		roomList = roomList->next;
 	}
 	return NULL;

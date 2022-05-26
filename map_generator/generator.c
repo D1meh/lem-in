@@ -40,6 +40,9 @@ void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
 
 char    **generateAllNodes(int fd, unsigned int maxX, unsigned int maxY) {
     char            *name = NULL;
+    char            *part1 = NULL;
+    char            *cx = NULL;
+    char            *cy = NULL;
     char            **tabNames = NULL;
     bool            endPrinted = false;
     unsigned int    x = 0;
@@ -52,7 +55,13 @@ char    **generateAllNodes(int fd, unsigned int maxX, unsigned int maxY) {
                 endPrinted = true;
                 write(fd, "##end\n", 6);
             }
-            name = randomName();
+            cx = ft_itoa(x);
+            cy = ft_itoa(y);
+            part1 = ft_strjoin(cx, "_");
+            name = ft_strjoin(part1, cy);
+            free(cx);
+            free(cy);
+            free(part1);
             tabNames = ft_pushback(tabNames, name);
             generateNode(fd, name, x, y);
             free(name);
@@ -122,6 +131,6 @@ int main(int ac, char **av) {
     free(nbAnts);
     free(filename);
     free(name);
-
+    system("leaks generator");
     return (0);
 }
