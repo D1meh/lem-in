@@ -7,6 +7,7 @@ t_room	*createRoom(char *name, int x, int y, int type) {
 	ret->x = x;
 	ret->y = y;
 	ret->type = type;
+	ret->used = false;
 	ret->nbOfLinks = 0;
 	ret->links = NULL;
 	ret->prev = NULL;
@@ -22,6 +23,9 @@ t_room	*lastRoom(t_room *roomList) {
 }
 
 void	addRoom(t_room **roomList, t_room *new) {
+	static int id = 0;
+	new->id = id;
+	id++;
 
 	if (*roomList) {
 		t_room *elt = lastRoom(*roomList);
@@ -62,8 +66,8 @@ t_room	*findRoomByName(char *name, t_room *rooms) {
 
 void	browseRooms(t_room *roomList) {
 	while (roomList) {
-		printf("Room -> Name[%s][%d][%d]\t%s\tLinks[", roomList->name, \
-			roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
+		printf("Room -> Name[%s][%d][%d][%d]\t%s\tLinks[", roomList->name, \
+			roomList->x, roomList->y, roomList->id, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		int i = 0;
 		while (roomList->links && i < roomList->nbOfLinks)
 			printf("'%s', ", roomList->links[i++]->name);
@@ -115,4 +119,13 @@ bool	avoidDoubeRoom(t_room *roomList, t_room *elt) {
 		roomList = roomList->next;
 	}
 	return true;
+}
+
+t_room	*getSpecificRoom(t_room *roomList, int type) {
+	while (roomList) {
+		if (roomList->type == type)
+			return roomList;
+		roomList = roomList->next;
+	}
+	return NULL;
 }

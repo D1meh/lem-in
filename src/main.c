@@ -29,6 +29,8 @@ void    storeNbAnts(char *line, t_data *anthill) {
         exitError("Invalid number of ants.\n");
     anthill->ants = ft_malloc(sizeof(t_ant), nbAnts);
     anthill->nbAnts = nbAnts;
+	for (int i = 0; i < nbAnts; i++)
+		anthill->ants[i].id = i+1;
     printf("Ants -> %ld\n", nbAnts);
 }
 

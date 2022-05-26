@@ -25,11 +25,12 @@ typedef enum bool {
 typedef struct s_room {
 
 	char			*name;
+	int				id;
 	int				x;
 	int				y;
 	int				type;	// 0 = normal, 1 = start, 2 = end
 	int				nbOfLinks;
-	//char			**links;
+	bool			used;
 	struct s_room	**links;
 	struct s_room	*prev;
 	struct s_room	*next;
@@ -64,6 +65,7 @@ bool	avoidDoubeRoom(t_room *roomList, t_room *elt);
 t_room	*createRoom(char *name, int x, int y, int type);
 t_room	*lastRoom(t_room *roomList);
 t_room	*findRoomByName(char *name, t_room *rooms);
+t_room	*getSpecificRoom(t_room *roomList, int type);
 
 
 #endif
