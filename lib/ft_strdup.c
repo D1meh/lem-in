@@ -5,5 +5,5 @@ static void ft_strcpy(char *dst, char *src) {
 }
 
 char *ft_strdup(char *src) {
-	char *dest = malloc(sizeof(char) * ft_strlen(src) + 1); ft_strcpy(dest, src); return dest;	
+	char *dest = ft_malloc(sizeof(char), ft_strlen(src) + 1); ft_strcpy(dest, src); return dest;	
 }

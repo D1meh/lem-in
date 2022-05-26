@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:14:57 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/25 14:16:07 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/26 10:10:30 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char		*ft_itoa(int n)
 
 	len = ft_intlen(n);
 	sign = (n < 0) ? -1 : 1;
-	if ((str = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
+	if ((str = (char *)ft_malloc(sizeof(char), (len + 1))) == NULL)
 		return (NULL);
 	str[len] = '\0';
 	len--;

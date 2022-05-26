@@ -76,7 +76,7 @@ void	browseRooms(t_room *roomList) {
 }
 
 void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
-	t_room **ret = malloc(sizeof(t_room*) * (r->nbOfLinks + 1));
+	t_room **ret = ft_malloc(sizeof(t_room*), (r->nbOfLinks + 1));
 	int i = 0;
 
 	while (i < r->nbOfLinks) {

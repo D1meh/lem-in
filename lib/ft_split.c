@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtaouil <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 09:52:18 by mtaouil           #+#    #+#             */
-/*   Updated: 2021/03/26 08:23:23 by mtaouil          ###   ########.fr       */
+/*   Updated: 2022/05/26 10:11:54 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	cases = word_count(s, c);
-	tab = (char **)malloc(sizeof(char *) * (cases + 1));
+	tab = (char **)ft_malloc(sizeof(char *), (cases + 1));
 	if (!tab)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:10:21 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 17:22:23 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/26 10:13:16 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char			*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	j = 0;
-	if (!(dest = (char *)malloc(sizeof(char) * len + 1)))
+	if (!(dest = (char *)ft_malloc(sizeof(char), len + 1)))
 		return (NULL);
 	while (s[i] != '\0')
 	{
