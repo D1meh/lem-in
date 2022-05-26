@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/26 15:34:58 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/26 15:42:01 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int main() {
     char **lines = readInput();
     parseLines(lines, &anthill);
     print_map(&anthill);
-    concretizer(&anthill);
+    algo(&anthill);
     printf("Done\n");
     // system("leaks lem-in");
 }

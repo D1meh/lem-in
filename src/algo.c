@@ -1,6 +1,6 @@
 #include "../includes/lem_in.h"
 
-void    concretizer(t_data *anthill) {
+void    algo(t_data *anthill) {
     // On trouve le nombre de chemin max
     // Si le nombre de fourmis est inferieur au nombre de chemins trouvé :
     // On reduit le nombre de chemin au nombre de fourmis

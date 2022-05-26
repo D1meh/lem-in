@@ -70,6 +70,6 @@ t_room	*findRoomByName(char *name, t_room *rooms);
 t_room	*getSpecificRoom(t_room *roomList, int type);
 t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y);
 
-void    concretizer(t_data *data);
+void    algo(t_data *anthill);
 
 #endif
