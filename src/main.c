@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/25 17:23:08 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/05/26 09:56:52 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ bool    storeLinks(char *line, t_data *anthill) {
     }
     
 	if (avoidDoubleLink(r1, tab[1]))
-		pushback_room(r1, anthill->rooms, tab[1]);
+		pushbackRoom(r1, anthill->rooms, tab[1]);
 	if (avoidDoubleLink(r2, tab[0]))
-		pushback_room(r2, anthill->rooms, tab[0]);
+		pushbackRoom(r2, anthill->rooms, tab[0]);
 
     free_tab(tab);
 	return true;

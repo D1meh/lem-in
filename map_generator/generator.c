@@ -80,7 +80,7 @@ void    generateAllLinks(int fd, unsigned int len, char **tabNames) {
             write(fd, tabNames[i + 1], ft_strlen(tabNames[i + 1]));
             write(fd, "\n", 1);
         }
-        if (tabNames[i] && tabNames[i + l]) {
+        if (tabNames[i] && i + l < len && tabNames[i + l]) {
             write(fd, tabNames[i], ft_strlen(tabNames[i]));
             write(fd, "-", 1);
             write(fd, tabNames[i + l], ft_strlen(tabNames[i + l]));
@@ -96,10 +96,12 @@ int main(int ac, char **av) {
     if (!ft_strisdigit(av[1]))
         exitError("Generator: need a number of node as argument\n");
 
-    char            *filename = ft_strjoin(av[1], "_generated.map");
-    int             fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 777);
-
     unsigned int    len = ft_atoi(av[1]);
+    char            *name = ft_strjoin(av[1], "_generated.map");
+    if (len < 50 || len > 10000)
+        exitError("Generator: need a number between 50 and 10000\n");
+    char            *filename = ft_strjoin("./maps/", name);
+    int             fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 777);
     unsigned int    maxX = ceil(sqrt((double)(len)));
     unsigned int    maxY = ceil(sqrt((double)(len)));
 
@@ -120,11 +122,10 @@ int main(int ac, char **av) {
     /* === end === */
     write(fd, "\n", 1);
 
-
     close(fd);
     free(nbAnts);
     free(filename);
-    system("leaks generator");
+    free(name);
 
     return (0);
 }
