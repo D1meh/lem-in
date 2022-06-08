@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strfree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 17:10:21 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/26 10:13:16 by epfennig         ###   ########.fr       */
+/*   Created: 2022/05/23 17:14:06 by epfennig          #+#    #+#             */
+/*   Updated: 2022/05/23 17:14:08 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
-char			*ft_substr(char const *s, unsigned int start, size_t len)
+int				ft_strfree(char **ptr)
 {
-	size_t		i;
-	size_t		j;
-	char		*dest;
-
-	i = 0;
-	j = 0;
-	if (!(dest = (char *)ft_malloc(sizeof(char), len + 1)))
-		return (NULL);
-	while (s[i] != '\0')
+	if (*ptr)
 	{
-		if (i >= start && j < len)
-		{
-			dest[j] = s[i];
-			j++;
-		}
-		i++;
+		free(*ptr);
+		*ptr = NULL;
+		return (1);
 	}
-	dest[j] = '\0';
-	return (dest);
+	return (0);
 }

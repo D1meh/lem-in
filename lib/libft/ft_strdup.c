@@ -1,4 +1,4 @@
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 static void ft_strcpy(char *dst, char *src) {
 	while ((*dst++ = *src++));

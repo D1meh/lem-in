@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/lib.h"
+# include "../../includes/lib.h"
 
 char			*ft_memalloc(size_t size)
 {

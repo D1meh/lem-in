@@ -1,4 +1,4 @@
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 int	ft_isspace(char c) {
 	if (c == '\n' || c == ' ' || c == '\t' || c == '\r' || c == '\r')

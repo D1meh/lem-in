@@ -1,4 +1,4 @@
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 static int ft_isdigit_char(char c) {
 	return (c > '9' || c < '0' ? 0 : 1);

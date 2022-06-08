@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 18:27:55 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/24 18:18:58 by epfennig         ###   ########.fr       */
+/*   Created: 2022/05/23 17:10:21 by epfennig          #+#    #+#             */
+/*   Updated: 2022/05/26 10:13:16 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lib.h"
-#include "../includes/lem_in.h"
+#include "../../includes/lib.h"
 
-void    *ft_malloc(size_t sizeOf, size_t size) {
+char			*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t		i;
+	size_t		j;
+	char		*dest;
 
-    void    *ptr = malloc(sizeOf * size);
-    if (!ptr)
-   		exitError("Failed to allocate memory\n");
-    return (ptr);
+	i = 0;
+	j = 0;
+	if (!(dest = (char *)ft_malloc(sizeof(char), len + 1)))
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		if (i >= start && j < len)
+		{
+			dest[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	dest[j] = '\0';
+	return (dest);
 }

@@ -1,5 +1,5 @@
 #include "../includes/lem_in.h"
-#include "../sdl2/include/SDL2/SDL.h"
+#include "../lib/sdl2/include/SDL2/SDL.h"
 
 void    ft_exit_with_sdl(bool isError, SDL_Window *window, SDL_Renderer *renderer, char *funcName) {
     if (isError) {

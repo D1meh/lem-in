@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strfree.c                                       :+:      :+:    :+:   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 17:14:06 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/23 17:14:08 by epfennig         ###   ########.fr       */
+/*   Created: 2022/05/23 18:27:55 by epfennig          #+#    #+#             */
+/*   Updated: 2022/05/24 18:18:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/lib.h"
+#include "../../includes/lib.h"
+#include "../../includes/lem_in.h"
 
-int				ft_strfree(char **ptr)
-{
-	if (*ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-		return (1);
-	}
-	return (0);
+void    *ft_malloc(size_t sizeOf, size_t size) {
+
+    void    *ptr = malloc(sizeOf * size);
+    if (!ptr)
+   		exitError("Failed to allocate memory\n");
+    return (ptr);
 }

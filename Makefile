@@ -3,9 +3,9 @@ GENER_NAME = generator
 VISU_NAME = visualizer
 
 
-SRCS =	$(wildcard src/*.c) $(wildcard lib/*.c) $(wildcard gnl/*.c)
-GENER_SRCS =  $(wildcard generate/*.c) $(wildcard lib/*.c)
-VISU_SRCS =  $(wildcard visualize/*.c) $(wildcard lib/*.c) src/get_next_line.c
+SRCS =			$(wildcard src/*.c) $(wildcard lib/libft/*.c)
+GENER_SRCS = 	$(wildcard generate/*.c) $(wildcard lib/libft/*.c)
+VISU_SRCS =		$(wildcard visualize/*.c) $(wildcard lib/libft/*.c)
 
 
 OBJS =	$(SRCS:.c=.o)
@@ -26,7 +26,7 @@ generator:	${GENER_OBJS}
 			${CC} ${CFLAGS} ${GENER_OBJS} -o ${GENER_NAME}
 
 visualizer:	${VISU_OBJS}
-			${CC} ${CFLAGS} -I sdl2/include -L sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
+			${CC} ${CFLAGS} -I lib/sdl2/include -L lib/sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
 
 clean:
 			${RM} $(OBJS)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 long int	ft_noneg(long int nb)
 {

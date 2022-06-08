@@ -1,4 +1,4 @@
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 static int tabLen(char **tab) {
 	int i = 0;

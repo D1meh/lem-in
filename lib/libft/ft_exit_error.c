@@ -1,4 +1,4 @@
-#include "../includes/lib.h"
+#include "../../includes/lib.h"
 
 void    exitError(char *error) {
     write(STDERR, RED, ft_strlen(RED));
