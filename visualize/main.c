@@ -20,6 +20,67 @@ void    ft_exit_with_sdl(bool isError, SDL_Window *window, SDL_Renderer *rendere
         exit(EXIT_SUCCESS);
 }
 
+// void drawCircle(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
+// {
+//     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+//     for (int w = 0; w < radius * 2; w++)
+//     {
+//         for (int h = 0; h < radius * 2; h++)
+//         {
+//             int dx = radius - w; // horizontal offset
+//             int dy = radius - h; // vertical offset
+//             if ((dx*dx + dy*dy) <= (radius * radius))
+//             {
+//                 SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+//             }
+//         }
+//     }
+// }
+
+int SDL_RenderFillCircle(SDL_Renderer * renderer, int x, int y, int radius)
+{
+    int offsetx, offsety, d;
+    int status;
+
+    offsetx = 0;
+    offsety = radius;
+    d = radius -1;
+    status = 0;
+
+    while (offsety >= offsetx) {
+
+        SDL_RenderDrawLine(renderer, x - offsety, y + offsetx,
+                                     x + offsety, y + offsetx);
+        SDL_RenderDrawLine(renderer, x - offsetx, y + offsety,
+                                     x + offsetx, y + offsety);
+        SDL_RenderDrawLine(renderer, x - offsetx, y - offsety,
+                                     x + offsetx, y - offsety);
+        SDL_RenderDrawLine(renderer, x - offsety, y - offsetx,
+                                     x + offsety, y - offsetx);
+
+        if (status < 0) {
+            status = -1;
+            break;
+        }
+
+        if (d >= 2*offsetx) {
+            d -= 2*offsetx + 1;
+            offsetx +=1;
+        }
+        else if (d < 2 * (radius - offsety)) {
+            d += 2 * offsety - 1;
+            offsety -= 1;
+        }
+        else {
+            d += 2 * (offsety - offsetx - 1);
+            offsety -= 1;
+            offsetx += 1;
+        }
+    }
+
+    return 0;
+}
+
 void setBackGroundColor(SDL_Renderer *renderer, SDL_Color color) {
     /* 
     ** The rendered is kinda of a color pencil and we can set it to
@@ -53,7 +114,7 @@ void eventLoop(SDL_Window *window, SDL_Renderer *renderer) {
 int main(void) {
     SDL_Window      *window = NULL;
     SDL_Renderer    *renderer = NULL;
-    SDL_Color       grey = {105, 105, 105, 255};
+    // SDL_Color       grey = {105, 105, 105, 255};
     SDL_Color       black = {0, 0, 0, 255};
     SDL_Color       orange = {255, 214, 135, 255};
 
@@ -75,21 +136,15 @@ int main(void) {
     if(renderer == NULL)
         ft_exit_with_sdl(true, window, renderer, "SDL_CreateRenderer");
 
-    SDL_Rect rectangle = {100, 100, 100, 100};
-    SDL_Rect square = {250, 100, 100, 100};
+    // SDL_Rect rectangle = {100, 100, 100, 100};
+    // SDL_Rect square = {250, 100, 100, 100};
     while (true) {
         eventLoop(window, renderer);
         setBackGroundColor(renderer, orange);
 
-        /* Always set a color before drawing and object */
+        /* Draw a rectangle */\
         SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
-
-        /* Draw a rectangle */
-        SDL_RenderFillRect(renderer, &rectangle);
-
-        SDL_SetRenderDrawColor(renderer, grey.r, grey.g, grey.b, grey.a);
-        /* Draw a second rectangle */
-        SDL_RenderFillRect(renderer, &square);
+        SDL_RenderFillCircle(renderer, 100, 100, 5);
     
         /* Render the actual image */
         SDL_RenderPresent(renderer);
