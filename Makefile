@@ -1,12 +1,17 @@
 NAME =	lem-in
-GENERATOR_NAME = generator
+GENER_NAME = generator
+VISU_NAME = visualizer
+
 
 SRCS =	$(wildcard src/*.c) $(wildcard lib/*.c) $(wildcard gnl/*.c)
+GENER_SRCS =  $(wildcard generate/*.c) $(wildcard lib/*.c)
+VISU_SRCS =  $(wildcard visualize/*.c) $(wildcard lib/*.c) src/get_next_line.c
 
-GENERATOR_SRCS =  $(wildcard map_generator/*.c) $(wildcard lib/*.c)
 
 OBJS =	$(SRCS:.c=.o)
-GENERATOR_OBJS = $(GENERATOR_SRCS:.c=.o)
+GENER_OBJS = $(GENER_SRCS:.c=.o)
+VISU_OBJS = $(VISU_SRCS:.c=.o)
+
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
@@ -17,16 +22,22 @@ all: $(NAME)
 $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-generator:	${GENERATOR_OBJS}
-			${CC} ${CFLAGS} ${GENERATOR_OBJS} -o ${GENERATOR_NAME}
+generator:	${GENER_OBJS}
+			${CC} ${CFLAGS} ${GENER_OBJS} -o ${GENER_NAME}
+
+visualizer:	${VISU_OBJS}
+			${CC} ${CFLAGS} -I sdl2/include -L sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
 
 clean:
 			${RM} $(OBJS)
-			${RM} ${GENERATOR_OBJS}
+			${RM} ${GENER_OBJS}
+			${RM} ${VISU_OBJS}
+
 fclean:		clean
 			${RM} $(NAME)
-			${RM} ${GENERATOR_NAME}
+			${RM} ${GENER_NAME}
+			${RM} ${VISU_NAME}
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		clean fclean re visualizer generator all

@@ -4,24 +4,24 @@
 #include <math.h>
 #include "../includes/lem_in.h"
 
-char *randomName() {
-    size_t length = 20;
-    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    char *randomName = NULL;
+// char *randomName() {
+//     size_t length = 20;
+//     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//     char *randomName = NULL;
 
-    randomName = ft_malloc(sizeof(char), (length + 1));
-    if (!randomName)
-        return NULL;
+//     randomName = ft_malloc(sizeof(char), (length + 1));
+//     if (!randomName)
+//         return NULL;
 
-    for (size_t n = 0 ; n < length ; n++) {
-        int index = rand() % (int)(sizeof(charset) -1);
-        randomName[n] = charset[index];
-    }
+//     for (size_t n = 0 ; n < length ; n++) {
+//         int index = rand() % (int)(sizeof(charset) -1);
+//         randomName[n] = charset[index];
+//     }
 
-    randomName[length] = '\0';
+//     randomName[length] = '\0';
 
-    return randomName;
-}
+//     return randomName;
+// }
 
 void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
     char *itx = ft_itoa(x);
@@ -106,7 +106,7 @@ int main(int ac, char **av) {
     if (len < 50 || len > 10000)
         exitError("Generator: need a number between 50 and 10000\n");
     char            *filename = ft_strjoin("./maps/", name);
-    int             fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 777);
+    int             fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
     unsigned int    maxX = ceil(sqrt((double)(len)));
     unsigned int    maxY = ceil(sqrt((double)(len)));
 
