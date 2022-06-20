@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"lem_in.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"unordered_map": "c",
+		"vector": "c"
+	}
+}

@@ -14,7 +14,7 @@ VISU_OBJS = $(VISU_SRCS:.c=.o)
 
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 all: $(NAME)
@@ -26,7 +26,7 @@ generator:	${GENER_OBJS}
 			${CC} ${CFLAGS} ${GENER_OBJS} -o ${GENER_NAME}
 
 visualizer:	${VISU_OBJS}
-			${CC} ${CFLAGS} -I lib/sdl2/include -L lib/sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
+			${CC} ${CFLAGS} -I ./lib/sdl2/include -L ./lib/sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
 
 clean:
 			${RM} $(OBJS)

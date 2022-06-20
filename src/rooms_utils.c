@@ -1,5 +1,14 @@
 #include "../includes/lem_in.h"
 
+size_t	roomSizeList(t_room *rooms) {
+	size_t	len = 0;
+	while (rooms) {
+		len++;
+		rooms = rooms->next;
+	}
+	return len;
+}
+
 t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	t_room *ret = ft_malloc(sizeof(t_room), 1);
 
@@ -8,6 +17,7 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->y = y;
 	ret->type = type;
 	ret->used = false;
+	ret->visited = false;
 	ret->nbOfLinks = 0;
 	ret->links = NULL;
 	ret->prev = NULL;
@@ -66,9 +76,9 @@ t_room	*findRoomByName(char *name, t_room *rooms) {
 
 void	browseRooms(t_room *roomList) {
 	while (roomList) {
-		printf("Room -> Name[%s][%d][%d][%d]\t%s\tLinks[", roomList->name, \
-			roomList->x, roomList->y, roomList->id, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
-		int i = 0;
+		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d]\t%s\tLinks[", roomList->id, roomList->name, \
+			roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
+		size_t i = 0;
 		while (roomList->links && i < roomList->nbOfLinks)
 			printf("'%s', ", roomList->links[i++]->name);
 		if (!(roomList->links))
@@ -81,7 +91,7 @@ void	browseRooms(t_room *roomList) {
 
 void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
 	t_room **ret = ft_malloc(sizeof(t_room*), (r->nbOfLinks + 1));
-	int i = 0;
+	size_t i = 0;
 
 	while (i < r->nbOfLinks) {
 		ret[i] = r->links[i];
@@ -100,7 +110,7 @@ void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
 }
 
 bool avoidDoubleLink(t_room *room, char *link) {
-	int i = 0;
+	size_t i = 0;
 
 	if (ft_strcmp(room->name, link) == 0)
 		return false;

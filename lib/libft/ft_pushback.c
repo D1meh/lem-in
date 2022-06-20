@@ -11,13 +11,14 @@ char	**ft_pushback(char **tab, char *val) {
 	int len = tabLen(tab);
 	char **ret = ft_malloc(sizeof(char *), (len + 2));
 	int i = 0;
-	
+
 	while (i < len) {
 		ret[i] = tab[i];
 		i++;
 	}
-	free(tab);
+	if (tab)
+		free(tab);
 	ret[i] = ft_strdup(val);
-	ret[i+1] = NULL;
+	ret[i + 1] = NULL;
 	return ret;
 }

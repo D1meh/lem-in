@@ -56,6 +56,7 @@ bool storeRoom(char *line, int type, t_data *anthill) {
         free(new);
         return true;
     }
+	anthill->nbRooms += 1;
 	addRoom(&(anthill->rooms), new);
 
     x > anthill->maxX ? anthill->maxX = x : 0;

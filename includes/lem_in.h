@@ -29,7 +29,8 @@ typedef struct s_room {
 	unsigned int	x;
 	unsigned int	y;
 	int				type;	// 0 = normal, 1 = start, 2 = end
-	int				nbOfLinks;
+	size_t			nbOfLinks;
+	bool			visited;
 	bool			used;
 	struct s_room	**links;
 	struct s_room	*prev;
@@ -48,7 +49,7 @@ typedef struct s_data {
 	t_room			*rooms;
 	t_ant			*ants;
 	long int		nbAnts;
-	int				nbRooms;
+	size_t			nbRooms;
 	unsigned int	maxX;
 	unsigned int	maxY;
 
@@ -61,6 +62,7 @@ void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
 void	pushbackRoom(t_room *r, t_room *roomList, char *link);
 
+size_t	roomSizeList(t_room *rooms);
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
 bool	avoidDoubeRoom(t_room *roomList, t_room *elt);

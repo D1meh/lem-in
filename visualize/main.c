@@ -112,11 +112,13 @@ void eventLoop(SDL_Window *window, SDL_Renderer *renderer) {
 }
 
 int main(void) {
+	printf("Visualizer working !\n");
     SDL_Window      *window = NULL;
     SDL_Renderer    *renderer = NULL;
-    // SDL_Color       grey = {105, 105, 105, 255};
+    SDL_Color       grey = {105, 105, 105, 255};
     SDL_Color       black = {0, 0, 0, 255};
     SDL_Color       orange = {255, 214, 135, 255};
+	SDL_Color		brown = {160, 82, 45, 255};
 
     /* Init SDL */
     if(SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -140,11 +142,13 @@ int main(void) {
     // SDL_Rect square = {250, 100, 100, 100};
     while (true) {
         eventLoop(window, renderer);
-        setBackGroundColor(renderer, orange);
+        setBackGroundColor(renderer, brown);
 
-        /* Draw a rectangle */\
+        /* Draw a rectangle */
         SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
-        SDL_RenderFillCircle(renderer, 100, 100, 5);
+        SDL_RenderFillCircle(renderer, 100, 100, 10);
+		SDL_RenderFillCircle(renderer, 200, 100, 10);
+		SDL_RenderFillCircle(renderer, 300, 100, 10);
     
         /* Render the actual image */
         SDL_RenderPresent(renderer);
