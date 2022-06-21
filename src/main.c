@@ -185,6 +185,7 @@ int main() {
 
     anthill.maxX = 0;
     anthill.maxY = 0;
+	anthill.nbRooms = 0;
     char **lines = readInput();
     parseLines(lines, &anthill);
     print_map(&anthill);

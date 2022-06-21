@@ -20,6 +20,7 @@ t_room ***addToList(t_room ***pathList, t_room **path, int found) {
 
 t_room **initPrev(size_t size) {
 	t_room	**prev = malloc(sizeof(t_room *) * (size + 1));
+
 	size_t	i = 0;
 	while (i < size) {
 		prev[i] = NULL;
@@ -54,6 +55,21 @@ void printList(t_room ***pathList) {
 	}
 }
 
+t_room **reverseQueue(t_room **queue) {
+	size_t	i = 0;
+	size_t	j = queueSize(queue) - 1;
+	t_room	*temp = NULL;
+
+	while (i < j) {
+		temp = queue[i];
+		queue[i] = queue[j];
+		queue[j] = temp;
+		i++;
+		j--;
+	}
+	return queue;
+}
+
 t_room **enqueue(t_room **queue, t_room *node) {
 	if (!node) return queue;
 	
@@ -70,21 +86,6 @@ t_room **enqueue(t_room **queue, t_room *node) {
 	newQueue[i] = node;
 	newQueue[i + 1] = NULL;
 	return newQueue;
-}
-
-t_room **reverseQueue(t_room **queue) {
-	size_t	i = 0;
-	size_t	j = queueSize(queue) - 1;
-	t_room	*temp = NULL;
-
-	while (i < j) {
-		temp = queue[i];
-		queue[i] = queue[j];
-		queue[j] = temp;
-		i++;
-		j--;
-	}
-	return queue;
 }
 
 t_room *dequeue(t_room ***queue) {
@@ -118,7 +119,7 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	// If start is start then we found the path !
 	if (path[0] == start)
 		return path;
-	
+
 	// Else no path found
 	return NULL;
 }
@@ -126,7 +127,7 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	t_room	**queue = enqueue(NULL, start);
 	t_room	**prev = initPrev(anthill->nbRooms);
-
+	
 	start->visited = true;
 	while (queueSize(queue) != 0) {
 		// Select the next node of the queue 
@@ -165,10 +166,10 @@ void	resetVisited(t_room *rooms) {
 
 void    algo(t_data *anthill) {
 
-    t_room	 *start = getSpecificRoom(anthill->rooms, START);
-    t_room	 *end = getSpecificRoom(anthill->rooms, END);
-	t_room  **path = NULL;
-	//t_room ***pathList = NULL;
+    t_room	*start = getSpecificRoom(anthill->rooms, START);
+    t_room	*end = getSpecificRoom(anthill->rooms, END);
+	t_room	**path = NULL;
+	t_room	***pathList = NULL;
 
 	size_t pathFound = 0;
 	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ? end->nbOfLinks : start->nbOfLinks;
@@ -178,10 +179,10 @@ void    algo(t_data *anthill) {
 	while ((path = BFS(start, end, anthill)) != NULL) {
 		resetVisited(anthill->rooms);
 		markPathUsed(start, end, path);
-		//pathList = addToList(pathList, path, pathFound);
+		pathList = addToList(pathList, path, pathFound);
 		pathFound += 1;
 	}
-	//printList(pathList);
+	printList(pathList);
 	if (pathFound != maxPossibilities) {
 		printf("Not opti for this map\n");
 	}
