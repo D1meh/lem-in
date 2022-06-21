@@ -57,7 +57,7 @@ typedef struct s_data {
 
 int		get_next_line(int fd, char **line);
 
-void    exitError(char *error);
+void	exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
 void	pushbackRoom(t_room *r, t_room *roomList, char *link);
@@ -71,7 +71,11 @@ t_room	*lastRoom(t_room *roomList);
 t_room	*findRoomByName(char *name, t_room *rooms);
 t_room	*getSpecificRoom(t_room *roomList, int type);
 t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y);
+t_room	***addToList(t_room ***pathList, t_room **path, int found);
 
-void    algo(t_data *anthill);
+
+t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
+void	BFSForStartNeighbours(t_room ***pathList);
+void	algo(t_data *anthill);
 
 #endif

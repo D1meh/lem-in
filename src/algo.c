@@ -49,9 +49,27 @@ void	printQueue(t_room **queue) {
 }
 
 void printList(t_room ***pathList) {
+	if (!pathList) return;
 	for (int i = 0; pathList[i] != NULL; i++) {
 		printf("PATH NUMBER %d\n", i);
 		printQueue(pathList[i]);
+	}
+}
+
+void	markPathUsed(t_room *start, t_room *end, t_room **path) {
+	size_t	i = 0;
+	size_t	len = queueSize(path);
+	while (i < len) {
+		if (start != path[i] && end != path[i])
+			path[i]->used = true;
+		i++;
+	}
+}
+
+void	resetVisited(t_room *rooms) {
+	while (rooms) {
+		rooms->visited = false;
+		rooms = rooms->next;
 	}
 }
 
@@ -115,12 +133,14 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	}
 	// Then reverse the path to have start -> ... -> end
 	path = reverseQueue(path);
-
+	free(prev);
+	
 	// If start is start then we found the path !
 	if (path[0] == start)
 		return path;
-
+	
 	// Else no path found
+	free(path);
 	return NULL;
 }
 
@@ -144,46 +164,56 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 			}
 		}
 	}
+	free(queue);
 	return (reconstructPath(start, end, prev));
 }
 
-void	markPathUsed(t_room *start, t_room *end, t_room **path) {
-	size_t	i = 0;
-	size_t	len = queueSize(path);
-	while (i < len) {
-		if (start != path[i] && end != path[i])
-			path[i]->used = true;
-		i++;
-	}
-}
-
-void	resetVisited(t_room *rooms) {
-	while (rooms) {
-		rooms->visited = false;
-		rooms = rooms->next;
-	}
-}
-
-void    algo(t_data *anthill) {
-
-    t_room	*start = getSpecificRoom(anthill->rooms, START);
-    t_room	*end = getSpecificRoom(anthill->rooms, END);
+size_t	BFS_Loop(t_data *anthill, t_room *start, t_room* end, t_room ****pathList) {
 	t_room	**path = NULL;
-	t_room	***pathList = NULL;
 
 	size_t pathFound = 0;
-	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ? end->nbOfLinks : start->nbOfLinks;
-   
-	printf("maxPossibilities = %zu\n", maxPossibilities);
 
 	while ((path = BFS(start, end, anthill)) != NULL) {
 		resetVisited(anthill->rooms);
 		markPathUsed(start, end, path);
-		pathList = addToList(pathList, path, pathFound);
+		*pathList = addToList(*pathList, path, pathFound);
 		pathFound += 1;
 	}
+	resetVisited(anthill->rooms);
+	return (pathFound);
+}
+
+void    algo(t_data *anthill) {
+
+	t_room	***pathList = NULL;
+	// t_room	**blackList = initPrev(anthill->nbRooms);
+	// (void)blackList;
+    t_room	*start = getSpecificRoom(anthill->rooms, START);
+    t_room	*end = getSpecificRoom(anthill->rooms, END);
+
+	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ?
+		end->nbOfLinks : start->nbOfLinks;
+	
+	printf("maxPossibilities = %zu\n", maxPossibilities);
+
+	// Loop BFS to find the most shortest path
+	size_t	pathFound = BFS_Loop(anthill, start, end, &pathList);
+	// system("leaks lem-in");
+
 	printList(pathList);
+
+	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
+
 	if (pathFound != maxPossibilities) {
-		printf("Not opti for this map\n");
+		// printf("------ Trying ------\n");
+		// size_t i = 0;
+		// while (i < start->nbOfLinks && !start->links[i]->used) {
+		// 	pathList = NULL;
+		// 	printf("start->name = %s\n", start->links[i]->name);
+		// 	// browseRooms(anthill->rooms);
+		// 	pathFound = BFS_Loop(anthill, start->links[i], end, &pathList);
+		// 	printList(pathList);
+		// 	i++;
+		// }
 	}
 }

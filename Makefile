@@ -17,6 +17,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 RM = rm -f
 
+
 all: $(NAME)
 
 $(NAME):	$(OBJS)

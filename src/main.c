@@ -191,5 +191,4 @@ int main() {
     print_map(&anthill);
     algo(&anthill);
     printf("Done\n");
-    //system("leaks lem-in");
 }
