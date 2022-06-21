@@ -3,6 +3,21 @@
 #define START 1
 #define END 2
 
+t_room ***addToList(t_room ***pathList, t_room **path, int found) {
+
+	t_room ***newList = malloc(sizeof(t_room **) * (found + 2));
+	
+	int i = 0;
+	while (i < found) {
+		newList[i] = pathList[i];
+		i++;
+	}
+	newList[i] = path;
+	newList[i + 1] = NULL;
+	free(pathList);
+	return newList;
+}
+
 t_room **initPrev(size_t size) {
 	t_room	**prev = malloc(sizeof(t_room *) * (size + 1));
 	size_t	i = 0;
@@ -30,6 +45,13 @@ void	printQueue(t_room **queue) {
 		i++;
 	}
 	printf("--------------------\n");
+}
+
+void printList(t_room ***pathList) {
+	for (int i = 0; pathList[i] != NULL; i++) {
+		printf("PATH NUMBER %d\n", i);
+		printQueue(pathList[i]);
+	}
 }
 
 t_room **enqueue(t_room **queue, t_room *node) {
@@ -143,9 +165,10 @@ void	resetVisited(t_room *rooms) {
 
 void    algo(t_data *anthill) {
 
-    t_room	*start = getSpecificRoom(anthill->rooms, START);
-    t_room	*end = getSpecificRoom(anthill->rooms, END);
-	t_room **path = NULL;
+    t_room	 *start = getSpecificRoom(anthill->rooms, START);
+    t_room	 *end = getSpecificRoom(anthill->rooms, END);
+	t_room  **path = NULL;
+	//t_room ***pathList = NULL;
 
 	size_t pathFound = 0;
 	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ? end->nbOfLinks : start->nbOfLinks;
@@ -155,9 +178,10 @@ void    algo(t_data *anthill) {
 	while ((path = BFS(start, end, anthill)) != NULL) {
 		resetVisited(anthill->rooms);
 		markPathUsed(start, end, path);
-		printQueue(path);
+		//pathList = addToList(pathList, path, pathFound);
 		pathFound += 1;
 	}
+	//printList(pathList);
 	if (pathFound != maxPossibilities) {
 		printf("Not opti for this map\n");
 	}
