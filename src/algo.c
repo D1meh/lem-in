@@ -24,12 +24,12 @@ size_t	queueSize(t_room **queue) {
 void	printQueue(t_room **queue) {
 	size_t	i = 0;
 	size_t	len = queueSize(queue);
-	printf("--- printQueue ---\n");
+	printf("-----printQueue-----\n");
 	while (i < len) {
-		printf("[name = '%s' , visited =  %d]\n",  queue[i]->name, queue[i]->visited);
+		printf("[name = '%s' , visited = %d , used = %d]\n",  queue[i]->name, queue[i]->visited, queue[i]->used);
 		i++;
 	}
-	printf("--- ---------- ---\n");
+	printf("--------------------\n");
 }
 
 t_room **enqueue(t_room **queue, t_room *node) {
@@ -51,8 +51,17 @@ t_room **enqueue(t_room **queue, t_room *node) {
 }
 
 t_room **reverseQueue(t_room **queue) {
-	// todo : reverse queue
-	
+	size_t	i = 0;
+	size_t	j = queueSize(queue) - 1;
+	t_room	*temp = NULL;
+
+	while (i < j) {
+		temp = queue[i];
+		queue[i] = queue[j];
+		queue[j] = temp;
+		i++;
+		j--;
+	}
 	return queue;
 }
 
@@ -81,7 +90,6 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	for (t_room	*at = end ; at != NULL ; at = prev[at->id]) {
 		path = enqueue(path, at);
 	}
-
 	// Then reverse the path to have start -> ... -> end
 	path = reverseQueue(path);
 
@@ -93,11 +101,10 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	return NULL;
 }
 
-t_room	**BFS(t_room	*start, t_room *end, t_data *anthill) {
+t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	t_room	**queue = enqueue(NULL, start);
 	t_room	**prev = initPrev(anthill->nbRooms);
 
-	queue = enqueue(queue, start->next);
 	start->visited = true;
 	while (queueSize(queue) != 0) {
 		// Select the next node of the queue 
@@ -105,7 +112,7 @@ t_room	**BFS(t_room	*start, t_room *end, t_data *anthill) {
 		// Store all neighbours of current in the queue
 		for (size_t i = 0 ; i < current->nbOfLinks ; i++) {
 			// Verify that the neighbours of current has not been visited yet
-			if (!current->links[i]->visited) {
+			if (!current->links[i]->visited && !current->links[i]->used) {
 				// If not been visited, add to queue the node
 				queue = enqueue(queue, current->links[i]);
 				current->links[i]->visited = true;
@@ -117,20 +124,41 @@ t_room	**BFS(t_room	*start, t_room *end, t_data *anthill) {
 	return (reconstructPath(start, end, prev));
 }
 
+void	markPathUsed(t_room *start, t_room *end, t_room **path) {
+	size_t	i = 0;
+	size_t	len = queueSize(path);
+	while (i < len) {
+		if (start != path[i] && end != path[i])
+			path[i]->used = true;
+		i++;
+	}
+}
+
+void	resetVisited(t_room *rooms) {
+	while (rooms) {
+		rooms->visited = false;
+		rooms = rooms->next;
+	}
+}
+
 void    algo(t_data *anthill) {
-    // On trouve le nombre de chemin max
-    // Si le nombre de fourmis est inferieur au nombre de chemins trouvé :
-    // On reduit le nombre de chemin au nombre de fourmis
-    // D'abord definir un max selon
-    // le nombre de depart sur start et le nombre de depart sur end
 
-    t_room *start = getSpecificRoom(anthill->rooms, START);
-    t_room *end = getSpecificRoom(anthill->rooms, END);
+    t_room	*start = getSpecificRoom(anthill->rooms, START);
+    t_room	*end = getSpecificRoom(anthill->rooms, END);
+	t_room **path = NULL;
 
-	// Determines max paths possibilities
-    int maxPossibilities = start->nbOfLinks >= end->nbOfLinks ? end->nbOfLinks : start->nbOfLinks;
-	printf("maxPossibilities = %d\n", maxPossibilities);
-	t_room **path = BFS(start, end, anthill);
+	size_t pathFound = 0;
+	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ? end->nbOfLinks : start->nbOfLinks;
+   
+	printf("maxPossibilities = %zu\n", maxPossibilities);
 
-	(void)path;
+	while ((path = BFS(start, end, anthill)) != NULL) {
+		resetVisited(anthill->rooms);
+		markPathUsed(start, end, path);
+		printQueue(path);
+		pathFound += 1;
+	}
+	if (pathFound != maxPossibilities) {
+		printf("Not opti for this map\n");
+	}
 }

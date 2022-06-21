@@ -76,8 +76,8 @@ t_room	*findRoomByName(char *name, t_room *rooms) {
 
 void	browseRooms(t_room *roomList) {
 	while (roomList) {
-		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d]\t%s\tLinks[", roomList->id, roomList->name, \
-			roomList->x, roomList->y, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
+		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d][used=%d]\t%s\tLinks[", roomList->id, roomList->name, \
+			roomList->x, roomList->y, roomList->visited, roomList->used, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		size_t i = 0;
 		while (roomList->links && i < roomList->nbOfLinks)
 			printf("'%s', ", roomList->links[i++]->name);
