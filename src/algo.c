@@ -198,7 +198,6 @@ void    algo(t_data *anthill) {
 
 	// Loop BFS to find the most shortest path
 	size_t	pathFound = BFS_Loop(anthill, start, end, &pathList);
-	// system("leaks lem-in");
 
 	printList(pathList);
 

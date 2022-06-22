@@ -5,7 +5,8 @@ VISU_NAME = visualizer
 
 SRCS =			$(wildcard src/*.c) $(wildcard lib/libft/*.c)
 GENER_SRCS = 	$(wildcard generate/*.c) $(wildcard lib/libft/*.c)
-VISU_SRCS =		$(wildcard visualize/*.c) $(wildcard lib/libft/*.c)
+VISU_SRCS =		$(wildcard visualize/*.c) $(wildcard lib/libft/*.c) \
+				src/rooms_utils.c src/parser.c
 
 
 OBJS =	$(SRCS:.c=.o)
@@ -14,7 +15,7 @@ VISU_OBJS = $(VISU_SRCS:.c=.o)
 
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 

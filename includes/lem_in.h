@@ -1,5 +1,5 @@
 #ifndef LEM_IN_H
-#define LEM_IN_H
+# define LEM_IN_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -55,13 +55,22 @@ typedef struct s_data {
 
 }	t_data;
 
-int		get_next_line(int fd, char **line);
 
+// ===== PARSER ===== //
+int		get_next_line(int fd, char **line);
+void    freeTab(char **tab);
+void	printMap(t_data *anthill);
+void    storeNbAnts(char *line, t_data *anthill);
+bool	storeRoom(char *line, int type, t_data *anthill);
+bool    storeLinks(char *line, t_data *anthill);
+void    parseLines(char **lines, t_data *anthill);
+char    **readInput();
+
+// ===== ROOM UTILS ===== //
 void	exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
 void	pushbackRoom(t_room *r, t_room *roomList, char *link);
-
 size_t	roomSizeList(t_room *rooms);
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
@@ -73,7 +82,7 @@ t_room	*getSpecificRoom(t_room *roomList, int type);
 t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y);
 t_room	***addToList(t_room ***pathList, t_room **path, int found);
 
-
+// ===== ALGORITHM ===== //
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
 void	BFSForStartNeighbours(t_room ***pathList);
 void	algo(t_data *anthill);
