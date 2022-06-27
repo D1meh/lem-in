@@ -18,6 +18,7 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->type = type;
 	ret->used = false;
 	ret->visited = false;
+	ret->score = 0;
 	ret->nbOfLinks = 0;
 	ret->links = NULL;
 	ret->prev = NULL;

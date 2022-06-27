@@ -22,6 +22,13 @@ typedef enum bool {
 	true,
 } bool;
 
+typedef struct s_path {
+
+	t_room			**path;
+	struct s_path	*next;
+
+}	t_path;
+
 typedef struct s_room {
 
 	char			*name;
@@ -32,6 +39,7 @@ typedef struct s_room {
 	size_t			nbOfLinks;
 	bool			visited;
 	bool			used;
+	size_t			score;
 	struct s_room	**links;
 	struct s_room	*prev;
 	struct s_room	*next;

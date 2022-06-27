@@ -29,7 +29,7 @@ t_room ***orderPath(t_room ***pathList) {
 t_room ***addToList(t_room ***pathList, t_room **path, int found) {
 
 	t_room ***newList = malloc(sizeof(t_room **) * (found + 2));
-	
+
 	int i = 0;
 	while (i < found) {
 		newList[i] = pathList[i];
@@ -37,7 +37,8 @@ t_room ***addToList(t_room ***pathList, t_room **path, int found) {
 	}
 	newList[i] = path;
 	newList[i + 1] = NULL;
-	free(pathList);
+	if (pathList)
+		free(pathList);
 	return newList;
 }
 
@@ -65,7 +66,7 @@ void	printQueue(t_room **queue) {
 	size_t	len = queueSize(queue);
 	printf("-----printQueue-----\n");
 	while (i < len) {
-		printf("[name = '%s' , visited = %d , used = %d]\n",  queue[i]->name, queue[i]->visited, queue[i]->used);
+		printf("[name = '%s' , visited = %d , used = %d , score = %zu]\n",  queue[i]->name, queue[i]->visited, queue[i]->used, queue[i]->score);
 		i++;
 	}
 	printf("--------------------\n");
@@ -79,12 +80,15 @@ void printList(t_room ***pathList) {
 	}
 }
 
-void	markPathUsed(t_room *start, t_room *end, t_room **path) {
+void	markPath(t_room *start, t_room *end, t_room **path) {
 	size_t	i = 0;
 	size_t	len = queueSize(path);
 	while (i < len) {
 		if (start != path[i] && end != path[i])
-			path[i]->used = true;
+			// path[i]->used = true;
+			path[i]->score += 1;
+			// if (path[i]->score > 2)
+			// 	path[i]->used = true;
 		i++;
 	}
 }
@@ -173,7 +177,7 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 
 	start->visited = true;
 	while (queueSize(queue) != 0) {
-		// Select the next node of the queue 
+		// Select the next node of the queue
 		t_room *current = dequeue(&queue);
 		// Store all neighbours of current in the queue
 		for (size_t i = 0 ; i < current->nbOfLinks ; i++) {
@@ -191,19 +195,18 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	return (reconstructPath(start, end, prev));
 }
 
-size_t	BFS_Loop(t_data *anthill, t_room *start, t_room* end, t_room ****pathList) {
+size_t	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_room ****pathList, size_t pathsFound) {
 	t_room	**path = NULL;
 
-	size_t pathFound = 0;
-
-	while ((path = BFS(start, end, anthill)) != NULL) {
+	path = BFS(start, end, anthill);
+	if (path) {
 		resetVisited(anthill->rooms);
-		markPathUsed(start, end, path);
-		*pathList = addToList(*pathList, path, pathFound);
-		pathFound += 1;
+		markPath(start, end, path);
+		*pathList = addToList(*pathList, path, pathsFound);
+		pathsFound += 1;
+		resetVisited(anthill->rooms);
 	}
-	resetVisited(anthill->rooms);
-	return (pathFound);
+	return (pathsFound);
 }
 
 void    solve(t_data *anthill) {
@@ -214,32 +217,34 @@ void    solve(t_data *anthill) {
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
 
+	start->used = true;
+
 	size_t	maxPossibilities = start->nbOfLinks >= end->nbOfLinks ?
 		end->nbOfLinks : start->nbOfLinks;
 
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
 	// Loop BFS to find all the shortest paths
-	size_t	pathFound = BFS_Loop(anthill, start, end, &pathList);
+	size_t	pathsFound = 0; // BFS_Loop(anthill, start, end, &pathList);
 
-	if (pathFound == 0) 
-		exitError("Solver: Their is no solution path for this map.\n");
+	// if (pathFound == 0)
+	// exitError("Solver: Their is no solution path for this map.\n");
 
-	pathList = orderPath(pathList);
-	printList(pathList);
-	getOptimalPath(anthill, pathList, nbOfPath(pathList));
+	// pathList = orderPath(pathList);
+	// printList(pathList);
+	// getOptimalPath(anthill, pathList, nbOfPath(pathList));
 
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
-	if (pathFound != maxPossibilities) {
-		// printf("------ Trying ------\n");
-		// size_t i = 0;
-		// while (i < start->nbOfLinks && !start->links[i]->used) {
-		// 	pathList = NULL;
-		// 	printf("start->name = %s\n", start->links[i]->name);
-		// 	// browseRooms(anthill->rooms);
-		// 	pathFound = BFS_Loop(anthill, start->links[i], end, &pathList);
-		// 	printList(pathList);
-		// 	i++;
-		// }
+	if (pathsFound != maxPossibilities) {
+		printf("------ Trying ------\n");
+		size_t i = 0;
+		while (i < start->nbOfLinks && !start->links[i]->used) {
+			pathList = NULL;
+			printf("start->name = %s\n", start->links[i]->name);
+			// browseRooms(anthill->rooms);
+			pathsFound = BFS_FindPath(anthill, start->links[i], end, &pathList, pathsFound);
+			i++;
+		}
+		printList(pathList);
 	}
 }
