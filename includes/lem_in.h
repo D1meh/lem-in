@@ -85,6 +85,6 @@ t_room	***addToList(t_room ***pathList, t_room **path, int found);
 // ===== ALGORITHM ===== //
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
 void	BFSForStartNeighbours(t_room ***pathList);
-void	algo(t_data *anthill);
+void	solve(t_data *anthill);
 
 #endif

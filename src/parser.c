@@ -50,8 +50,7 @@ bool storeRoom(char *line, int type, t_data *anthill) {
     x > anthill->maxX ? anthill->maxX = x : 0;
     y > anthill->maxY ? anthill->maxY = y : 0;
 
-    
-    printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
+    // printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
     freeTab(tab);
     return true;
 }
@@ -123,6 +122,7 @@ void    parseLines(char **lines, t_data *anthill) {
 				break ;
         }
     }
+	// if (mode == 'debug')
 	browseRooms(anthill->rooms);
 	if (!validStartEnd(anthill->rooms))
 		exitError("Invalid end or start for 'the_rooms'.\n");

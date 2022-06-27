@@ -21,7 +21,7 @@ int main() {
 	anthill.nbRooms = 0;
     char **lines = readInput();
     parseLines(lines, &anthill);
-    printMap(&anthill);
-    algo(&anthill);
+    // printMap(&anthill);
+    solve(&anthill);
     printf("Done\n");
 }

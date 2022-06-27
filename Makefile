@@ -28,7 +28,7 @@ generator:	${GENER_OBJS}
 			${CC} ${CFLAGS} ${GENER_OBJS} -o ${GENER_NAME}
 
 visualizer:	${VISU_OBJS}
-			${CC} ${CFLAGS} -I ./lib/sdl2/include -L ./lib/sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
+			${CC} ${CFLAGS} -I ~/.brew/opt/sdl2/include -L ~/.brew/opt/sdl2/lib -l SDL2-2.0.0 ${VISU_OBJS} -o ${VISU_NAME}
 
 clean:
 			${RM} $(OBJS)

@@ -12,7 +12,7 @@ void eventLoop(SDL_Window *window, SDL_Renderer *renderer) {
 		if (events.type == SDL_QUIT)
 			ft_exit_with_sdl(false, window, renderer, "");
 		if (events.type == SDL_KEYDOWN) {
-			printf("Key down -> %c\n", (events.key.keysym.scancode + 'a' - 4));
+			printf("Key down -> %i\n", (events.key.keysym.sym));
 			if (events.key.keysym.sym == SDLK_ESCAPE) {
 				ft_exit_with_sdl(false, window, renderer, "");
 			}

@@ -126,7 +126,7 @@ t_room *dequeue(t_room ***queue) {
 
 t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	t_room	**path = NULL;
-	
+
 	// Reconstruct the path using the prev for each node : end -> ... -> start
 	for (t_room	*at = end ; at != NULL ; at = prev[at->id]) {
 		path = enqueue(path, at);
@@ -134,11 +134,11 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	// Then reverse the path to have start -> ... -> end
 	path = reverseQueue(path);
 	free(prev);
-	
+
 	// If start is start then we found the path !
 	if (path[0] == start)
 		return path;
-	
+
 	// Else no path found
 	free(path);
 	return NULL;
@@ -147,7 +147,7 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	t_room	**queue = enqueue(NULL, start);
 	t_room	**prev = initPrev(anthill->nbRooms);
-	
+
 	start->visited = true;
 	while (queueSize(queue) != 0) {
 		// Select the next node of the queue 
@@ -183,7 +183,7 @@ size_t	BFS_Loop(t_data *anthill, t_room *start, t_room* end, t_room ****pathList
 	return (pathFound);
 }
 
-void    algo(t_data *anthill) {
+void    solve(t_data *anthill) {
 
 	t_room	***pathList = NULL;
 	// t_room	**blackList = initPrev(anthill->nbRooms);
@@ -199,10 +199,12 @@ void    algo(t_data *anthill) {
 	// Loop BFS to find all the shortest paths
 	size_t	pathFound = BFS_Loop(anthill, start, end, &pathList);
 
+	if (pathFound == 0) 
+		exitError("Solver: Their is no solution path for this map.\n");
+
 	printList(pathList);
 
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
-
 	if (pathFound != maxPossibilities) {
 		// printf("------ Trying ------\n");
 		// size_t i = 0;
