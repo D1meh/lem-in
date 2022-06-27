@@ -8,7 +8,9 @@ int	pathLen(t_room **path) {
 }
 
 int nbOfPath(t_room ***pathList) {
-	return (**pathList == 0 ? 0 : nbOfPath(pathList+1) + 1);
+	int i = 0;
+	while (pathList[i]) i++;
+	return i;
 }
 
 t_room ***orderPath(t_room ***pathList) {

@@ -71,6 +71,7 @@ void	exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
 void	pushbackRoom(t_room *r, t_room *roomList, char *link);
+int		pathLen(t_room **path);
 size_t	roomSizeList(t_room *rooms);
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
