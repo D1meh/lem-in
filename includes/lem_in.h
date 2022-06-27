@@ -86,5 +86,6 @@ t_room	***addToList(t_room ***pathList, t_room **path, int found);
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
 void	BFSForStartNeighbours(t_room ***pathList);
 void	solve(t_data *anthill);
+void getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath);
 
 #endif

@@ -1,6 +1,6 @@
 # sdl2 cmake project-config input for ./configure scripts
 
-set(prefix "/Users/epfennig/.brew/Cellar/sdl2/2.0.22") 
+set(prefix "/Users/$(USER)/.brew/Cellar/sdl2/2.0.22") 
 set(exec_prefix "${prefix}")
 set(libdir "${exec_prefix}/lib")
 set(includedir "${prefix}/include")

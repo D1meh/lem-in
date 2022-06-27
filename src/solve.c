@@ -3,6 +3,27 @@
 #define START 1
 #define END 2
 
+int	pathLen(t_room **path) {
+	return (*path == 0 ? 0 : pathLen(path+1) + 1);
+}
+
+int nbOfPath(t_room ***pathList) {
+	return (**pathList == 0 ? 0 : nbOfPath(pathList+1) + 1);
+}
+
+t_room ***orderPath(t_room ***pathList) {
+	for (int i = 1; pathList[i]; i++) {
+		t_room **a = pathList[i];
+		int b = i;
+		while (b > 0 && pathLen(pathList[b-1]) > pathLen(a)) {
+			pathList[b] = pathList[b-1];
+			b--;
+		}
+		pathList[b] = a;
+	}
+	return pathList;
+}
+
 t_room ***addToList(t_room ***pathList, t_room **path, int found) {
 
 	t_room ***newList = malloc(sizeof(t_room **) * (found + 2));
@@ -202,7 +223,9 @@ void    solve(t_data *anthill) {
 	if (pathFound == 0) 
 		exitError("Solver: Their is no solution path for this map.\n");
 
+	pathList = orderPath(pathList);
 	printList(pathList);
+	getOptimalPath(anthill, pathList, nbOfPath(pathList));
 
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
 	if (pathFound != maxPossibilities) {
