@@ -191,12 +191,12 @@ void    algo(t_data *anthill) {
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
 
-	size_t maxPossibilities = start->nbOfLinks >= end->nbOfLinks ?
+	size_t	maxPossibilities = start->nbOfLinks >= end->nbOfLinks ?
 		end->nbOfLinks : start->nbOfLinks;
-	
+
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
-	// Loop BFS to find the most shortest path
+	// Loop BFS to find all the shortest paths
 	size_t	pathFound = BFS_Loop(anthill, start, end, &pathList);
 
 	printList(pathList);
