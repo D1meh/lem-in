@@ -1,59 +1,5 @@
 #include "../includes/lem_in.h"
 
-#define START 1
-#define END 2
-
-int	pathLen(t_room **path) {
-	return (*path == 0 ? 0 : pathLen(path+1) + 1);
-}
-
-int nbOfPath(t_room ***pathList) {
-	int i = 0;
-	while (pathList[i]) i++;
-	return i;
-}
-
-t_room ***orderPath(t_room ***pathList) {
-	for (int i = 1; pathList[i]; i++) {
-		t_room **a = pathList[i];
-		int b = i;
-		while (b > 0 && pathLen(pathList[b-1]) > pathLen(a)) {
-			pathList[b] = pathList[b-1];
-			b--;
-		}
-		pathList[b] = a;
-	}
-	return pathList;
-}
-
-t_room ***addToList(t_room ***pathList, t_room **path, int found) {
-
-	t_room ***newList = malloc(sizeof(t_room **) * (found + 2));
-
-	int i = 0;
-	while (i < found) {
-		newList[i] = pathList[i];
-		i++;
-	}
-	newList[i] = path;
-	newList[i + 1] = NULL;
-	if (pathList)
-		free(pathList);
-	return newList;
-}
-
-t_room **initPrev(size_t size) {
-	t_room	**prev = malloc(sizeof(t_room *) * (size + 1));
-
-	size_t	i = 0;
-	while (i < size) {
-		prev[i] = NULL;
-		i++;
-	}
-	prev[size] = NULL;
-	return prev;
-}
-
 size_t	queueSize(t_room **queue) {
 	size_t i = 0;
 	if (!queue) return 0;
@@ -64,40 +10,20 @@ size_t	queueSize(t_room **queue) {
 void	printQueue(t_room **queue) {
 	size_t	i = 0;
 	size_t	len = queueSize(queue);
-	printf("-----printQueue-----\n");
 	while (i < len) {
 		printf("[name = '%s' , visited = %d , used = %d , score = %zu]\n",  queue[i]->name, queue[i]->visited, queue[i]->used, queue[i]->score);
 		i++;
 	}
-	printf("--------------------\n");
 }
 
-void printList(t_room ***pathList) {
-	if (!pathList) return;
-	for (int i = 0; pathList[i] != NULL; i++) {
-		printf("PATH NUMBER %d\n", i);
-		printQueue(pathList[i]);
-	}
-}
-
-void	markPath(t_room *start, t_room *end, t_room **path) {
-	size_t	i = 0;
-	size_t	len = queueSize(path);
-	while (i < len) {
-		if (start != path[i] && end != path[i])
-			// path[i]->used = true;
-			path[i]->score += 1;
-			// if (path[i]->score > 2)
-			// 	path[i]->used = true;
-		i++;
-	}
-}
-
-void	resetVisited(t_room *rooms) {
+void	withoutMaxScore(t_room *rooms) {
+	t_room	*maxScore = rooms;
 	while (rooms) {
-		rooms->visited = false;
+		if (maxScore->score <= rooms->score)
+			maxScore = rooms;
 		rooms = rooms->next;
 	}
+	maxScore->used = true;
 }
 
 t_room **reverseQueue(t_room **queue) {
@@ -195,25 +121,23 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	return (reconstructPath(start, end, prev));
 }
 
-size_t	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_room ****pathList, size_t pathsFound) {
+size_t	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
 
 	path = BFS(start, end, anthill);
 	if (path) {
 		resetVisited(anthill->rooms);
 		markPath(start, end, path);
-		*pathList = addToList(*pathList, path, pathsFound);
-		pathsFound += 1;
+		addPath(paths, initPath(path));
 		resetVisited(anthill->rooms);
 	}
-	return (pathsFound);
+	return (1);
 }
 
 void    solve(t_data *anthill) {
 
-	t_room	***pathList = NULL;
-	// t_room	**blackList = initPrev(anthill->nbRooms);
-	// (void)blackList;
+	t_path	*paths = NULL;
+
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
 
@@ -225,26 +149,34 @@ void    solve(t_data *anthill) {
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
 	// Loop BFS to find all the shortest paths
-	size_t	pathsFound = 0; // BFS_Loop(anthill, start, end, &pathList);
+	size_t	pathsFound = 0; // BFS_Loop(anthill, start, end, &paths);
 
-	// if (pathFound == 0)
-	// exitError("Solver: Their is no solution path for this map.\n");
-
-	// pathList = orderPath(pathList);
-	// printList(pathList);
-	// getOptimalPath(anthill, pathList, nbOfPath(pathList));
+	// paths = orderPath(paths);
+	// printPaths(paths);
+	// getOptimalPath(anthill, paths, nbOfPath(paths));
 
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
-	if (pathsFound != maxPossibilities) {
-		printf("------ Trying ------\n");
-		size_t i = 0;
-		while (i < start->nbOfLinks && !start->links[i]->used) {
-			pathList = NULL;
-			printf("start->name = %s\n", start->links[i]->name);
-			// browseRooms(anthill->rooms);
-			pathsFound = BFS_FindPath(anthill, start->links[i], end, &pathList, pathsFound);
-			i++;
-		}
-		printList(pathList);
+	printf("------ Trying ------\n");
+	size_t i = 0;
+	while (i < start->nbOfLinks && !start->links[i]->used) {
+		printf("start->name = %s\n", start->links[i]->name);
+		BFS_FindPath(anthill, start->links[i], end, &paths);
+		i++;
 	}
+	pathsFound = i - 1;
+	if (pathsFound == 0)
+		exitError("Solver: Their is no solution path for this map.\n");
+	printPaths(paths);
+
+	withoutMaxScore(anthill->rooms);
+	paths = NULL;
+	printf("------ Trying ------\n");
+	i = 0;
+	while (i < start->nbOfLinks && !start->links[i]->used) {
+		printf("start->name = %s\n", start->links[i]->name);
+		BFS_FindPath(anthill, start->links[i], end, &paths);
+		i++;
+	}
+	pathsFound = i - 1;
+	printPaths(paths);
 }

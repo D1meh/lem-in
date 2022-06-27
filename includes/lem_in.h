@@ -17,17 +17,13 @@
 # define	RED "\e[1;31m"
 # define	RESET "\e[0m"
 
+# define START 1
+# define END 2
+
 typedef enum bool {
 	false,
 	true,
 } bool;
-
-typedef struct s_path {
-
-	t_room			**path;
-	struct s_path	*next;
-
-}	t_path;
 
 typedef struct s_room {
 
@@ -44,6 +40,14 @@ typedef struct s_room {
 	struct s_room	*prev;
 	struct s_room	*next;
 }	t_room;
+
+typedef struct s_path {
+
+	t_room			**path;
+	struct s_path	*next;
+	struct s_path	*prev;
+
+}	t_path;
 
 typedef struct s_ant {
 
@@ -91,10 +95,24 @@ t_room	*getSpecificRoom(t_room *roomList, int type);
 t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y);
 t_room	***addToList(t_room ***pathList, t_room **path, int found);
 
+// ===== PATH UTILS ===== //
+int		pathLen(t_room **path);
+int		nbOfPath(t_room ***pathList);
+t_room	***orderPath(t_room ***pathList);
+void	addPath(t_path **paths, t_path *new);
+void	printPaths(t_path *paths);
+void	markPath(t_room *start, t_room *end, t_room **path);
+void	resetVisited(t_room *rooms);
+t_room	**initPrev(size_t size);
+// t_room	***addToList(t_room ***pathList, t_room **path, int found);
+t_path	*initPath(t_room **roomPath);
+
 // ===== ALGORITHM ===== //
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
 void	BFSForStartNeighbours(t_room ***pathList);
 void	solve(t_data *anthill);
-void getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath);
+void	getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath);
+void	printQueue(t_room **queue);
+size_t	queueSize(t_room **queue);
 
 #endif
