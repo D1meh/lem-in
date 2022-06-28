@@ -177,6 +177,8 @@ void    solve(t_data *anthill) {
 		BFS_FindPath(anthill, start->links[i], end, &paths);
 		i++;
 	}
-	pathsFound = i - 1;
+	pathsFound = i;
+	paths = orderPath(paths);
 	printPaths(paths);
+	getOptimalPath(anthill, paths, pathsFound);
 }

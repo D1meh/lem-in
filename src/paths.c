@@ -61,9 +61,10 @@ void initFindComb(int n, int *size) {
 	findComb(arr, 0, n, n, size);
 }
 
-void getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath) {
+void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 	int sizeOfTab = 0, ants = anthill->nbAnts;
 	int osef[1];	// variable inutile juste pour avoir un param dans getFinalTab
+
 
 	initFindComb(ants, &sizeOfTab);
 	int **tab = getFinalTab(osef, RET, 0);
@@ -86,11 +87,14 @@ void getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath) {
 		// Calculating how many moves it will take given the length of the paths and the numbers of ants sent in a path
 		// using the following formula : max(M1, M2, ...Mn) with Mk = length path + nb of ants - 1
 		int max = 0;
+		t_path *tmp = pathList;
 		for (int k = j-1; k >= 0; k--) {
-			int len = pathLen(pathList[path]) + tab[i][k] - 2; // minus 2 because pathLen includes starting room
+			int len = pathLen(tmp->path) + tab[i][k] - 1; // minus 2 because pathLen includes starting room
+			printf("%d %d --> %d\n", pathLen(tmp->path), tab[i][k], len);
 			if (len > max)
 				max = len;
 			path++;
+			tmp = tmp->next;
 		}
 		nbMoves[filledMoves] = malloc(sizeof(int) * 2);
 		nbMoves[filledMoves][0] = max;
@@ -109,5 +113,4 @@ void getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath) {
 			id = nbMoves[i][1];
 		}
 	}
-
 }

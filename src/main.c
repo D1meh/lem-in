@@ -24,4 +24,5 @@ int main() {
     printMap(&anthill);
     solve(&anthill);
     printf("Done\n");
+	//system("leaks lem-in");
 }

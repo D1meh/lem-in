@@ -97,8 +97,9 @@ t_room	***addToList(t_room ***pathList, t_room **path, int found);
 
 // ===== PATH UTILS ===== //
 int		pathLen(t_room **path);
-int		nbOfPath(t_room ***pathList);
-t_room	***orderPath(t_room ***pathList);
+int		nbOfPath(t_path *paths);
+//t_room	***orderPath(t_room ***pathList);
+t_path	*orderPath(t_path *paths);
 void	addPath(t_path **paths, t_path *new);
 void	printPaths(t_path *paths);
 void	markPath(t_room *start, t_room *end, t_room **path);
@@ -106,12 +107,13 @@ void	resetVisited(t_room *rooms);
 t_room	**initPrev(size_t size);
 // t_room	***addToList(t_room ***pathList, t_room **path, int found);
 t_path	*initPath(t_room **roomPath);
+void	deletePath(t_path *paths);
 
 // ===== ALGORITHM ===== //
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
 void	BFSForStartNeighbours(t_room ***pathList);
 void	solve(t_data *anthill);
-void	getOptimalPath(t_data *anthill, t_room ***pathList, int nbOfPath);
+void	getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath);
 void	printQueue(t_room **queue);
 size_t	queueSize(t_room **queue);
 
