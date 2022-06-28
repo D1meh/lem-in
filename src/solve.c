@@ -121,22 +121,24 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	return (reconstructPath(start, end, prev));
 }
 
-size_t	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
+bool	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
 
 	path = BFS(start, end, anthill);
-	if (path) {
+	if (path != NULL) {
 		resetVisited(anthill->rooms);
 		markPath(start, end, path);
 		addPath(paths, initPath(path));
 		resetVisited(anthill->rooms);
+		return (true);
 	}
-	return (1);
+	return (false);
 }
 
-void    solve(t_data *anthill) {
+t_path	*solve(t_data *anthill) {
 
 	t_path	*paths = NULL;
+	t_path	*realPaths = NULL;
 
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
@@ -157,28 +159,32 @@ void    solve(t_data *anthill) {
 
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
 	printf("------ Trying ------\n");
-	size_t i = 0;
+	size_t	i = 0;
+	bool	hasFound;
 	while (i < start->nbOfLinks && !start->links[i]->used) {
 		printf("start->name = %s\n", start->links[i]->name);
-		BFS_FindPath(anthill, start->links[i], end, &paths);
+		hasFound = BFS_FindPath(anthill, start->links[i], end, &paths);
 		i++;
 	}
-	pathsFound = i - 1;
+	pathsFound = i;
 	if (pathsFound == 0)
-		exitError("Solver: Their is no solution path for this map.\n");
+		exitError("Solver: There is no solution path for this map.\n");
 	printPaths(paths);
 
 	withoutMaxScore(anthill->rooms);
-	paths = NULL;
 	printf("------ Trying ------\n");
 	i = 0;
 	while (i < start->nbOfLinks && !start->links[i]->used) {
 		printf("start->name = %s\n", start->links[i]->name);
-		BFS_FindPath(anthill, start->links[i], end, &paths);
+		hasFound = BFS_FindPath(anthill, start->links[i], end, &paths);
 		i++;
 	}
 	pathsFound = i;
-	paths = orderPath(paths);
-	printPaths(paths);
-	getOptimalPath(anthill, paths, pathsFound);
+	// paths = orderPath(paths);
+	// printPaths(paths);
+	// getOptimalPath(anthill, paths, pathsFound);
+	// pathsFound = i - 1;
+	// printPaths(paths);
+	system("leaks lem-in");
+	return NULL;
 }
