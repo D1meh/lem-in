@@ -81,22 +81,6 @@ void deletePath(t_path *paths) {
 	}
 }
 
-// t_room ***addToList(t_room ***pathList, t_room **path, int found) {
-
-// 	t_room ***newList = malloc(sizeof(t_room **) * (found + 2));
-
-// 	int i = 0;
-// 	while (i < found) {
-// 		newList[i] = pathList[i];
-// 		i++;
-// 	}
-// 	newList[i] = path;
-// 	newList[i + 1] = NULL;
-// 	if (pathList)
-// 		free(pathList);
-// 	return newList;
-// }
-
 t_room **initPrev(size_t size) {
 	t_room	**prev = malloc(sizeof(t_room *) * (size + 1));
 

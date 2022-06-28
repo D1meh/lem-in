@@ -15,7 +15,7 @@ VISU_OBJS = $(VISU_SRCS:.c=.o)
 
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 
