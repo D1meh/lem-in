@@ -18,7 +18,7 @@ int nbOfPath(t_path *paths) {
 
 t_path	*orderPath(t_path *paths) {
 	t_path *ret = NULL, *curr = paths;
-	t_path **tmpTab = malloc(sizeof(t_path *) * (nbOfPath(paths) + 1));
+	t_path **tmpTab = ft_malloc(sizeof(t_path *), (nbOfPath(paths) + 1));
 
 	int i = 0;
 	while (curr) {
@@ -66,7 +66,7 @@ void	addPath(t_path **paths, t_path *new) {
 }
 
 t_path	*initPath(t_room **roomPath) {
-	t_path	*new = malloc(sizeof(t_path) * 1);
+	t_path	*new = ft_malloc(sizeof(t_path), 1);
 	new->path = roomPath;
 	new->next = NULL;
 	new->prev = NULL;
@@ -82,7 +82,7 @@ void deletePath(t_path *paths) {
 }
 
 t_room **initPrev(size_t size) {
-	t_room	**prev = malloc(sizeof(t_room *) * (size + 1));
+	t_room	**prev = ft_malloc(sizeof(t_room *), (size + 1));
 
 	size_t	i = 0;
 	while (i < size) {

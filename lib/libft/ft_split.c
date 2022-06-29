@@ -61,7 +61,7 @@ static char	*cpyword(char const *s, char c, int a)
 
 	i = 0;
 	j = 0;
-	word = (char *)malloc(sizeof(char) * word_length(s, c, a) + 1);
+	word = (char *)ft_malloc(sizeof(char), word_length(s, c, a) + 1);
 	if (!word)
 		return (NULL);
 	while (s[i] == c)

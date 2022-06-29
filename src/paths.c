@@ -20,11 +20,11 @@ int	**getFinalTab(int arr[], int param, int size) {
 	int *toAdd;
 
 	if (param == ADD) {
-		toAdd = malloc(sizeof(int) * size);
+		toAdd = ft_malloc(sizeof(int), size);
 		for (int i = 0; i < size; i++) {
 			toAdd[i] = arr[i];
 		}
-		newTab = malloc(sizeof(int*) * (len+1));
+		newTab = ft_malloc(sizeof(int *), (len+1));
 		for (int i = 0; i < len; i++) {
 			newTab[i] = tab[i];
 		}
@@ -70,7 +70,7 @@ void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 	int **tab = getFinalTab(osef, RET, 0);
 	printFinalTab(tab, sizeOfTab, ants);
 
-	int **nbMoves = malloc(sizeof(int*) * sizeOfTab);
+	int **nbMoves = ft_malloc(sizeof(int *), sizeOfTab);
 	int filledMoves = 0;
 	for (int i = 0; i < sizeOfTab; i++) {
 
@@ -96,7 +96,7 @@ void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 			path++;
 			tmp = tmp->next;
 		}
-		nbMoves[filledMoves] = malloc(sizeof(int) * 2);
+		nbMoves[filledMoves] = ft_malloc(sizeof(int), 2);
 		nbMoves[filledMoves][0] = max;
 		nbMoves[filledMoves][1] = i;
 		filledMoves++;

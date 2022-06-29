@@ -23,6 +23,7 @@ void	withoutMaxScore(t_room *rooms) {
 			maxScore = rooms;
 		rooms = rooms->next;
 	}
+	printf("Blacklisting [%s]\n", maxScore->name);
 	maxScore->used = true;
 }
 
@@ -45,7 +46,7 @@ t_room **enqueue(t_room **queue, t_room *node) {
 	if (!node) return queue;
 	
 	size_t len = queueSize(queue);
-	t_room **newQueue = malloc(sizeof(t_room *) * (len + 2));
+	t_room **newQueue = ft_malloc(sizeof(t_room *), (len + 2));
 	size_t i = 0;
 
 	while (i < len) {
@@ -63,7 +64,7 @@ t_room *dequeue(t_room ***queue) {
 	if (!*queue || !*queue[0]) return NULL;
 	
 	size_t len = queueSize(*queue);
-	t_room **newQueue = malloc(sizeof(t_room *) * (len));
+	t_room **newQueue = ft_malloc(sizeof(t_room *), (len));
 	size_t i = 0;
 
 	while (i < len - 1) {
@@ -126,7 +127,6 @@ void	deleteTwinPath(t_path **paths, t_room *start) {
 	t_path	*toDelete = NULL;
 	size_t	times = 0;
 	while (*paths) {
-		printf("{-- %s --|-- %s --}\n", (*paths)->path[0]->name, start->name);
 		if ((*paths)->path[0] == start) {
 			if (toDelete == NULL)
 				toDelete = (*paths);
@@ -135,6 +135,7 @@ void	deleteTwinPath(t_path **paths, t_room *start) {
 		(*paths) = (*paths)->next;
 	}
 	if (times >= 2 && toDelete) {
+		printf("deleteTwinPath [%s]\n", toDelete->path[0]->name);
 		if (toDelete->prev) {
 			toDelete->prev->next = toDelete->next;
 			toDelete->next->prev = toDelete->prev;
@@ -172,12 +173,12 @@ void	usePrevPathAsRealPath(t_path **realPaths, t_path **paths, t_room *startingN
 	t_path	*tmp = NULL;
 	t_path	*start = (*paths);
 	while (*paths) {
-		printf("*path->path[0]->name = %s | startingNode->name = %s\n", (*paths)->path[0]->name, startingNode->name);
 		if ((*paths)->path[0] == startingNode)
 			break ;
 		(*paths) = (*paths)->next;
 	}
 	if (*paths) {
+		printf("usePrevPathAsRealPath [%s]\n", (*paths)->path[0]->name);
 		addPath(realPaths, initPath((*paths)->path));
 		if ((*paths)->prev) {
 			(*paths)->prev->next = (*paths)->next;
@@ -194,6 +195,18 @@ void	usePrevPathAsRealPath(t_path **realPaths, t_path **paths, t_room *startingN
 	}
 	else
 		*paths = start;
+}
+
+bool	isPathsUnique(t_path *paths) {
+	while (paths) {
+		size_t i = 0;
+		while (paths->path[i]) {
+			
+			i++;
+		}
+		paths = paths->next;
+	}
+	return true;
 }
 
 t_path	*solve(t_data *anthill) {
@@ -219,23 +232,31 @@ t_path	*solve(t_data *anthill) {
 	size_t	iterations = 0;
 	size_t	i;
 	bool	hasFound;
+	size_t	nbHasFound;
 	while (iterations < 3) {
 		i = 0;
+		nbHasFound = 0;
 		while (i < start->nbOfLinks && !start->links[i]->used) {
 			printf("start->name = %s\n", start->links[i]->name);
 			hasFound = BFS_FindPath(anthill, start->links[i], end, &paths);
-			if (!hasFound && iterations >= 1) {
+			if (hasFound)
+				nbHasFound += 1;
+			else if (!hasFound && iterations >= 1) {
 				usePrevPathAsRealPath(&realPaths, &paths, start->links[i]);
 			}
 			i += 1;
 		}
+		if (hasFound == maxPossibilities && isPathsUnique(paths)) {
+			realPaths = paths;
+			break ;
+		}
 		pathsFound = i;
+		printPaths(paths);
 		withoutMaxScore(anthill->rooms);
 
-		printPaths(paths);
 		iterations += 1;
 	}
-	printf("---------------------------------------\n");
+	printf("\n------------------ Finished ---------------------\n\n");
 	printPaths(realPaths);
 	// paths = orderPath(paths);
 	// printPaths(paths);
