@@ -36,7 +36,12 @@ typedef struct s_room {
 	bool			visited;
 	bool			used;
 	size_t			score;
+
+	// Array of room representing the links of the node
 	struct s_room	**links;
+	// Array of distances for each links (1 or -1)
+	int				*distances;
+
 	struct s_room	*prev;
 	struct s_room	*next;
 }	t_room;
@@ -98,16 +103,15 @@ t_room	***addToList(t_room ***pathList, t_room **path, int found);
 // ===== PATH UTILS ===== //
 int		pathLen(t_room **path);
 int		nbOfPath(t_path *paths);
-//t_room	***orderPath(t_room ***pathList);
 t_path	*orderPath(t_path *paths);
 void	addPath(t_path **paths, t_path *new);
 void	printPaths(t_path *paths);
 void	markPath(t_room *start, t_room *end, t_room **path);
 void	resetVisited(t_room *rooms);
 t_room	**initPrev(size_t size);
-// t_room	***addToList(t_room ***pathList, t_room **path, int found);
 t_path	*initPath(t_room **roomPath);
 void	deletePath(t_path *paths);
+t_path	*lastPath(t_path *paths);
 
 // ===== ALGORITHM ===== //
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill);

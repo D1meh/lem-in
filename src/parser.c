@@ -69,7 +69,7 @@ bool    storeLinks(char *line, t_data *anthill) {
         freeTab(tab);
         return true;
     }
-    
+
 	if (avoidDoubleLink(r1, tab[1]))
 		pushbackRoom(r1, anthill->rooms, tab[1]);
 	if (avoidDoubleLink(r2, tab[0]))

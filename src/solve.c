@@ -154,17 +154,16 @@ void	deleteTwinPath(t_path **paths, t_room *start) {
 		*paths = save;
 }
 
-bool	BFS_FindPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
+bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
 
 	path = BFS(start, end, anthill);
 	if (path != NULL) {
 		resetVisited(anthill->rooms);
-		markPath(start, end, path);
+		// markPath(start, end, path);
 		addPath(paths, initPath(path));
-		deleteTwinPath(paths, start);
-		resetVisited(anthill->rooms);
-		return (true);
+		// deleteTwinPath(paths, start);
+		return (true); 
 	}
 	return (false);
 }
@@ -197,22 +196,49 @@ void	usePrevPathAsRealPath(t_path **realPaths, t_path **paths, t_room *startingN
 		*paths = start;
 }
 
-bool	isPathsUnique(t_path *paths) {
-	while (paths) {
-		size_t i = 0;
-		while (paths->path[i]) {
-			
-			i++;
+void	deleteLink(t_room **tab, size_t idx, size_t *nbOfLinks) {
+
+	for (size_t i = 0; i < *nbOfLinks; i++) {
+		if (i >= idx) {
+			if (i == *nbOfLinks - 1)
+				tab[i] = NULL;
+			else
+				tab[i] = tab[i + 1];
 		}
-		paths = paths->next;
 	}
-	return true;
+	*nbOfLinks -= 1;
+}
+
+void	invertVertexes(t_path *lastPath) {
+	if (!lastPath)
+		return ;
+
+	size_t	i = 1;
+	t_room	*previous = NULL;
+	t_room	*current = NULL;
+	while (lastPath->path[i]) {
+		current = lastPath->path[i];
+		previous = lastPath->path[i - 1];
+		if (current && previous) {
+			printf("---\ncurrent : [%s]\n", current->name);
+			printf("previous : [%s]\n", previous->name);
+			size_t	j = 0;
+			while (j < previous->nbOfLinks) {
+				if (previous->links[j] == current) {
+					printf("previous->links[j] = [%s]\n---\n", previous->links[j]->name);
+					deleteLink(previous->links, j, &previous->nbOfLinks);
+				}
+				j++;
+			}
+		}
+		i++;
+	}
+	return ;
 }
 
 t_path	*solve(t_data *anthill) {
 
 	t_path	*paths = NULL;
-	t_path	*realPaths = NULL;
 
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
@@ -224,40 +250,19 @@ t_path	*solve(t_data *anthill) {
 
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
-	// Loop BFS to find all the shortest paths
-	size_t	pathsFound = 0;
-
 	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
 	printf("------ Trying ------\n");
 	size_t	iterations = 0;
-	size_t	i;
 	bool	hasFound;
-	size_t	nbHasFound;
-	while (iterations < 3) {
-		i = 0;
-		nbHasFound = 0;
-		while (i < start->nbOfLinks && !start->links[i]->used) {
-			printf("start->name = %s\n", start->links[i]->name);
-			hasFound = BFS_FindPath(anthill, start->links[i], end, &paths);
-			if (hasFound)
-				nbHasFound += 1;
-			else if (!hasFound && iterations >= 1) {
-				usePrevPathAsRealPath(&realPaths, &paths, start->links[i]);
-			}
-			i += 1;
-		}
-		if (hasFound == maxPossibilities && isPathsUnique(paths)) {
-			realPaths = paths;
-			break ;
-		}
-		pathsFound = i;
+	browseRooms(anthill->rooms);
+	while (iterations < 2) {
+		hasFound = FindShortestPath(anthill, start, end, &paths);
 		printPaths(paths);
-		withoutMaxScore(anthill->rooms);
-
+		invertVertexes(lastPath(paths));
 		iterations += 1;
 	}
+	browseRooms(anthill->rooms);
 	printf("\n------------------ Finished ---------------------\n\n");
-	printPaths(realPaths);
 	// paths = orderPath(paths);
 	// printPaths(paths);
 	// getOptimalPath(anthill, paths, pathsFound);

@@ -91,22 +91,26 @@ void	browseRooms(t_room *roomList) {
 }
 
 void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
-	t_room **ret = ft_malloc(sizeof(t_room*), (r->nbOfLinks + 1));
+	t_room	**new = ft_malloc(sizeof(t_room*), (r->nbOfLinks + 2));
+	int		*newDistances = ft_malloc(sizeof(int), (r->nbOfLinks + 1));
 	size_t i = 0;
 
 	while (i < r->nbOfLinks) {
-		ret[i] = r->links[i];
+		new[i] = r->links[i];
 		i++;
 	}
 	while (roomList) {
 		if (ft_strcmp(link, roomList->name) == 0) {
-			ret[i] = roomList;
+			new[i] = roomList;
+			new[i + 1] = NULL;
 			break ;
 		}
 		roomList = roomList->next;
 	}
+	for (size_t i = 0; i < (r->nbOfLinks + 1); i++)
+		newDistances[i] = 1;
 	free(r->links);
-	r->links = ret;
+	r->links = new;
 	r->nbOfLinks++;
 }
 
