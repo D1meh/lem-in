@@ -109,17 +109,15 @@ void	markPath(t_room *start, t_room *end, t_room **path) {
 	size_t	len = queueSize(path);
 	while (i < len) {
 		if (start != path[i] && end != path[i])
-			// path[i]->used = true;
 			path[i]->score += 1;
-			// if (path[i]->score > 2)
-			// 	path[i]->used = true;
 		i++;
 	}
 }
 
 void	resetVisited(t_room *rooms) {
 	while (rooms) {
-		rooms->visited = false;
+		if (rooms->type != 1)
+			rooms->visited = false;
 		rooms = rooms->next;
 	}
 }

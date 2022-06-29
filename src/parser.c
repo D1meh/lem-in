@@ -62,7 +62,7 @@ bool    storeLinks(char *line, t_data *anthill) {
     while (tab[++len]);
     if (len != 2)
 		return false;
-    
+
     t_room *r1 = findRoomByName(tab[0], anthill->rooms);
     t_room *r2 = findRoomByName(tab[1], anthill->rooms);
     if (!r1 || !r2) {
@@ -71,9 +71,9 @@ bool    storeLinks(char *line, t_data *anthill) {
     }
 
 	if (avoidDoubleLink(r1, tab[1]))
-		pushbackRoom(r1, anthill->rooms, tab[1]);
+		addLinkForRoom(r1, anthill->rooms, tab[1]);
 	if (avoidDoubleLink(r2, tab[0]))
-		pushbackRoom(r2, anthill->rooms, tab[0]);
+		addLinkForRoom(r2, anthill->rooms, tab[0]);
 
     freeTab(tab);
 	return true;

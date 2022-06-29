@@ -11,7 +11,7 @@ void	printQueue(t_room **queue) {
 	size_t	i = 0;
 	size_t	len = queueSize(queue);
 	while (i < len) {
-		printf("[name = '%s' , visited = %d , used = %d , score = %zu]\n",  queue[i]->name, queue[i]->visited, queue[i]->used, queue[i]->score);
+		printf("[name = '%s' , visited = %d , score = %zu]\n",  queue[i]->name, queue[i]->visited, queue[i]->score);
 		i++;
 	}
 }
@@ -24,7 +24,7 @@ void	withoutMaxScore(t_room *rooms) {
 		rooms = rooms->next;
 	}
 	printf("Blacklisting [%s]\n", maxScore->name);
-	maxScore->used = true;
+	// maxScore->used = true;
 }
 
 t_room **reverseQueue(t_room **queue) {
@@ -124,7 +124,7 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 
 		for (size_t i = 0 ; i < current->nbOfLinks ; i++) {
 			// Verify that the neighbours of current has not been visited yet
-			if (!current->links[i]->visited && !current->links[i]->used) {
+			if (!current->links[i]->visited) {
 				// If not been visited, add to queue the node
 				queue = enqueue(queue, current->links[i]);
 				current->links[i]->visited = true;
@@ -272,7 +272,7 @@ t_path	*solve(t_data *anthill) {
     t_room	*start = getSpecificRoom(anthill->rooms, START);
     t_room	*end = getSpecificRoom(anthill->rooms, END);
 
-	start->used = true;
+	start->visited = true;
 
 	size_t	maxPossibilities = start->nbOfLinks >= end->nbOfLinks ?
 		end->nbOfLinks : start->nbOfLinks;

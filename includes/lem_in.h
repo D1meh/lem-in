@@ -34,17 +34,24 @@ typedef struct s_room {
 	int				type;	// 0 = normal, 1 = start, 2 = end
 	size_t			nbOfLinks;
 	bool			visited;
-	bool			used;
 	size_t			score;
 
 	// Array of room representing the links of the node
 	struct s_room	**links;
+	struct s_link	*linkss;
 	// Array of distances for each links (1 or -1) for bhandari algorithm
 	int				*distances;
 
 	struct s_room	*prev;
 	struct s_room	*next;
 }	t_room;
+
+typedef struct s_link {
+	t_room			*node;
+	int				distance;
+	struct s_link	*next;
+	struct s_link	*prev;
+}	t_link;
 
 typedef struct s_path {
 
@@ -87,7 +94,7 @@ char    **readInput();
 void	exitError(char *error);
 void	addRoom(t_room **roomList, t_room *new);
 void	browseRooms(t_room *roomList);
-void	pushbackRoom(t_room *r, t_room *roomList, char *link);
+void	addLinkForRoom(t_room *r, t_room *roomList, char *link);
 int		pathLen(t_room **path);
 size_t	roomSizeList(t_room *rooms);
 bool	avoidDoubleLink(t_room *room, char *link);

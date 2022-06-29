@@ -1,5 +1,30 @@
 #include "../includes/lem_in.h"
 
+t_link	*lastLink(t_link *links) {
+	t_link	*ret = links;
+	while (ret->next)
+		ret = ret->next;
+	return ret;
+}
+
+void	addLink(t_link **links, t_link *new) {
+	if (*links) {
+		t_link *last = lastLink(*links);
+		last->next = new;
+		new->prev = last;
+	} else
+		*links = new;
+}
+
+t_link	*initLink(t_room *node, int distance) {
+	t_link	*new = ft_malloc(sizeof(t_link), 1);
+	new->node = node;
+	new->distance = distance;
+	new->next = NULL;
+	new->prev = NULL;
+	return new;
+}
+
 size_t	roomSizeList(t_room *rooms) {
 	size_t	len = 0;
 	while (rooms) {
@@ -16,11 +41,13 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->x = x;
 	ret->y = y;
 	ret->type = type;
-	ret->used = false;
 	ret->visited = false;
 	ret->score = 0;
 	ret->nbOfLinks = 0;
 	ret->links = NULL;
+	// === test === //
+	ret->linkss = NULL;
+	// ============ //
 	ret->distances = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
@@ -40,9 +67,9 @@ void	addRoom(t_room **roomList, t_room *new) {
 	id++;
 
 	if (*roomList) {
-		t_room *elt = lastRoom(*roomList);
-		elt->next = new;
-		new->prev = elt;
+		t_room *last = lastRoom(*roomList);
+		last->next = new;
+		new->prev = last;
 	} else
 		*roomList = new;
 }
@@ -78,8 +105,8 @@ t_room	*findRoomByName(char *name, t_room *rooms) {
 
 void	browseRooms(t_room *roomList) {
 	while (roomList) {
-		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d][used=%d]\t%s\tLinks[", roomList->id, roomList->name, \
-			roomList->x, roomList->y, roomList->visited, roomList->used, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
+		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d]\t%s\tLinks[", roomList->id, roomList->name, \
+			roomList->x, roomList->y, roomList->visited, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		size_t i = 0;
 		while (roomList->links && i < roomList->nbOfLinks)
 			printf("'%s', ", roomList->links[i++]->name);
@@ -91,8 +118,8 @@ void	browseRooms(t_room *roomList) {
 	}
 }
 
-void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
-	t_room	**new = ft_malloc(sizeof(t_room*), (r->nbOfLinks + 2));
+void	addLinkForRoom(t_room *r, t_room *roomList, char *link) {
+	t_room	**new = ft_malloc(sizeof(t_room *), (r->nbOfLinks + 2));
 	int		*newDistances = ft_malloc(sizeof(int), (r->nbOfLinks + 1));
 	size_t i = 0;
 
@@ -102,6 +129,8 @@ void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
 	}
 	while (roomList) {
 		if (ft_strcmp(link, roomList->name) == 0) {
+			t_link	*newLink = initLink(roomList, 1);
+			addLink(&(r->linkss), newLink);
 			new[i] = roomList;
 			new[i + 1] = NULL;
 			break ;
