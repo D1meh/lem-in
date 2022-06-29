@@ -98,6 +98,18 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	return NULL;
 }
 
+t_room	**enqueueNegativeCostFirst(t_room **queue, t_room *current, t_room ***prev) {
+	for (size_t i = 0 ; current->links[i] ; i++) {
+		if (current->distances[i] == -1) {
+			printf("-1 found\n");
+			queue = enqueue(queue, current->links[i]);
+			current->links[i]->visited = true;
+			(*prev)[current->links[i]->id] = current;
+		}
+	}
+	return queue;
+}
+
 t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	t_room	**queue = enqueue(NULL, start);
 	t_room	**prev = initPrev(anthill->nbRooms);
@@ -106,7 +118,10 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	while (queueSize(queue) != 0) {
 		// Select the next node of the queue
 		t_room *current = dequeue(&queue);
+		
 		// Store all neighbours of current in the queue
+		// queue = enqueueNegativeCostFirst(queue, current, &prev);
+
 		for (size_t i = 0 ; i < current->nbOfLinks ; i++) {
 			// Verify that the neighbours of current has not been visited yet
 			if (!current->links[i]->visited && !current->links[i]->used) {
@@ -220,16 +235,30 @@ void	invertVertexes(t_path *lastPath) {
 		current = lastPath->path[i];
 		previous = lastPath->path[i - 1];
 		if (current && previous) {
+
 			printf("---\ncurrent : [%s]\n", current->name);
 			printf("previous : [%s]\n", previous->name);
 			size_t	j = 0;
+			
+			// Find and Delete the link with the previous node in the path
 			while (j < previous->nbOfLinks) {
 				if (previous->links[j] == current) {
-					printf("previous->links[j] = [%s]\n---\n", previous->links[j]->name);
+					printf("previous->links[j] = [%s]\n", previous->links[j]->name);
 					deleteLink(previous->links, j, &previous->nbOfLinks);
 				}
 				j++;
 			}
+
+			j = 0;
+			while (j < current->nbOfLinks) {
+				if (current->links[j] == previous) {
+					printf("current->links[j] = [%s]\n", current->links[j]->name);
+					current->distances[j] = -1;
+				}
+				printf("current->distances[j] = [%d]\n", current->distances[j]);
+				j++;
+			}
+			printf("---\n");
 		}
 		i++;
 	}

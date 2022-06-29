@@ -39,7 +39,7 @@ typedef struct s_room {
 
 	// Array of room representing the links of the node
 	struct s_room	**links;
-	// Array of distances for each links (1 or -1)
+	// Array of distances for each links (1 or -1) for bhandari algorithm
 	int				*distances;
 
 	struct s_room	*prev;

@@ -21,6 +21,7 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->score = 0;
 	ret->nbOfLinks = 0;
 	ret->links = NULL;
+	ret->distances = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
 	return ret;
@@ -110,7 +111,10 @@ void	pushbackRoom(t_room *r, t_room *roomList, char *link) {
 	for (size_t i = 0; i < (r->nbOfLinks + 1); i++)
 		newDistances[i] = 1;
 	free(r->links);
+	if (r->distances)
+		free(r->distances);
 	r->links = new;
+	r->distances = newDistances;
 	r->nbOfLinks++;
 }
 
