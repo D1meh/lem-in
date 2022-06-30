@@ -107,10 +107,12 @@ void	browseRooms(t_room *roomList) {
 	while (roomList) {
 		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d]\t%s\tLinks[", roomList->id, roomList->name, \
 			roomList->x, roomList->y, roomList->visited, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
-		size_t i = 0;
-		while (roomList->links && i < roomList->nbOfLinks)
-			printf("'%s', ", roomList->links[i++]->name);
-		if (!(roomList->links))
+		t_link	*temp = roomList->linkss;
+		while (temp) {
+			printf("'%s', ", temp->node->name);
+			temp = temp->next;
+		}
+		if (!(temp))
 			printf("NULL]\n");
 		else
 			printf("\b\b]\n");
@@ -148,14 +150,14 @@ void	addLinkForRoom(t_room *r, t_room *roomList, char *link) {
 }
 
 bool avoidDoubleLink(t_room *room, char *link) {
-	size_t i = 0;
 
+	t_link	*temp = room->linkss;
 	if (ft_strcmp(room->name, link) == 0)
 		return false;
-	while (i < room->nbOfLinks) {
-		if (ft_strcmp(link, room->links[i]->name) == 0)
+	while (temp) {
+		if (ft_strcmp(link, temp->node->name) == 0)
 			return false;
-		i++;
+		temp = temp->next;
 	}
 	return true;
 }
