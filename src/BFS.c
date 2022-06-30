@@ -107,7 +107,7 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	while (queueSize(queue) != 0) {
 		// Select the next node of the queue
 		t_room *current = dequeue(&queue);
-		
+
 		// Store all neighbours of current in the queue
 		// queue = enqueueNegativeCostFirst(queue, current, &prev);
 		t_link	*currLinks = current->linkss;

@@ -13,17 +13,22 @@ void	printLinks(t_room *rooms) {
 	}
 }
 
+void	dijkstra(t_anthill *anthill, t_room *start, t_room *end) {
+	t_room	*iter = start;
+	while (iter) {
+		iter = iter->next;
+	}
+}
+
 bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
 	(void)start;
 	(void)end;
 	(void)paths;
 	printLinks(anthill->rooms);
+
+	dijkstra(anthill, start, end);
 	if (path != NULL) {
-		// resetVisited(anthill->rooms);
-		// markPath(start, end, path);
-		// addPath(paths, initPath(path));
-		// deleteTwinPath(paths, start);
 		return (true); 
 	}
 	return (false);
@@ -43,17 +48,16 @@ t_path	*solve(t_data *anthill) {
 
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
-	// Essayer peut etre en black listant des nodes une à une trouvé sur le chemin le plus court
-	printf("------ Trying ------\n");
+	browseRooms(anthill->rooms);
+
 	size_t	iterations = 0;
 	bool	hasFound;
-	browseRooms(anthill->rooms);
+		
 	while (iterations < 1) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
 		iterations += 1;
 	}
-	browseRooms(anthill->rooms);
-	printf("\n------------------ Finished ---------------------\n\n");
+
 	// paths = orderPath(paths);
 	// printPaths(paths);
 	// getOptimalPath(anthill, paths, pathsFound);
