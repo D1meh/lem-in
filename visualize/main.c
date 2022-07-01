@@ -25,10 +25,10 @@ void eventLoop(SDL_Window *window, SDL_Renderer *renderer) {
 void	drawLinks(SDL_Renderer *renderer, t_room *rooms) {
 	SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
 	while (rooms) {
-		size_t	i = 0;
-		while (i < rooms->nbOfLinks) {
-			SDL_RenderDrawLine(renderer, rooms->x * 150 + 100, rooms->y * 150 + 100, rooms->links[i]->x * 150 + 100, rooms->links[i]->y * 150 + 100);
-			i++;
+		t_link	*links = rooms->links;
+		while (links) {
+			SDL_RenderDrawLine(renderer, rooms->x * 150 + 100, rooms->y * 150 + 100, links->node->x * 150 + 100, links->node->y * 150 + 100);
+			links = links->next;
 		}
 		rooms = rooms->next;
 	}

@@ -34,13 +34,9 @@ typedef struct s_room {
 	int				type;	// 0 = normal, 1 = start, 2 = end
 	size_t			nbOfLinks;
 	bool			visited;
-	size_t			score;
 
-	// Array of room representing the links of the node
-	struct s_room	**links;
-	struct s_link	*linkss;
-	// Array of distances for each links (1 or -1) for bhandari algorithm
-	int				*distances;
+	int				currCost;
+	struct s_link	*links;
 
 	struct s_room	*prev;
 	struct s_room	*next;

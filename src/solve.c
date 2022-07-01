@@ -2,10 +2,10 @@
 
 void	printLinks(t_room *rooms) {
 	while (rooms) {
-		t_link	*links = rooms->linkss;
-		printf("Links for [%s] -> [", rooms->name);
+		t_link	*links = rooms->links;
+		printf("Links for [name=%s, currCost=%d] -> [", rooms->name, rooms->currCost);
 		while (links) {
-			printf("%s, ", links->node->name);
+			printf("%s(%d), ", links->node->name, links->distance);
 			links = links->next;
 		}
 		printf("\b\b]\n");
@@ -13,22 +13,40 @@ void	printLinks(t_room *rooms) {
 	}
 }
 
-void	dijkstra(t_anthill *anthill, t_room *start, t_room *end) {
-	t_room	*iter = start;
-	while (iter) {
-		iter = iter->next;
+t_room	*getNearest(t_link *links) {
+	int		minDist = 999;
+	t_room	*nearestNode = NULL;
+	while (links) {
+		if (!links->node->visited && links->distance < minDist) {
+			minDist = links->distance;
+			nearestNode = links->node;
+		}
+		links = links->next;
+	}
+	return (nearestNode);
+}
+
+void	dijkstra(t_data *anthill, t_room *start, t_room *end) {
+	t_room	*nodes = start;
+	(void)end;
+	(void)anthill;
+	while (nodes) {
+		t_room	*nearest = getNearest(nodes->links);
+		if (nearest) {
+			printf("nearest from [%s] is [%s]\n", nodes->name, nearest->name);
+			nearest->visited = true;
+		}
+		nodes = nodes->next;
 	}
 }
 
 bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
-	(void)start;
-	(void)end;
-	(void)paths;
-	printLinks(anthill->rooms);
 
-	dijkstra(anthill, start, end);
+	printLinks(anthill->rooms);
+	path = BFS(start, end, anthill);
 	if (path != NULL) {
+		addPath(paths, initPath(path));
 		return (true); 
 	}
 	return (false);
@@ -52,17 +70,13 @@ t_path	*solve(t_data *anthill) {
 
 	size_t	iterations = 0;
 	bool	hasFound;
-		
+
 	while (iterations < 1) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
+		printPaths(paths);
+		printLinks(start);
 		iterations += 1;
 	}
-
-	// paths = orderPath(paths);
-	// printPaths(paths);
-	// getOptimalPath(anthill, paths, pathsFound);
-	// pathsFound = i - 1;
-	// printPaths(paths);
 	// system("leaks lem-in");
 	return NULL;
 }

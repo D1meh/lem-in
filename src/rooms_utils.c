@@ -42,13 +42,9 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->y = y;
 	ret->type = type;
 	ret->visited = false;
-	ret->score = 0;
 	ret->nbOfLinks = 0;
+	ret->currCost = 0;
 	ret->links = NULL;
-	// === test === //
-	ret->linkss = NULL;
-	// ============ //
-	ret->distances = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
 	return ret;
@@ -107,9 +103,9 @@ void	browseRooms(t_room *roomList) {
 	while (roomList) {
 		printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d]\t%s\tLinks[", roomList->id, roomList->name, \
 			roomList->x, roomList->y, roomList->visited, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
-		t_link	*temp = roomList->linkss;
+		t_link	*temp = roomList->links;
 		while (temp) {
-			printf("'%s', ", temp->node->name);
+			printf("%s, ", temp->node->name);
 			temp = temp->next;
 		}
 		if (!(temp))
@@ -121,37 +117,29 @@ void	browseRooms(t_room *roomList) {
 }
 
 void	addLinkForRoom(t_room *r, t_room *roomList, char *link) {
-	t_room	**new = ft_malloc(sizeof(t_room *), (r->nbOfLinks + 2));
-	int		*newDistances = ft_malloc(sizeof(int), (r->nbOfLinks + 1));
-	size_t i = 0;
-
-	while (i < r->nbOfLinks) {
-		new[i] = r->links[i];
-		i++;
-	}
+	size_t	dist = 1;
 	while (roomList) {
 		if (ft_strcmp(link, roomList->name) == 0) {
-			t_link	*newLink = initLink(roomList, 1);
-			addLink(&(r->linkss), newLink);
-			new[i] = roomList;
-			new[i + 1] = NULL;
+			if (r->name[0] == 'A' && link[0] == 'E')
+				dist = 10;
+			if (r->name[0] == 'D' && link[0] == 'A')
+				dist = 10;
+			if (r->name[0] == 'D' && link[0] == 'H')
+				dist = 20;
+			if (r->name[0] == 'H' && link[0] == 'D')
+				dist = 20;
+			t_link	*newLink = initLink(roomList, dist);
+			addLink(&(r->links), newLink);
 			break ;
 		}
 		roomList = roomList->next;
 	}
-	for (size_t i = 0; i < (r->nbOfLinks + 1); i++)
-		newDistances[i] = 1;
-	free(r->links);
-	if (r->distances)
-		free(r->distances);
-	r->links = new;
-	r->distances = newDistances;
 	r->nbOfLinks++;
 }
 
 bool avoidDoubleLink(t_room *room, char *link) {
 
-	t_link	*temp = room->linkss;
+	t_link	*temp = room->links;
 	if (ft_strcmp(room->name, link) == 0)
 		return false;
 	while (temp) {

@@ -109,7 +109,7 @@ void	markPath(t_room *start, t_room *end, t_room **path) {
 	size_t	len = queueSize(path);
 	while (i < len) {
 		if (start != path[i] && end != path[i])
-			path[i]->score += 1;
+			// path[i]->score += 1;
 		i++;
 	}
 }

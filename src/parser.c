@@ -50,7 +50,6 @@ bool storeRoom(char *line, int type, t_data *anthill) {
     x > anthill->maxX ? anthill->maxX = x : 0;
     y > anthill->maxY ? anthill->maxY = y : 0;
 
-    // printf("Room -> %s %s\n", line,  type == 1 ? "(Start)" : type == 2 ? "(End)" : "");
     freeTab(tab);
     return true;
 }
