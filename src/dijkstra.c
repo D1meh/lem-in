@@ -122,27 +122,36 @@ t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill) {
 	start->visited = true;
 	while (queueSize(queue) != 0) {
 
+		// Sort the queue so that the closest node from start is picked to be examinated first
 		queue = sortQueue(queue);
-		// Select the next node of the queue
+		// Pick the closest node with dequeue
 		t_room *current = dequeue(&queue);
+
+		// Check that we didn't examinated the node yet
 		if (current->visited == true && current != start)
 			continue ;
 
+		// Mark node as visited so we do not return to it later (can cause infinite loop)
 		current->visited = true;
-		// Store all neighbours of current in the queue
+
+		// Loop on all current's neighbours
 		t_link	*currLinks = current->links;
 		while (currLinks) {
 
-			// Verify that the neighbours of current has not been visited yet
+			// Verify that the neighbours of the current node has not been visited yet
 			if (!currLinks->node->visited) {
 
 				// If not been visited, add to queue the node if and only if the distance is shorter
+				// than it was to reach this node from start (dijsktra mandatory)
 				if (currLinks->node->currCost == 0 || (current->currCost + currLinks->distance) < currLinks->node->currCost) {
 
+					// Update the cost so we keep track of the distance made from start to this node
 					currLinks->node->currCost = current->currCost + currLinks->distance;
+
+					// Add then the node to the queue
 					queue = enqueue(queue, currLinks->node);
 
-					// Save the current as prev for each neighbours
+					// Save the current as prev for each neighbours (Used to reconstruct the shortest path later)
 					prev[currLinks->node->id] = current;
 				}
 			}

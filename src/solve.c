@@ -121,6 +121,7 @@ t_path	*solve(t_data *anthill) {
 		iterations += 1;
 	}
 	printPaths(paths);
+
 	// system("leaks lem-in");
 	return NULL;
 }
