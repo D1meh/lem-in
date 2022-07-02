@@ -117,8 +117,7 @@ void	deletePath(t_path *paths);
 t_path	*lastPath(t_path *paths);
 
 // ===== ALGORITHM ===== //
-t_room	**BFS(t_room *start, t_room *end, t_data *anthill);
-void	BFSForStartNeighbours(t_room ***pathList);
+t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill);
 void	getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath);
 t_path	*solve(t_data *anthill);
 void	printQueue(t_room **queue);

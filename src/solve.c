@@ -13,42 +13,71 @@ void	printLinks(t_room *rooms) {
 	}
 }
 
-// t_room	*getNearest(t_link *links) {
-// 	int		minDist = 999;
-// 	t_room	*nearestNode = NULL;
-// 	while (links) {
-// 		if (!links->node->visited && links->distance < minDist) {
-// 			minDist = links->distance;
-// 			nearestNode = links->node;
-// 		}
-// 		links = links->next;
-// 	}
-// 	return (nearestNode);
-// }
+void	deleteLink(t_link **links, t_link *toDelete, size_t *nbOfLinks) {
+	(void)links;
+	(void)toDelete;
+	(void)nbOfLinks;
+	// for (size_t i = 0; i < *nbOfLinks; i++) {
+	// 	if (i >= idx) {
+	// 		if (i == *nbOfLinks - 1)
+	// 			tab[i] = NULL;
+	// 		else
+	// 			tab[i] = tab[i + 1];
+	// 	}
+	// }
+	// *nbOfLinks -= 1;
+}
 
-// void	dijkstra(t_data *anthill, t_room *start, t_room *end) {
-// 	t_room	*nodes = start;
-// 	(void)end;
-// 	(void)anthill;
-// 	while (nodes) {
-// 		t_room	*nearest = getNearest(nodes->links);
-// 		if (nearest) {
-// 			printf("nearest from [%s] is [%s]\n", nodes->name, nearest->name);
-// 			nearest->visited = true;
-// 		}
-// 		nodes = nodes->next;
-// 	}
-// }
+void	invertVertexes(t_path *lastPath) {
+	if (!lastPath)
+		return ;
+
+	size_t	i = 1;
+	t_room	*previous = NULL;
+	t_room	*current = NULL;
+	while (lastPath->path[i]) {
+		current = lastPath->path[i];
+		previous = lastPath->path[i - 1];
+		if (current && previous) {
+
+			printf("---\ncurrent : [%s]\n", current->name);
+			printf("previous : [%s]\n", previous->name);
+			
+			// Find and Delete the link with the previous node in the path
+			t_link	*prevLinks = previous->links;
+			while (prevLinks) {
+				if (prevLinks->node == current) {
+					printf("prevLinks->node[j] = [%s]\n", prevLinks->node->name);
+					deleteLink(&previous->links, prevLinks, &previous->nbOfLinks);
+				}
+				prevLinks = prevLinks->next;
+			}
+
+			t_link	*currLinks = current->links;
+			while (currLinks) {
+				if (currLinks->node == previous) {
+					printf("current->links[j] = [%s]\n", currLinks->node->name);
+					currLinks->distance = -1;
+				}
+				printf("current->distances[j] = [%d]\n", currLinks->distance);
+				currLinks = currLinks->next;
+			}
+			printf("---\n");
+		}
+		i++;
+	}
+	return ;
+}
 
 bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
 
 	printLinks(anthill->rooms);
-	path = BFS(start, end, anthill);
+	path = dijkstra(start, end, anthill);
 	if (path != NULL) {
 		addPath(paths, initPath(path));
 		printf("here\n");
-		return (true); 
+		return (true);
 	}
 	return (false);
 }
@@ -75,7 +104,7 @@ t_path	*solve(t_data *anthill) {
 	while (iterations < 1) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
 		printPaths(paths);
-		printLinks(start);
+		invertVertexes(lastPath(paths));
 		iterations += 1;
 	}
 	// system("leaks lem-in");

@@ -115,7 +115,7 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	return NULL;
 }
 
-t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
+t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill) {
 	t_room	**queue = enqueue(NULL, start);
 	t_room	**prev = initPrev(anthill->nbRooms);
 
@@ -123,24 +123,28 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	while (queueSize(queue) != 0) {
 
 		queue = sortQueue(queue);
-		printQueue(queue);
 		// Select the next node of the queue
 		t_room *current = dequeue(&queue);
+		if (current->visited == true && current != start)
+			continue ;
 
+		current->visited = true;
 		// Store all neighbours of current in the queue
 		t_link	*currLinks = current->links;
-		current->visited = true;
 		while (currLinks) {
+
 			// Verify that the neighbours of current has not been visited yet
 			if (!currLinks->node->visited) {
 
-				// If not been visited, add to queue the node
-				// currLinks->node->visited = true;
-				currLinks->node->currCost = current->currCost + currLinks->distance;
-				queue = enqueue(queue, currLinks->node);
+				// If not been visited, add to queue the node if and only if the distance is shorter
+				if (currLinks->node->currCost == 0 || (current->currCost + currLinks->distance) < currLinks->node->currCost) {
 
-				// Save the current as prev for each neighbours
-				prev[currLinks->node->id] = current;
+					currLinks->node->currCost = current->currCost + currLinks->distance;
+					queue = enqueue(queue, currLinks->node);
+
+					// Save the current as prev for each neighbours
+					prev[currLinks->node->id] = current;
+				}
 			}
 			currLinks = currLinks->next;
 		}
