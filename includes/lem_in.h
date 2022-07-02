@@ -110,7 +110,7 @@ t_path	*orderPath(t_path *paths);
 void	addPath(t_path **paths, t_path *new);
 void	printPaths(t_path *paths);
 void	markPath(t_room *start, t_room *end, t_room **path);
-void	resetVisited(t_room *rooms);
+void	resetCost(t_room *rooms);
 t_room	**initPrev(size_t size);
 t_path	*initPath(t_room **roomPath);
 void	deletePath(t_path *paths);

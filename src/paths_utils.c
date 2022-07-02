@@ -115,7 +115,7 @@ void	markPath(t_room *start, t_room *end, t_room **path) {
 	}
 }
 
-void	resetVisited(t_room *rooms) {
+void	resetCost(t_room *rooms) {
 	while (rooms) {
 		if (rooms->type != 1) {
 			rooms->visited = false;

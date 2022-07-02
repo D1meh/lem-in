@@ -1,9 +1,10 @@
 #include "../includes/lem_in.h"
 
 void	printLinks(t_room *rooms) {
+	printf("----- print links -----\n");
 	while (rooms) {
 		t_link	*links = rooms->links;
-		printf("Links for [name=%s, currCost=%d] -> [", rooms->name, rooms->currCost);
+		printf("Links for [name=%s, currCost=%d] \t-> [", rooms->name, rooms->currCost);
 		while (links) {
 			printf("%s(%d), ", links->node->name, links->distance);
 			links = links->next;
@@ -11,13 +12,15 @@ void	printLinks(t_room *rooms) {
 		printf("\b\b]\n");
 		rooms = rooms->next;
 	}
+	printf("----- print links end -----\n");
 }
 
 void	deleteLink(t_link **links, t_link *toDelete, size_t *nbOfLinks) {
-	(void)links;
-	(void)toDelete;
-	(void)nbOfLinks;
+
 	t_link	*start = *links;
+
+	if (*nbOfLinks == 0)
+		return ;
 	while (*links) {
 		if (*links == toDelete)
 			break ;
@@ -35,12 +38,14 @@ void	deleteLink(t_link **links, t_link *toDelete, size_t *nbOfLinks) {
 			t_link	*tmp = (*links)->next;
 			free((*links));
 			(*links) = tmp;
-			(*links)->prev = NULL;
+			if (*links)
+				(*links)->prev = NULL;
 			*links = tmp;
 		}
 	}
 	else
 		*links = start;
+	*nbOfLinks -= 1;
 }
 
 void	invertVertexes(t_path *lastPath) {
@@ -54,11 +59,12 @@ void	invertVertexes(t_path *lastPath) {
 		current = lastPath->path[i];
 		previous = lastPath->path[i - 1];
 		if (current && previous) {
-			
+			printf("current = [%s] && previous = [%s]\n", current->name, previous->name);
 			// Find and Delete the link with the previous node in the path
 			t_link	*prevLinks = previous->links;
 			while (prevLinks) {
 				if (prevLinks->node == current) {
+					printf("prevLinks->node = [%s]\n", prevLinks->node->name);
 					deleteLink(&previous->links, prevLinks, &previous->nbOfLinks);
 					break ;
 				}
@@ -84,7 +90,6 @@ bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **path
 	path = dijkstra(start, end, anthill);
 	if (path != NULL) {
 		addPath(paths, initPath(path));
-		resetVisited(start);
 		return (true);
 	}
 	return (false);
@@ -104,21 +109,18 @@ t_path	*solve(t_data *anthill) {
 
 	printf("maxPossibilities = %zu\n", maxPossibilities);
 
-	browseRooms(anthill->rooms);
-
 	size_t	iterations = 0;
 	bool	hasFound;
 
-	while (iterations < 1) {
+	while (iterations < 3) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
-		printPaths(paths);
 		invertVertexes(lastPath(paths));
-		printLinks(start);
-		hasFound = FindShortestPath(anthill, start, end, &paths);
-		printf("hasFound = %d\n", hasFound);
 		printPaths(paths);
+		printLinks(start);
+		resetCost(start);
 		iterations += 1;
 	}
+	printPaths(paths);
 	// system("leaks lem-in");
 	return NULL;
 }
