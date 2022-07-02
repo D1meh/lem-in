@@ -120,14 +120,14 @@ void	addLinkForRoom(t_room *r, t_room *roomList, char *link) {
 	size_t	dist = 1;
 	while (roomList) {
 		if (ft_strcmp(link, roomList->name) == 0) {
-			if (r->name[0] == 'A' && link[0] == 'E')
-				dist = 10;
-			if (r->name[0] == 'D' && link[0] == 'A')
-				dist = 10;
-			if (r->name[0] == 'D' && link[0] == 'H')
-				dist = 20;
-			if (r->name[0] == 'H' && link[0] == 'D')
-				dist = 20;
+			// if (r->name[0] == 'A' && link[0] == 'E')
+			// 	dist = 10;
+			// if (r->name[0] == 'D' && link[0] == 'A')
+			// 	dist = 10;
+			// if (r->name[0] == 'D' && link[0] == 'H')
+			// 	dist = 20;
+			// if (r->name[0] == 'D' && link[0] == 'E')
+			// 	dist = -1;
 			t_link	*newLink = initLink(roomList, dist);
 			addLink(&(r->links), newLink);
 			break ;

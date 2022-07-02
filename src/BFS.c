@@ -10,8 +10,9 @@ size_t	queueSize(t_room **queue) {
 void	printQueue(t_room **queue) {
 	size_t	i = 0;
 	size_t	len = queueSize(queue);
+	printf("-------- printQueue --------\n");
 	while (i < len) {
-		printf("[name = '%s' , visited = %d]\n",  queue[i]->name, queue[i]->visited);
+		printf("[name = '%s' , dist = %d]\n",  queue[i]->name, queue[i]->currCost);
 		i++;
 	}
 }
@@ -122,17 +123,19 @@ t_room	**BFS(t_room *start, t_room *end, t_data *anthill) {
 	while (queueSize(queue) != 0) {
 
 		queue = sortQueue(queue);
+		printQueue(queue);
 		// Select the next node of the queue
 		t_room *current = dequeue(&queue);
 
 		// Store all neighbours of current in the queue
 		t_link	*currLinks = current->links;
+		current->visited = true;
 		while (currLinks) {
 			// Verify that the neighbours of current has not been visited yet
 			if (!currLinks->node->visited) {
 
 				// If not been visited, add to queue the node
-				currLinks->node->visited = true;
+				// currLinks->node->visited = true;
 				currLinks->node->currCost = current->currCost + currLinks->distance;
 				queue = enqueue(queue, currLinks->node);
 

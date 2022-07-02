@@ -13,32 +13,32 @@ void	printLinks(t_room *rooms) {
 	}
 }
 
-t_room	*getNearest(t_link *links) {
-	int		minDist = 999;
-	t_room	*nearestNode = NULL;
-	while (links) {
-		if (!links->node->visited && links->distance < minDist) {
-			minDist = links->distance;
-			nearestNode = links->node;
-		}
-		links = links->next;
-	}
-	return (nearestNode);
-}
+// t_room	*getNearest(t_link *links) {
+// 	int		minDist = 999;
+// 	t_room	*nearestNode = NULL;
+// 	while (links) {
+// 		if (!links->node->visited && links->distance < minDist) {
+// 			minDist = links->distance;
+// 			nearestNode = links->node;
+// 		}
+// 		links = links->next;
+// 	}
+// 	return (nearestNode);
+// }
 
-void	dijkstra(t_data *anthill, t_room *start, t_room *end) {
-	t_room	*nodes = start;
-	(void)end;
-	(void)anthill;
-	while (nodes) {
-		t_room	*nearest = getNearest(nodes->links);
-		if (nearest) {
-			printf("nearest from [%s] is [%s]\n", nodes->name, nearest->name);
-			nearest->visited = true;
-		}
-		nodes = nodes->next;
-	}
-}
+// void	dijkstra(t_data *anthill, t_room *start, t_room *end) {
+// 	t_room	*nodes = start;
+// 	(void)end;
+// 	(void)anthill;
+// 	while (nodes) {
+// 		t_room	*nearest = getNearest(nodes->links);
+// 		if (nearest) {
+// 			printf("nearest from [%s] is [%s]\n", nodes->name, nearest->name);
+// 			nearest->visited = true;
+// 		}
+// 		nodes = nodes->next;
+// 	}
+// }
 
 bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
 	t_room	**path = NULL;
@@ -47,6 +47,7 @@ bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **path
 	path = BFS(start, end, anthill);
 	if (path != NULL) {
 		addPath(paths, initPath(path));
+		printf("here\n");
 		return (true); 
 	}
 	return (false);
@@ -56,8 +57,8 @@ t_path	*solve(t_data *anthill) {
 
 	t_path	*paths = NULL;
 
-    t_room	*start = getSpecificRoom(anthill->rooms, START);
-    t_room	*end = getSpecificRoom(anthill->rooms, END);
+	t_room	*start = getSpecificRoom(anthill->rooms, START);
+	t_room	*end = getSpecificRoom(anthill->rooms, END);
 
 	start->visited = true;
 
