@@ -200,7 +200,7 @@ t_path	*solve(t_data *anthill) {
 
 		// Then repeat algo to find all the disjoint paths since we deleted the links
 		nbOfPath = 0;
-		paths = NULL; // Need to free in between
+		paths = NULL; // Need to free
 		Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
 	}
 	printPaths(paths);
