@@ -39,7 +39,7 @@ int	**getFinalTab(int arr[], int param, int size) {
 	return NULL;
 }
 
-void findComb(int arr[], int index, int n, int reducedN, int *size) {
+void findComb(int arr[], int index, int n, int reducedN, size_t *size) {
 	if (reducedN < 0)
 		return ;
 
@@ -56,13 +56,13 @@ void findComb(int arr[], int index, int n, int reducedN, int *size) {
 	}
 }
 
-void initFindComb(int n, int *size) {
+void initFindComb(int n, size_t *size) {
 	int arr[n];
 	findComb(arr, 0, n, n, size);
 }
 
-void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
-	int sizeOfTab = 0, ants = anthill->nbAnts;
+void getOptimalPath(t_data *anthill, t_path *pathList, size_t nbOfPath) {
+	size_t sizeOfTab = 0, ants = anthill->nbAnts;
 	int osef[1];	// variable inutile juste pour avoir un param dans getFinalTab
 
 	// Finding all the possible combinations that gives the number of ants
@@ -70,11 +70,11 @@ void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 	int **tab = getFinalTab(osef, RET, 0);
 	printFinalTab(tab, sizeOfTab, ants);
 
-	int **nbMoves = ft_malloc(sizeof(int *), sizeOfTab);
+	int **nbMoves = ft_malloc(sizeof(int *), (int)sizeOfTab);
 	int filledMoves = 0;
-	for (int i = 0; i < sizeOfTab; i++) {
+	for (size_t i = 0; i < sizeOfTab; i++) {
 
-		int sum = 0, j = 0, path = 0;
+		size_t sum = 0, j = 0, path = 0;
 
 		// Checking that the combination is valid (example : for 4 ants, 1 1 1 1 on 3 paths isn't valid, 1 1 2 is)
 		while (j < nbOfPath && sum < ants) {

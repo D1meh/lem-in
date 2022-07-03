@@ -111,7 +111,7 @@ t_path	*solve(t_data *anthill) {
 
 	size_t	iterations = 0;
 	bool	hasFound;
-	int		nbOfPath = 0;
+	size_t	nbOfPath = 0;
 
 	while (iterations < 3) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
