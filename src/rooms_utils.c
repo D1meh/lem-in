@@ -16,6 +16,17 @@ void	addLink(t_link **links, t_link *new) {
 		*links = new;
 }
 
+t_link	*findLinkByName(t_link *links, char *name) {
+	while (links) {
+		if (ft_strcmp(name, links->node->name) == 0) {
+			printf("findLinkByName -> 1 = [%s], 2 = [%s]\n", links->node->name, name);
+			return links;
+		}
+		links = links->next;
+	}
+	return NULL;
+}
+
 t_link	*initLink(t_room *node, int distance) {
 	t_link	*new = ft_malloc(sizeof(t_link), 1);
 	new->node = node;
@@ -42,11 +53,11 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->y = y;
 	ret->type = type;
 	ret->visited = false;
-	ret->nbOfLinks = 0;
 	ret->currCost = 0;
 	ret->idAnt = 0;
 	ret->hasAnAnt = false;
 	ret->links = NULL;
+	ret->saveLinks = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
 	return ret;
@@ -122,13 +133,12 @@ void	addLinkForRoom(t_room *r, t_room *roomList, char *link) {
 	size_t	dist = 1;
 	while (roomList) {
 		if (ft_strcmp(link, roomList->name) == 0) {
-			t_link	*newLink = initLink(roomList, dist);
-			addLink(&(r->links), newLink);
+			addLink(&(r->links), initLink(roomList, dist));
+			addLink(&(r->saveLinks), initLink(roomList, dist));
 			break ;
 		}
 		roomList = roomList->next;
 	}
-	r->nbOfLinks++;
 }
 
 bool avoidDoubleLink(t_room *room, char *link) {

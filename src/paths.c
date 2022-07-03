@@ -68,7 +68,7 @@ void getOptimalPath(t_data *anthill, t_path *pathList, size_t nbOfPath) {
 	// Finding all the possible combinations that gives the number of ants
 	initFindComb(ants, &sizeOfTab);
 	int **tab = getFinalTab(osef, RET, 0);
-	printFinalTab(tab, sizeOfTab, ants);
+	//printFinalTab(tab, sizeOfTab, ants);
 
 	int **nbMoves = ft_malloc(sizeof(int *), (int)sizeOfTab);
 	int filledMoves = 0;
@@ -90,7 +90,6 @@ void getOptimalPath(t_data *anthill, t_path *pathList, size_t nbOfPath) {
 		t_path *tmp = pathList;
 		for (int k = j-1; k >= 0; k--) {
 			int len = pathLen(tmp->path) + tab[i][k] - 1; // minus 2 because pathLen includes starting room
-			printf("%d %d --> %d\n", pathLen(tmp->path), tab[i][k], len);
 			if (len > max)
 				max = len;
 			path++;
@@ -100,10 +99,6 @@ void getOptimalPath(t_data *anthill, t_path *pathList, size_t nbOfPath) {
 		nbMoves[filledMoves][0] = max;
 		nbMoves[filledMoves][1] = i;
 		filledMoves++;
-	}
-
-	for (int i = 0; i < filledMoves; i++) {
-		printf("%d with id %d\n", nbMoves[i][0], nbMoves[i][1]);
 	}
 
 	int min = nbMoves[0][0], id = nbMoves[0][1];

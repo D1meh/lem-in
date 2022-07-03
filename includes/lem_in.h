@@ -32,7 +32,6 @@ typedef struct s_room {
 	unsigned int	x;
 	unsigned int	y;
 	int				type;	// 0 = normal, 1 = start, 2 = end
-	size_t			nbOfLinks;
 	bool			visited;
 
 	int				idAnt;
@@ -40,6 +39,8 @@ typedef struct s_room {
 
 	int				currCost;
 	struct s_link	*links;
+
+	struct s_link	*saveLinks;
 
 	struct s_room	*prev;
 	struct s_room	*next;
@@ -71,13 +72,13 @@ typedef struct s_data {
 
 	t_room			*rooms;
 	t_ant			*ants;
-	long int		nbAnts;
+
 	size_t			nbRooms;
+	long int		nbAnts;
 	unsigned int	maxX;
 	unsigned int	maxY;
 
 }	t_data;
-
 
 // ===== PARSER ===== //
 int		get_next_line(int fd, char **line);
@@ -105,6 +106,7 @@ t_room	*findRoomByName(char *name, t_room *rooms);
 t_room	*getSpecificRoom(t_room *roomList, int type);
 t_room	*findRoomByPos(t_room *roomList, unsigned int x, unsigned int y);
 t_room	***addToList(t_room ***pathList, t_room **path, int found);
+t_link	*findLinkByName(t_link *links, char *name);
 
 // ===== PATH UTILS ===== //
 int		pathLen(t_room **path);
