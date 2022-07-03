@@ -35,6 +35,9 @@ typedef struct s_room {
 	size_t			nbOfLinks;
 	bool			visited;
 
+	int				idAnt;
+	bool			hasAnAnt;
+
 	int				currCost;
 	struct s_link	*links;
 
@@ -122,5 +125,6 @@ void	getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath);
 t_path	*solve(t_data *anthill);
 void	printQueue(t_room **queue);
 size_t	queueSize(t_room **queue);
+void	printer(t_data *anthill, t_path *pathList, int *comb);
 
 #endif

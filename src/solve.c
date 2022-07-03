@@ -111,9 +111,12 @@ t_path	*solve(t_data *anthill) {
 
 	size_t	iterations = 0;
 	bool	hasFound;
+	int		nbOfPath = 0;
 
 	while (iterations < 3) {
 		hasFound = FindShortestPath(anthill, start, end, &paths);
+		if (hasFound)
+			nbOfPath++;
 		invertVertexes(lastPath(paths));
 		printPaths(paths);
 		printLinks(start);
@@ -121,6 +124,7 @@ t_path	*solve(t_data *anthill) {
 		iterations += 1;
 	}
 	printPaths(paths);
+	getOptimalPath(anthill, paths, nbOfPath);
 
 	// system("leaks lem-in");
 	return NULL;

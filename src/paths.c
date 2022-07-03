@@ -65,7 +65,7 @@ void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 	int sizeOfTab = 0, ants = anthill->nbAnts;
 	int osef[1];	// variable inutile juste pour avoir un param dans getFinalTab
 
-
+	// Finding all the possible combinations that gives the number of ants
 	initFindComb(ants, &sizeOfTab);
 	int **tab = getFinalTab(osef, RET, 0);
 	printFinalTab(tab, sizeOfTab, ants);
@@ -106,11 +106,23 @@ void getOptimalPath(t_data *anthill, t_path *pathList, int nbOfPath) {
 		printf("%d with id %d\n", nbMoves[i][0], nbMoves[i][1]);
 	}
 
-	int min = nbMoves[0][0], id = 0;
+	int min = nbMoves[0][0], id = nbMoves[0][1];
 	for (int i = 1; i < filledMoves; i++) {
 		if (nbMoves[i][0] < min) {
 			min = nbMoves[i][0];
 			id = nbMoves[i][1];
 		}
 	}
+
+	// printf("min : len = %d, id = %d references to: ", min, id);
+	// for (int sum = 0, i = 0; sum < ants; i++) {
+	// 	printf("%d ", tab[id][i]);
+	// 	sum += tab[id][i];
+	// }
+	// printf("\n");
+	
+	printer(anthill, pathList, tab[id]);
+	for (int i = 0; i < filledMoves; i++)
+		free(nbMoves[i]);
+	free(nbMoves);
 }

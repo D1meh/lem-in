@@ -44,6 +44,8 @@ t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type) {
 	ret->visited = false;
 	ret->nbOfLinks = 0;
 	ret->currCost = 0;
+	ret->idAnt = 0;
+	ret->hasAnAnt = false;
 	ret->links = NULL;
 	ret->prev = NULL;
 	ret->next = NULL;
