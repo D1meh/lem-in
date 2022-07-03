@@ -99,8 +99,6 @@ void printPaths(t_path *paths) {
 	while (paths) {
 		printQueue(paths->path);
 		paths = paths->next;
-		if (paths)
-			printf("------------------------\n");
 	}
 	printf("----------- printPaths End -----------\n");
 }
