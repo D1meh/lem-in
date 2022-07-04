@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/05/26 15:42:01 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/07/04 16:35:29 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ int main(int ac, char **av) {
 	// === Solve paths and print results === //
     solve(&anthill);
 
-	system("leaks lem-in");
 	ft_putstr("\n");
 }
