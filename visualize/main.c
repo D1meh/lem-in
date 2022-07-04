@@ -27,7 +27,7 @@ void	drawLinks(SDL_Renderer *renderer, t_room *rooms) {
 	while (rooms) {
 		t_link	*links = rooms->links;
 		while (links) {
-			SDL_RenderDrawLine(renderer, rooms->x * 150 + 100, rooms->y * 150 + 100, links->node->x * 150 + 100, links->node->y * 150 + 100);
+			SDL_RenderDrawLine(renderer, rooms->x * 50 + 50, rooms->y * 50 + 50, links->node->x * 50 + 50, links->node->y * 50 + 50);
 			links = links->next;
 		}
 		rooms = rooms->next;
@@ -39,7 +39,7 @@ void	drawRooms(SDL_Renderer *renderer, t_room *rooms) {
 	// Set the renderer color
 	SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
 	while (rooms) {
-		SDL_RenderFillCircle(renderer, rooms->x * 150 + 100, rooms->y * 150 + 100, 25);
+		SDL_RenderFillCircle(renderer, rooms->x * 50 + 50, rooms->y * 50 + 50, 15);
 		rooms = rooms->next;
 	}
 }

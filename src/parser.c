@@ -19,12 +19,10 @@ void    storeNbAnts(char *line, t_data *anthill) {
     anthill->nbAnts = nbAnts;
 	for (int i = 0; i < nbAnts; i++)
 		anthill->ants[i].id = i+1;
-    printf("Ants -> %ld\n", nbAnts);
 }
 
 bool storeRoom(char *line, int type, t_data *anthill) {
     if (!line) {
-        printf("Debug 1\n");
         exitError("Invalid format for 'the_rooms'.\n");
     }
 
@@ -121,8 +119,7 @@ void    parseLines(char **lines, t_data *anthill) {
 				break ;
         }
     }
-	// if (mode == 'debug')
-	browseRooms(anthill->rooms);
+
 	if (!validStartEnd(anthill->rooms))
 		exitError("Invalid end or start for 'the_rooms'.\n");
 }
@@ -146,7 +143,7 @@ void printMap(t_data *anthill) {
     unsigned int    x = 0;
     unsigned int    y = 0;
     t_room          *r = NULL;
-
+	browseRooms(anthill->rooms);
     while (y <= anthill->maxY) {
        
         while (x <= anthill->maxX) {

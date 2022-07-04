@@ -4,25 +4,6 @@
 #include <math.h>
 #include "../includes/lem_in.h"
 
-// char *randomName() {
-//     size_t length = 20;
-//     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-//     char *randomName = NULL;
-
-//     randomName = ft_malloc(sizeof(char), (length + 1));
-//     if (!randomName)
-//         return NULL;
-
-//     for (size_t n = 0 ; n < length ; n++) {
-//         int index = rand() % (int)(sizeof(charset) -1);
-//         randomName[n] = charset[index];
-//     }
-
-//     randomName[length] = '\0';
-
-//     return randomName;
-// }
-
 void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
     char *itx = ft_itoa(x);
     char *ity = ft_itoa(y);

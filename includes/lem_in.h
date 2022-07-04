@@ -78,6 +78,8 @@ typedef struct s_data {
 	unsigned int	maxX;
 	unsigned int	maxY;
 
+	bool			debug;
+
 }	t_data;
 
 // ===== PARSER ===== //
@@ -120,6 +122,7 @@ t_room	**initPrev(size_t size);
 t_path	*initPath(t_room **roomPath);
 void	deletePath(t_path *paths);
 t_path	*lastPath(t_path *paths);
+void	freePaths(t_path *paths);
 
 // ===== ALGORITHM ===== //
 t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill);

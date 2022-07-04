@@ -19,7 +19,6 @@ void	addLink(t_link **links, t_link *new) {
 t_link	*findLinkByName(t_link *links, char *name) {
 	while (links) {
 		if (ft_strcmp(name, links->node->name) == 0) {
-			printf("findLinkByName -> 1 = [%s], 2 = [%s]\n", links->node->name, name);
 			return links;
 		}
 		links = links->next;

@@ -1,5 +1,17 @@
 #include "../includes/lem_in.h"
 
+void	freePaths(t_path *paths) {
+	while (paths) {
+		t_path *tmp = paths;
+		paths = paths->next;
+
+		free(tmp->path);
+		free(tmp);
+		tmp = NULL;
+		
+	}
+}
+
 int	pathLen(t_room **path) {
 	return (*path == 0 ? 0 : pathLen(path+1) + 1);
 }

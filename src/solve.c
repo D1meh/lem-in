@@ -96,7 +96,6 @@ void	removeAllInverseEdges(t_path *paths) {
 	t_room	**currPath;
 	t_room	*first = NULL;
 	t_room	*second = NULL;
-	printf("------- removeAllInverseEdges -------\n");
 	// Loop on every path
 	while (paths) {
 
@@ -143,6 +142,11 @@ void	removeAllInverseEdges(t_path *paths) {
 
 void	resetLinks(t_room *start) {
 	while (start) {
+		while (start->links) {
+			t_link	*tmpLink = start->links;
+			start->links = start->links->next;
+			free(tmpLink);
+		}
 		start->links = start->saveLinks;
 		start = start->next;
 	}
@@ -200,12 +204,11 @@ t_path	*solve(t_data *anthill) {
 
 		// Then repeat algo to find all the disjoint paths since we deleted the links
 		nbOfPath = 0;
+		freePaths(paths);
 		paths = NULL; // Need to free
 		Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
 	}
-	printPaths(paths);
-	// getOptimalPath(anthill, paths, nbOfPath);
-
-	// system("leaks lem-in");
+	getOptimalPath(anthill, paths, nbOfPath);
+	freePaths(paths);
 	return NULL;
 }
