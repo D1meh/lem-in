@@ -32,7 +32,11 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 			while (currRoom > -1) {
 
 				if (currRoom != 0 && currPath->path[currRoom]->hasAnAnt == true) {
-					printf("L%d-%s ", currPath->path[currRoom]->idAnt, currPath->path[currRoom+1]->name);
+					write(1, "L", 1);
+					ft_putnbr(currPath->path[currRoom]->idAnt);
+					write(1, "-", 1);
+					ft_putstr(currPath->path[currRoom+1]->name);
+					write(1, " ", 1);
 
 					if (currPath->path[currRoom+1]->type != END) {
 						currPath->path[currRoom+1]->hasAnAnt = true;
@@ -49,7 +53,11 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 					comb[left-1]--;
 					currPath->path[currRoom+1]->hasAnAnt = true;
 					currPath->path[currRoom+1]->idAnt = anthill->nbAnts - waitingAnts;
-					printf("L%d-%s ", currPath->path[currRoom+1]->idAnt, currPath->path[currRoom+1]->name);
+					write(1, "L", 1);
+					ft_putnbr(currPath->path[currRoom+1]->idAnt);
+					write(1, "-", 1);
+					ft_putstr(currPath->path[currRoom+1]->name);
+					write(1, " ", 1);
 				}
 
 				currRoom--;
@@ -59,6 +67,6 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 			currPath = currPath->next;
 		} // end paths
 
-	printf("\n");
+	write(1, "\n", 1);
 	}	// end ants have reached
 }

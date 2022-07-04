@@ -34,5 +34,7 @@ char	**ft_split(char const *s, char c);
 long int 	ft_atoi(char *s);
 char		*ft_itoa(int n);
 
+void 	ft_putstr(char *s);
+void	ft_putnbr(int n);
 
 #endif
