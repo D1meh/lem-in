@@ -1,18 +1,20 @@
 #include "../includes/lem_in.h"
 
 void	printLinks(t_room *rooms) {
-	printf("----- print links -----\n");
+	ft_putstr("----- print links -----\n");
 	while (rooms) {
 		t_link	*links = rooms->links;
-		printf("Links for [name=%s, currCost=%d] \t-> [", rooms->name, rooms->currCost);
+		ft_putstr("Links for [name="); ft_putstr(rooms->name); ft_putstr(", currCost=");
+		ft_putnbr(rooms->currCost); ft_putstr("] \t-> [");
 		while (links) {
-			printf("%s(%d), ", links->node->name, links->distance);
+			ft_putstr(links->node->name); ft_putstr("(");
+			ft_putnbr(links->distance); ft_putstr("), ");
 			links = links->next;
 		}
-		printf("\b\b]\n");
+		ft_putstr("\b\b]\n");
 		rooms = rooms->next;
 	}
-	printf("----- print links end -----\n");
+	ft_putstr("----- print links end -----\n");
 }
 
 void	deleteLink(t_link **links, t_link *toDelete) {

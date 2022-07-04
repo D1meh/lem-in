@@ -106,13 +106,13 @@ t_room **initPrev(size_t size) {
 }
 
 void printPaths(t_path *paths) {
-	printf("------------- printPaths -------------\n");
+	ft_putstr("------------- printPaths -------------\n");
 	if (!paths) return;
 	while (paths) {
 		printQueue(paths->path);
 		paths = paths->next;
 	}
-	printf("----------- printPaths End -----------\n");
+	ft_putstr("----------- printPaths End -----------\n");
 }
 
 void	markPath(t_room *start, t_room *end, t_room **path) {

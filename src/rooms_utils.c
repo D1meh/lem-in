@@ -116,8 +116,6 @@ void	browseRooms(t_room *roomList) {
 		ft_putstr("Room -> ID["); ft_putnbr(roomList->id); ft_putstr("]\t[name="); ft_putstr(roomList->name); ft_putstr("]\t[x=");
 		ft_putnbr((int)(roomList->x)); ft_putstr("][y="); ft_putnbr((int)(roomList->y)); ft_putstr("][visited="); ft_putnbr((int)(roomList->visited));
 		ft_putstr("]\t"); roomList->type == 2 ? ft_putstr("End") : roomList->type == 1 ? ft_putstr("Start") : ft_putstr("-"); ft_putstr("\tLinks[");
-		// printf("Room -> ID[%d]\t[name=%s]\t[x=%d][y=%d][visited=%d]\t%s\tLinks[", roomList->id, roomList->name, \
-		// 	roomList->x, roomList->y, roomList->visited, roomList->type == 2 ? "End" : roomList->type == 1 ? "Start" : "-");
 		t_link	*temp = roomList->links;
 		while (temp) {
 			ft_putstr(temp->node->name);
