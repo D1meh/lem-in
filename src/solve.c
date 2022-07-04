@@ -78,15 +78,16 @@ void	invertVertexes(t_path *lastPath) {
 	return ;
 }
 
-bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
-	t_room	**path = NULL;
-
-	path = dijkstra(start, end, anthill);
-	if (path != NULL) {
-		addPath(paths, initPath(path));
-		return (true);
+void	resetLinks(t_room *start) {
+	while (start) {
+		while (start->links) {
+			t_link	*tmpLink = start->links;
+			start->links = start->links->next;
+			free(tmpLink);
+		}
+		start->links = start->saveLinks;
+		start = start->next;
 	}
-	return (false);
 }
 
 void	removeAllInverseEdges(t_path *paths) {
@@ -140,16 +141,15 @@ void	removeAllInverseEdges(t_path *paths) {
 	paths = start;
 }
 
-void	resetLinks(t_room *start) {
-	while (start) {
-		while (start->links) {
-			t_link	*tmpLink = start->links;
-			start->links = start->links->next;
-			free(tmpLink);
-		}
-		start->links = start->saveLinks;
-		start = start->next;
+bool	FindShortestPath(t_data *anthill, t_room *start, t_room* end, t_path **paths) {
+	t_room	**path = NULL;
+
+	path = dijkstra(start, end, anthill);
+	if (path != NULL) {
+		addPath(paths, initPath(path));
+		return (true);
 	}
+	return (false);
 }
 
 void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **paths, size_t *nbOfPath) {
@@ -160,18 +160,20 @@ void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **pa
 		/* ========== STEP 1 ========== */
 		// Find the shortest path with Dijkstra's algorithm
 		hasFound = FindShortestPath(anthill, start, end, paths);
-		if (hasFound)
+		if (hasFound) {
 			*nbOfPath += 1;
-		
-		/* ========== STEP 2 ========== */
-		// Replace the edges from the found path
-		// with inverse edges with negative costs.
-		// and reset data in all nodes between each iteration
-		invertVertexes(lastPath(*paths));
+
+			/* ========== STEP 2 ========== */
+			// Replace the edges from the found path
+			// with inverse edges with negative costs.
+			// and reset data in all nodes between each iteration
+			invertVertexes(lastPath(*paths));
+		}
+
 		resetCost(start);
 		
 		/* ========== STEP 3 ========== */
-		// Repeat step 1 and 2 for k shortest paths
+		// Repeat step 1 and 2 for n shortest paths
 	}
 }
 
