@@ -171,7 +171,7 @@ void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **pa
 		}
 
 		resetCost(start);
-		
+
 		/* ========== STEP 3 ========== */
 		// Repeat step 1 and 2 for n shortest paths
 	}

@@ -150,13 +150,14 @@ void printMap(t_data *anthill) {
 
             r = findRoomByPos(anthill->rooms, x, y);
             if (r) {
-                printf("\t%s", r->name);
+                ft_putstr("\t");
+				ft_putstr(r->name);
             }
             else
-                printf("\t---");
+                ft_putstr("\t---");
             x++;
         }
-        printf("\n");
+        ft_putstr("\n");
         x = 0;
         y++;
     }

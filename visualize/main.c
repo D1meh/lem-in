@@ -27,7 +27,7 @@ void	drawLinks(SDL_Renderer *renderer, t_room *rooms) {
 	while (rooms) {
 		t_link	*links = rooms->links;
 		while (links) {
-			SDL_RenderDrawLine(renderer, rooms->x * 50 + 50, rooms->y * 50 + 50, links->node->x * 50 + 50, links->node->y * 50 + 50);
+			SDL_RenderDrawLine(renderer, rooms->x * 100 + 50, rooms->y * 100 + 50, links->node->x * 100 + 50, links->node->y * 100 + 50);
 			links = links->next;
 		}
 		rooms = rooms->next;
@@ -39,7 +39,7 @@ void	drawRooms(SDL_Renderer *renderer, t_room *rooms) {
 	// Set the renderer color
 	SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
 	while (rooms) {
-		SDL_RenderFillCircle(renderer, rooms->x * 50 + 50, rooms->y * 50 + 50, 15);
+		SDL_RenderFillCircle(renderer, rooms->x * 100 + 50, rooms->y * 100 + 50, 15);
 		rooms = rooms->next;
 	}
 }
@@ -77,7 +77,6 @@ int main(void) {
 
 	char	**lines = readInput();
 	parseLines(lines, &anthill);
-	printMap(&anthill);
 
 	/* Init SDL and renderer */
 	window = initSDL(window, renderer);

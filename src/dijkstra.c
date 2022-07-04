@@ -10,7 +10,7 @@ size_t	queueSize(t_room **queue) {
 void	printQueue(t_room **queue) {
 	size_t	i = 0;
 	size_t	len = queueSize(queue);
-	printf("-------- printQueue --------\n");
+	ft_putstr("-------- printQueue --------\n");
 	while (i < len) {
 		printf("[name = '%s' , dist = %d]\n",  queue[i]->name, queue[i]->currCost);
 		i++;

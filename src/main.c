@@ -39,4 +39,5 @@ int main(int ac, char **av) {
     solve(&anthill);
 
 	//system("leaks lem-in");
+	printf("\n");
 }
