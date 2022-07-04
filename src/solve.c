@@ -191,7 +191,7 @@ t_path	*solve(t_data *anthill) {
 	// Bhandari Algorithm all steps followed :
 	// Step 1, 2 and 3 are here
 	Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
-	
+	printPaths(paths);
 	if (!paths)
 		exitError("No solution found for this map.\n");
 
@@ -210,7 +210,9 @@ t_path	*solve(t_data *anthill) {
 		paths = NULL; // Need to free
 		Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
 	}
-	getOptimalPath(anthill, paths, nbOfPath);
+	printPaths(paths);
+	//getOptimalPath(anthill, paths, nbOfPath);
+	letsFuckingGo(anthill, paths, nbOfPath);
 	freePaths(paths);
 	return NULL;
 }

@@ -38,5 +38,5 @@ int main(int ac, char **av) {
 	// === Solve paths and print results === //	
     solve(&anthill);
 
-	system("leaks lem-in");
+	//system("leaks lem-in");
 }
