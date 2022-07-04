@@ -12,7 +12,8 @@ void	printQueue(t_room **queue) {
 	size_t	len = queueSize(queue);
 	ft_putstr("-------- printQueue --------\n");
 	while (i < len) {
-		printf("[name = '%s' , dist = %d]\n",  queue[i]->name, queue[i]->currCost);
+		ft_putstr("[name = '"); ft_putstr(queue[i]->name); ft_putstr(", dist = ");
+		ft_putnbr(queue[i]->currCost); ft_putstr("]\n");
 		i++;
 	}
 }

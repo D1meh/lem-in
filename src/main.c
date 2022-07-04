@@ -32,12 +32,15 @@ int main(int ac, char **av) {
     	printMap(&anthill);
 
 	// === Print anthill === //
-	for (size_t i = 0; lines[i] ; i++)
-		printf("%s\n", lines[i]);
+	for (size_t i = 0; lines[i] ; i++) {
+		ft_putstr(lines[i]);
+		ft_putstr("\n");
+	}
+	ft_putstr("\n");
 
-	// === Solve paths and print results === //	
+	// === Solve paths and print results === //
     solve(&anthill);
 
-	//system("leaks lem-in");
+	system("leaks lem-in");
 	printf("\n");
 }
