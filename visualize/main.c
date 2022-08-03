@@ -2,9 +2,16 @@
 #include "../includes/visualizer.h"
 
 SDL_Color		grey = {105, 105, 105, 255};
-SDL_Color		orange = {255, 214, 135, 255};
 SDL_Color		brown = {160, 82, 45, 255};
 SDL_Color		black = {0, 0, 0, 255};
+SDL_Color		orange = {255, 214, 135, 255};
+
+SDL_Color		green = {81, 239, 86, 255};
+SDL_Color		red = {255, 0, 0, 255};
+
+int		scale(x) {
+	return x * 110 + 50;
+} 
 
 void eventLoop(SDL_Window *window, SDL_Renderer *renderer) {
 	SDL_Event events;
@@ -27,7 +34,11 @@ void	drawLinks(SDL_Renderer *renderer, t_room *rooms) {
 	while (rooms) {
 		t_link	*links = rooms->links;
 		while (links) {
-			SDL_RenderDrawLine(renderer, rooms->x * 100 + 50, rooms->y * 100 + 50, links->node->x * 100 + 50, links->node->y * 100 + 50);
+			SDL_RenderDrawLine(renderer, scale(rooms->x), scale(rooms->y), scale(links->node->x), scale(links->node->y));
+			SDL_RenderDrawLine(renderer, scale(rooms->x) + 1, scale(rooms->y), scale(links->node->x) + 1, scale(links->node->y));
+			SDL_RenderDrawLine(renderer, scale(rooms->x) - 1, scale(rooms->y), scale(links->node->x) - 1, scale(links->node->y));
+			SDL_RenderDrawLine(renderer, scale(rooms->x), scale(rooms->y) + 1, scale(links->node->x), scale(links->node->y) + 1);
+			SDL_RenderDrawLine(renderer, scale(rooms->x), scale(rooms->y) - 1, scale(links->node->x), scale(links->node->y) - 1);
 			links = links->next;
 		}
 		rooms = rooms->next;
@@ -36,10 +47,15 @@ void	drawLinks(SDL_Renderer *renderer, t_room *rooms) {
 
 void	drawRooms(SDL_Renderer *renderer, t_room *rooms) {
 
-	// Set the renderer color
-	SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
 	while (rooms) {
-		SDL_RenderFillCircle(renderer, rooms->x * 100 + 50, rooms->y * 100 + 50, 15);
+		// Set the renderer color
+		if (rooms->type == 1)
+			SDL_SetRenderDrawColor(renderer, green.r, green.g, green.b, green.a);
+		else if (rooms->type == 2)
+			SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, red.a);
+		else
+			SDL_SetRenderDrawColor(renderer, black.r, black.g, black.b, black.a);
+		SDL_RenderFillCircle(renderer, scale(rooms->x), scale(rooms->y), 20);
 		rooms = rooms->next;
 	}
 }
@@ -55,6 +71,7 @@ SDL_Window	*initSDL(SDL_Window *window, SDL_Renderer *renderer) {
 		
 	/* Maximize and show window */
 	SDL_MaximizeWindow(window);
+	SDL_SetWindowSize(window, 900, 900);
 	SDL_ShowWindow(window);
 	return window;
 }
@@ -77,6 +94,12 @@ int main(void) {
 
 	char	**lines = readInput();
 	parseLines(lines, &anthill);
+
+	if (anthill.nbRooms > 100)
+	{
+		exitError("Visualizer cannot preview more than 50 rooms !\n");
+		return 0;
+	}
 
 	/* Init SDL and renderer */
 	window = initSDL(window, renderer);

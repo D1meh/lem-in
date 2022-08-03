@@ -4,6 +4,8 @@
 #include <math.h>
 #include "../includes/lem_in.h"
 
+#define linksNumb 2;
+
 void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
     char *itx = ft_itoa(x);
     char *ity = ft_itoa(y);
@@ -32,7 +34,7 @@ char    **generateAllNodes(int fd, unsigned int maxX, unsigned int maxY) {
     write(fd, "##start\n", 8);
     while (y < maxY) {
         while (x < maxX) {
-            if (y >= ceil(maxY / 2) && x >= ceil(maxX / 2) && !endPrinted) {
+            if (y >= ceil(maxY - 1) && x >= ceil(maxX - 1) && !endPrinted) {
                 endPrinted = true;
                 write(fd, "##end\n", 6);
             }
@@ -55,28 +57,26 @@ char    **generateAllNodes(int fd, unsigned int maxX, unsigned int maxY) {
 }
 
 void    generateAllLinks(int fd, unsigned int len, char **tabNames) {
-    
+
     unsigned int i = 0;
-    unsigned int l = ceil(sqrt((double)(len)));
     while (tabNames[i]) {
-        if (tabNames[i] && tabNames[i + 1])
-        {
-            write(fd, tabNames[i], ft_strlen(tabNames[i]));
+
+		int numberOfLinks = rand() % linksNumb; // Number between 1 and 2 links
+		numberOfLinks += 1;
+		while (numberOfLinks--) {
+			int	randIdx = rand() % len;
+			write(fd, tabNames[i], ft_strlen(tabNames[i]));
             write(fd, "-", 1);
-            write(fd, tabNames[i + 1], ft_strlen(tabNames[i + 1]));
+            write(fd, tabNames[randIdx], ft_strlen(tabNames[randIdx]));
             write(fd, "\n", 1);
-        }
-        if (tabNames[i] && i + l < len && tabNames[i + l]) {
-            write(fd, tabNames[i], ft_strlen(tabNames[i]));
-            write(fd, "-", 1);
-            write(fd, tabNames[i + l], ft_strlen(tabNames[i + l]));
-            write(fd, "\n", 1);
-        }
+		}
         i++;
     }
 }
 
 int main(int ac, char **av) {
+	srand(time(NULL));
+
     if (ac < 2)
         exitError("Generator: Bad argument for generator.\n");
     if (!ft_strisdigit(av[1]))
@@ -112,6 +112,6 @@ int main(int ac, char **av) {
     free(nbAnts);
     free(filename);
     free(name);
-    system("leaks generator");
+    // system("leaks generator");
     return (0);
 }

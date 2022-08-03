@@ -18,7 +18,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 RM = rm -f
 
-all: $(NAME)
+all: $(NAME) generator visualizer
 
 $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
@@ -41,4 +41,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		clean fclean re visualizer generator all
+.PHONY:		clean fclean re all

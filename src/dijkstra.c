@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:33:03 by epfennig          #+#    #+#             */
-/*   Updated: 2022/07/04 16:33:04 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/03 09:30:04 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,15 @@ t_room	**sortQueue(t_room **queue) {
 	}
 	return queue;
 }
+
+
+// t_queue	**enqueue(t_queue **queue, t_room *node) {
+// 	if (!node) return queue;
+
+// 	while ((*queue)) {
+// 		// Insert the node precisely where it's sorted
+// 	}
+// }
 
 t_room **enqueue(t_room **queue, t_room *node) {
 	if (!node) return queue;

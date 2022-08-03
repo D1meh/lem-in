@@ -8,6 +8,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+#include <time.h>
 # include "lib.h"
 
 # define	BUFFER_SIZE		1024
@@ -20,10 +21,25 @@
 # define START 1
 # define END 2
 
+#define time(code) { \
+	clock_t before = clock(); \
+	code; \
+	clock_t now = clock(); \
+	fprintf(stderr, #code ": %lfs\n", (double)(now - before) / CLOCKS_PER_SEC); \
+}
+
 typedef enum bool {
 	false,
 	true,
 } bool;
+
+typedef	struct s_queue {
+
+	t_room	*node;
+
+	struct s_queue	*prev;
+	struct s_queue	*next;
+}	t_queue;
 
 typedef struct s_room {
 

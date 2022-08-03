@@ -161,7 +161,7 @@ void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **pa
 
 		/* ========== STEP 1 ========== */
 		// Find the shortest path with Dijkstra's algorithm
-		hasFound = FindShortestPath(anthill, start, end, paths);
+		time(hasFound = FindShortestPath(anthill, start, end, paths));
 		if (hasFound) {
 			*nbOfPath += 1;
 
@@ -192,26 +192,26 @@ t_path	*solve(t_data *anthill) {
 
 	// Bhandari Algorithm all steps followed :
 	// Step 1, 2 and 3 are here
-	Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
+	time(Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath));
 	if (!paths)
 		exitError("No solution found for this map.\n");
 
 	/* ========== STEP 4 ========== */
 	// Add all shortest paths in the graph. (Done by calling FindShortestPath())
 	if (nbOfPath >= 2) {
-		resetLinks(start);
+		time(resetLinks(start));
 		// Step 5 :
 		// Remove all inverse edges along with their originals,
 		// so they cancel each other out.
-		removeAllInverseEdges(paths);
+		time(removeAllInverseEdges(paths));
 
 		// Then repeat algo to find all the disjoint paths since we deleted the links
 		nbOfPath = 0;
 		freePaths(paths);
 		paths = NULL; // Need to free
-		Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
+		time(Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath));
 	}
-	letsFuckingGo(anthill, paths, nbOfPath);
+	time(letsFuckingGo(anthill, paths, nbOfPath));
 	freePaths(paths);
 	return NULL;
 }
