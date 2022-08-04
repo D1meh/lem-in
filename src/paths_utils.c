@@ -105,26 +105,6 @@ t_room **initPrev(size_t size) {
 	return prev;
 }
 
-void printPaths(t_path *paths) {
-	ft_putstr("------------- printPaths -------------\n");
-	if (!paths) return;
-	while (paths) {
-		printQueue(paths->path);
-		paths = paths->next;
-	}
-	ft_putstr("----------- printPaths End -----------\n");
-}
-
-void	markPath(t_room *start, t_room *end, t_room **path) {
-	size_t	i = 0;
-	size_t	len = queueSize(path);
-	while (i < len) {
-		if (start != path[i] && end != path[i])
-			// path[i]->score += 1;
-		i++;
-	}
-}
-
 void	resetCost(t_room *rooms) {
 	while (rooms) {
 		if (rooms->type != 1) {

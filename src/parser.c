@@ -1,5 +1,44 @@
 #include "../includes/lem_in.h"
 
+typedef	struct s_lines {
+
+	char	*line;
+	struct s_lines	*next;
+
+}	t_lines;
+
+size_t	sizeLines(t_lines *lines) {
+	size_t i = 0;
+	while (lines) { lines = lines->next; i++; }
+	return (i);
+}
+
+char	**tabify(t_lines *lines) {
+	size_t	size = sizeLines(lines);
+	char	**tab = ft_malloc(sizeof(char *), size + 1);
+	t_lines *temp = NULL;
+	
+	tab[size] = NULL;
+
+	for (int i = size; i--;) {
+		tab[i] = lines->line;
+		temp = lines;
+		lines = lines->next;
+		free(temp);
+	}
+
+	return (tab);
+}
+
+void	addLine(t_lines **lines, char *newLine) {
+
+	t_lines *new = ft_malloc(sizeof(t_lines), 1);
+	new->line = newLine;
+	new->next = *lines;
+
+	*lines = new;
+}
+
 void    freeTab(char **tab) {
     int i = 0;
     while (tab[i])
@@ -125,18 +164,20 @@ void    parseLines(char **lines, t_data *anthill) {
 }
 
 char    **readInput() {
-	char	**tab = NULL;
+	t_lines	*lines = NULL;
 	char	*line = NULL;
+	// char	**tab = NULL;
 
 	while (get_next_line(STDIN, &line) > 0) {
         if (!line || !line[0])
             break ;
-		tab = ft_pushback(tab, line);
-        free(line);
+		addLine(&lines, line);
+		// tab = ft_pushback(tab, line);
     }
-	tab = ft_pushback(tab, line);
-    free(line);
-    return (tab);
+	// tab = ft_pushback(tab, line);
+	addLine(&lines, line);
+	// return (tab);
+    return (tabify(lines));
 }
 
 void printMap(t_data *anthill) {
@@ -145,7 +186,7 @@ void printMap(t_data *anthill) {
     t_room          *r = NULL;
 	browseRooms(anthill->rooms);
     while (y <= anthill->maxY) {
-       
+
         while (x <= anthill->maxX) {
 
             r = findRoomByPos(anthill->rooms, x, y);

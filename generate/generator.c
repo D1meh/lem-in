@@ -4,7 +4,7 @@
 #include <math.h>
 #include "../includes/lem_in.h"
 
-#define linksNumb 2;
+#define linksNumb 3;
 
 void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
     char *itx = ft_itoa(x);
@@ -92,7 +92,7 @@ int main(int ac, char **av) {
     unsigned int    maxY = ceil(sqrt((double)(len)));
 
     char            **tabNames = NULL;
-    char            *nbAnts = ft_itoa(floor(len / 5));
+    char            *nbAnts = ft_itoa(100);
 
     
     /* === output nb of ants === */

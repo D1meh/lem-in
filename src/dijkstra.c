@@ -6,127 +6,143 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:33:03 by epfennig          #+#    #+#             */
-/*   Updated: 2022/08/03 09:30:04 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:01:00 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-size_t	queueSize(t_room **queue) {
+typedef	struct s_queue {
+
+	t_room	*node;
+
+	struct s_queue	*prev;
+	struct s_queue	*next;
+}	t_queue;
+
+void	freeQueue(t_queue *queue) {
+	(void)queue;
+	// while (queue) {
+		
+	// }
+}
+
+size_t	queueSize(t_queue *queue) {
 	size_t i = 0;
 	if (!queue) return 0;
-	while (queue[i]) i++;
+	while (queue) {
+		i++;
+		queue = queue->next;
+	}
 	return i;
 }
 
-void	printQueue(t_room **queue) {
-	size_t	i = 0;
-	size_t	len = queueSize(queue);
-	ft_putstr("-------- printQueue --------\n");
-	while (i < len) {
-		ft_putstr("[name = '"); ft_putstr(queue[i]->name); ft_putstr(", dist = ");
-		ft_putnbr(queue[i]->currCost); ft_putstr("]\n");
-		i++;
-	}
+t_queue	*createQueue(t_room *node) {
+	t_queue	*new = ft_malloc(sizeof(t_queue), 1);
+
+	new->node = node;
+	new->next = NULL;
+	new->prev = NULL;
+
+	return new;
 }
 
-t_room **reverseQueue(t_room **queue) {
-	size_t	i = 0;
-	size_t	j = queueSize(queue) - 1;
-	t_room	*temp = NULL;
+t_room **reverseQueue(t_queue *queue) {
 
-	while (i < j) {
-		temp = queue[i];
-		queue[i] = queue[j];
-		queue[j] = temp;
-		i++;
-		j--;
+	size_t	j = queueSize(queue);
+	t_room	**reversed = ft_malloc(sizeof(t_room), j + 1);
+	reversed[j] = NULL;
+
+	while (queue->next) queue = queue->next;
+
+	for (int i = 0 ; queue ; i++) {
+		reversed[i] = queue->node;
+		queue = queue->prev;
 	}
-	return queue;
+	return reversed;
 }
 
-t_room	**sortQueue(t_room **queue) {
-	size_t	i = 0;
-	size_t	j = 0;
-	size_t	size = queueSize(queue);
+// enqueue add a node in order
+// so that we don't have to sort later
+void	enqueue(t_queue **queue, t_room *node, bool wantSort) {
+	if (!node) return ;
 
-	while (i < size) {
-		int		min = 999999;
-		size_t	minIdx = 0;
+	if (!(*queue)) {
+		*queue = createQueue(node);
+		return ;
+	}
 
-		// Find the node with the minimum cost
-		j = i;
-		while (queue[j]) {
-			if (queue[j]->currCost < min) {
-				min = queue[j]->currCost;
-				minIdx = j;
-			}
-			j++;
+	t_queue *head = *queue;
+	t_queue *new = createQueue(node);
+
+	if (wantSort == false)
+	{
+		// Simple add back
+		while ((*queue)->next) *queue = (*queue)->next;
+		new->prev = (*queue);
+		new->next = NULL;
+		(*queue)->next = new;
+		*queue = head;
+		return ;
+	}
+
+	// Insert node in front
+	if (node->currCost < (*queue)->node->currCost)
+	{
+		new->prev = NULL;
+		new->next = *queue;
+		(*queue)->prev = new;
+		*queue = new;
+		return ;
+	}		
+	while ((*queue)) {
+		// Insert node in middle
+		if ((*queue)->next && node->currCost < (*queue)->next->node->currCost)
+		{
+			new->prev = *queue;
+			new->next = (*queue)->next;
+			(*queue)->next->prev = new;
+			(*queue)->next = new;
+			*queue = head;
+			return ;
 		}
-		// Then invert current index with the minimum index
-		t_room	*temp = queue[i];
-		queue[i] = queue[minIdx];
-		queue[minIdx] = temp;
-		i++;
+		// Insert node in end
+		else if (!((*queue)->next))
+		{
+			new->prev = *queue;
+			new->next = NULL;
+			(*queue)->next = new;
+			*queue = head;
+			return ;
+		}
+		*queue = (*queue)->next;
 	}
-	return queue;
 }
 
+t_room *dequeue(t_queue **queue) {
+	if (!*queue) return NULL;
+	t_queue *first = (*queue);
+	t_room	*ret = first->node;
 
-// t_queue	**enqueue(t_queue **queue, t_room *node) {
-// 	if (!node) return queue;
+	(*queue) = (*queue)->next;
+	if (*queue) (*queue)->prev = NULL;
+	free(first);
 
-// 	while ((*queue)) {
-// 		// Insert the node precisely where it's sorted
-// 	}
-// }
-
-t_room **enqueue(t_room **queue, t_room *node) {
-	if (!node) return queue;
-	
-	size_t len = queueSize(queue);
-	t_room **newQueue = ft_malloc(sizeof(t_room *), (len + 2));
-	size_t i = 0;
-
-	while (i < len) {
-		newQueue[i] = queue[i];
-		i++;
-	}
-	if (queue)
-		free(queue);
-	newQueue[i] = node;
-	newQueue[i + 1] = NULL;
-	return newQueue;
-}
-
-t_room *dequeue(t_room ***queue) {
-	if (!*queue || !*queue[0]) return NULL;
-
-	size_t len = queueSize(*queue);
-	t_room **newQueue = ft_malloc(sizeof(t_room *), (len));
-	size_t i = 0;
-
-	while (i < len - 1) {
-		newQueue[i] = (*queue)[i + 1];
-		i++;
-	}
-	t_room *ret = *queue[0];
-	free(*queue);
-	newQueue[i] = NULL;
-	*queue = newQueue;
 	return ret;
 }
 
 t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
-	t_room	**path = NULL;
+	t_queue	*queuePath = NULL;
 
 	// Reconstruct the path using the prev for each node : end -> ... -> start
 	for (t_room	*at = end ; at != NULL ; at = prev[at->id]) {
-		path = enqueue(path, at);
+		enqueue(&queuePath, at, false);
 	}
 	// Then reverse the path to have start -> ... -> end
-	path = reverseQueue(path);
+	t_room **path = reverseQueue(queuePath);
+
 	free(prev);
+	freeQueue(queuePath);
 
 	// If start is start then we found the path !
 	if (path[0] == start)
@@ -138,14 +154,15 @@ t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 }
 
 t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill) {
-	t_room	**queue = enqueue(NULL, start);
+
+	t_queue	*queue = NULL;
 	t_room	**prev = initPrev(anthill->nbRooms);
+
+	enqueue(&queue, start, true);
 
 	start->visited = true;
 	while (queueSize(queue) != 0) {
 
-		// Sort the queue so that the closest node from start is picked to be examinated first
-		queue = sortQueue(queue);
 		// Pick the closest node with dequeue
 		t_room *current = dequeue(&queue);
 
@@ -171,7 +188,7 @@ t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill) {
 					currLinks->node->currCost = current->currCost + currLinks->distance;
 
 					// Add then the node to the queue
-					queue = enqueue(queue, currLinks->node);
+					enqueue(&queue, currLinks->node, true);
 
 					// Save the current as prev for each neighbours (Used to reconstruct the shortest path later)
 					prev[currLinks->node->id] = current;

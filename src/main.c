@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/07/04 16:35:29 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:23:15 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int main(int ac, char **av) {
 	bool	debug = false;
     t_data  anthill;
+	char	**lines;
 
 	if (ac >= 2 && ft_strcmp("--debug", av[1]) == 0)
 		debug = true;
@@ -25,8 +26,8 @@ int main(int ac, char **av) {
 	anthill.nbRooms = 0;
 
 	// === Parsing and storing data === //
-    char **lines = readInput();
-    parseLines(lines, &anthill);
+   	printTime(lines = readInput());
+    printTime(parseLines(lines, &anthill));
 
 	if (anthill.debug)
     	printMap(&anthill);
@@ -39,7 +40,8 @@ int main(int ac, char **av) {
 	ft_putstr("\n");
 
 	// === Solve paths and print results === //
-    solve(&anthill);
+    printTime(solve(&anthill));
 
+	// system("leaks lem-in");
 	ft_putstr("\n");
 }

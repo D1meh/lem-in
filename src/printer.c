@@ -10,7 +10,7 @@ int	getNumberOfPath(int *comb, int ants) {
 }
 
 int	endNode(t_path *pathList) {
-	size_t len = queueSize(pathList->path);
+	size_t len = pathLen(pathList->path);
 	return len-1;
 }
 
