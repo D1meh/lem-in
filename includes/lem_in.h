@@ -87,6 +87,7 @@ typedef struct s_data {
 	unsigned int	maxY;
 
 	bool			debug;
+	bool			time;
 
 }	t_data;
 

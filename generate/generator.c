@@ -105,13 +105,10 @@ int main(int ac, char **av) {
     /* === output all links === */
     generateAllLinks(fd, len, tabNames);
 
-    /* === end === */
-    write(fd, "\n", 1);
-
     close(fd);
     free(nbAnts);
     free(filename);
     free(name);
-    // system("leaks generator");
+    system("leaks generator");
     return (0);
 }

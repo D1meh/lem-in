@@ -166,17 +166,13 @@ void    parseLines(char **lines, t_data *anthill) {
 char    **readInput() {
 	t_lines	*lines = NULL;
 	char	*line = NULL;
-	// char	**tab = NULL;
 
 	while (get_next_line(STDIN, &line) > 0) {
         if (!line || !line[0])
             break ;
 		addLine(&lines, line);
-		// tab = ft_pushback(tab, line);
     }
-	// tab = ft_pushback(tab, line);
 	addLine(&lines, line);
-	// return (tab);
     return (tabify(lines));
 }
 
@@ -191,14 +187,14 @@ void printMap(t_data *anthill) {
 
             r = findRoomByPos(anthill->rooms, x, y);
             if (r) {
-                ft_putstr("\t");
-				ft_putstr(r->name);
+                ft_putstr_fd(STDERR, "\t");
+				ft_putstr_fd(STDERR, r->name);
             }
             else
-                ft_putstr("\t---");
+                ft_putstr_fd(STDERR, "\t---");
             x++;
         }
-        ft_putstr("\n");
+        ft_putstr_fd(STDERR, "\n");
         x = 0;
         y++;
     }

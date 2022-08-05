@@ -27,6 +27,30 @@ void setBackGroundColor(SDL_Window *window, SDL_Renderer *renderer, SDL_Color co
         ft_exit_with_sdl(true, window, renderer, "SDL_RenderClear");
 }
 
+SDL_Window	*initSDL(SDL_Window *window, SDL_Renderer *renderer) {
+	if(SDL_Init(SDL_INIT_VIDEO) != 0)
+		ft_exit_with_sdl(true, window, renderer, "SDL_Init");
+
+	/* Create SDL Window */
+	window = SDL_CreateWindow("lem-in", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	if(window == NULL)
+		ft_exit_with_sdl(true, window, renderer, "SDL_CreateWindow");
+
+	/* Maximize and show window */
+	SDL_MaximizeWindow(window);
+	SDL_SetWindowSize(window, 1920, 1080);
+	SDL_ShowWindow(window);
+	return window;
+}
+
+SDL_Renderer	*initRenderer(SDL_Window *window, SDL_Renderer *renderer) {
+	/* Le renderer utilise l’accélération matérielle. Les données sont en mémoire vidéo, plus rapide que la mémoire vive. */
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if(renderer == NULL)
+		ft_exit_with_sdl(true, window, renderer, "SDL_CreateRenderer");
+	return renderer;
+}
+
 int SDL_RenderFillCircle(SDL_Renderer * renderer, int x, int y, int radius)
 {
     int offsetx, offsety, d;

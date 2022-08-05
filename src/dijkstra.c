@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:33:03 by epfennig          #+#    #+#             */
-/*   Updated: 2022/08/04 12:01:00 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/05 17:37:58 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ typedef	struct s_queue {
 }	t_queue;
 
 void	freeQueue(t_queue *queue) {
-	(void)queue;
-	// while (queue) {
-		
-	// }
+	t_queue	*temp;
+	while (queue) {
+		temp = queue;
+		queue = queue->next;
+		free(temp);
+	}
 }
 
 size_t	queueSize(t_queue *queue) {
