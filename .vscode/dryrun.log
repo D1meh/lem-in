@@ -1,0 +1,52 @@
+make: Entering directory `/Users/epfennig/Desktop/lem-in'
+gcc -Wall -Wextra -Werror    -c -o src/dijkstra.o src/dijkstra.c
+gcc -Wall -Wextra -Werror    -c -o src/get_next_line.o src/get_next_line.c
+gcc -Wall -Wextra -Werror    -c -o src/main.o src/main.c
+gcc -Wall -Wextra -Werror    -c -o src/parser.o src/parser.c
+gcc -Wall -Wextra -Werror    -c -o src/paths.o src/paths.c
+gcc -Wall -Wextra -Werror    -c -o src/paths_utils.o src/paths_utils.c
+gcc -Wall -Wextra -Werror    -c -o src/printer.o src/printer.c
+gcc -Wall -Wextra -Werror    -c -o src/rooms_utils.o src/rooms_utils.c
+gcc -Wall -Wextra -Werror    -c -o src/solve.o src/solve.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_atoi.o lib/libft/ft_atoi.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_exit_error.o lib/libft/ft_exit_error.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_isdigit.o lib/libft/ft_isdigit.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_isspace.o lib/libft/ft_isspace.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_itoa.o lib/libft/ft_itoa.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_malloc.o lib/libft/ft_malloc.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_memalloc.o lib/libft/ft_memalloc.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_pushback.o lib/libft/ft_pushback.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_putnbr.o lib/libft/ft_putnbr.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_putnbr_fd.o lib/libft/ft_putnbr_fd.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_putstr.o lib/libft/ft_putstr.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_putstr_fd.o lib/libft/ft_putstr_fd.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_split.o lib/libft/ft_split.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strchr.o lib/libft/ft_strchr.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strcmp.o lib/libft/ft_strcmp.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strdup.o lib/libft/ft_strdup.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strfree.o lib/libft/ft_strfree.c
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strjoin.o lib/libft/ft_strjoin.c
+ 
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_strlen.o lib/libft/ft_strlen.c
+ 
+gcc -Wall -Wextra -Werror    -c -o lib/libft/ft_substr.o lib/libft/ft_substr.c
+ 
+gcc -Wall -Wextra -Werror  src/dijkstra.o src/get_next_line.o src/main.o src/parser.o src/paths.o src/paths_utils.o src/printer.o src/rooms_utils.o src/solve.o lib/libft/ft_atoi.o lib/libft/ft_exit_error.o lib/libft/ft_isdigit.o lib/libft/ft_isspace.o lib/libft/ft_itoa.o lib/libft/ft_malloc.o lib/libft/ft_memalloc.o lib/libft/ft_pushback.o lib/libft/ft_putnbr.o lib/libft/ft_putnbr_fd.o lib/libft/ft_putstr.o lib/libft/ft_putstr_fd.o lib/libft/ft_split.o lib/libft/ft_strchr.o lib/libft/ft_strcmp.o lib/libft/ft_strdup.o lib/libft/ft_strfree.o lib/libft/ft_strjoin.o lib/libft/ft_strlen.o lib/libft/ft_substr.o -o lem-in
+ 
+gcc -Wall -Wextra -Werror    -c -o generate/generator.o generate/generator.c
+ 
+gcc -Wall -Wextra -Werror  generate/generator.o lib/libft/ft_atoi.o lib/libft/ft_exit_error.o lib/libft/ft_isdigit.o lib/libft/ft_isspace.o lib/libft/ft_itoa.o lib/libft/ft_malloc.o lib/libft/ft_memalloc.o lib/libft/ft_pushback.o lib/libft/ft_putnbr.o lib/libft/ft_putnbr_fd.o lib/libft/ft_putstr.o lib/libft/ft_putstr_fd.o lib/libft/ft_split.o lib/libft/ft_strchr.o lib/libft/ft_strcmp.o lib/libft/ft_strdup.o lib/libft/ft_strfree.o lib/libft/ft_strjoin.o lib/libft/ft_strlen.o lib/libft/ft_substr.o -o generator
+ 
+gcc -Wall -Wextra -Werror    -c -o visualize/draw_utils.o visualize/draw_utils.c
+gcc -Wall -Wextra -Werror    -c -o visualize/get_next_line.o visualize/get_next_line.c
+ 
+gcc -Wall -Wextra -Werror    -c -o visualize/main.o visualize/main.c
+ 
+gcc -Wall -Wextra -Werror    -c -o visualize/mouse_handler.o visualize/mouse_handler.c
+ 
+gcc -Wall -Wextra -Werror    -c -o visualize/solution_parser.o visualize/solution_parser.c
+ 
+gcc -Wall -Wextra -Werror  -I ~/.brew/opt/sdl2/include -L ~/.brew/opt/sdl2/lib -l SDL2-2.0.0 visualize/draw_utils.o visualize/get_next_line.o visualize/main.o visualize/mouse_handler.o visualize/solution_parser.o lib/libft/ft_atoi.o lib/libft/ft_exit_error.o lib/libft/ft_isdigit.o lib/libft/ft_isspace.o lib/libft/ft_itoa.o lib/libft/ft_malloc.o lib/libft/ft_memalloc.o lib/libft/ft_pushback.o lib/libft/ft_putnbr.o lib/libft/ft_putnbr_fd.o lib/libft/ft_putstr.o lib/libft/ft_putstr_fd.o lib/libft/ft_split.o lib/libft/ft_strchr.o lib/libft/ft_strcmp.o lib/libft/ft_strdup.o lib/libft/ft_strfree.o lib/libft/ft_strjoin.o lib/libft/ft_strlen.o lib/libft/ft_substr.o src/rooms_utils.o src/parser.o -o visualizer
+ 
+make: Leaving directory `/Users/epfennig/Desktop/lem-in'
+ 

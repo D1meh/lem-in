@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:33:03 by epfennig          #+#    #+#             */
-/*   Updated: 2022/08/05 17:37:58 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/06 08:50:26 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_room **reverseQueue(t_queue *queue) {
 void	enqueue(t_queue **queue, t_room *node, bool wantSort) {
 	if (!node) return ;
 
+	printf("enqueue: %s\n", node->name);
 	if (!(*queue)) {
 		*queue = createQueue(node);
 		return ;
@@ -136,9 +137,11 @@ t_room *dequeue(t_queue **queue) {
 t_room	**reconstructPath(t_room *start, t_room *end, t_room **prev) {
 	t_queue	*queuePath = NULL;
 
+	printf("--- new try ---\n");
 	// Reconstruct the path using the prev for each node : end -> ... -> start
 	for (t_room	*at = end ; at != NULL ; at = prev[at->id]) {
 		enqueue(&queuePath, at, false);
+		printf("reconstruct: %s\n", at->name);
 	}
 	// Then reverse the path to have start -> ... -> end
 	t_room **path = reverseQueue(queuePath);
@@ -160,6 +163,7 @@ t_room	**dijkstra(t_room *start, t_room *end, t_data *anthill) {
 	t_queue	*queue = NULL;
 	t_room	**prev = initPrev(anthill->nbRooms);
 
+	printf("--- dijkstra start ---\n");
 	enqueue(&queue, start, true);
 
 	start->visited = true;

@@ -62,6 +62,7 @@ void	invertVertexes(t_path *lastPath) {
 			while (prevLinks) {
 				if (prevLinks->node == current) {
 					deleteLink(&previous->links, prevLinks);
+					// printf("invertVertex: %s - %s\n", previous->name, prevLinks->node->name);
 					break ;
 				}
 				prevLinks = prevLinks->next;
@@ -127,6 +128,7 @@ void	removeAllInverseEdges(t_path *paths) {
 							if (first == start->path[i] && second == start->path[i + 1]) {
 								deleteLink(&(first->links), findLinkByName(first->links, second->name));
 								deleteLink(&(second->links), findLinkByName(second->links, first->name));
+								// printf("delete link: %s - %s\n", first->name, second->name);
 							}
 								
 						}
@@ -170,12 +172,29 @@ void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **pa
 			// with inverse edges with negative costs.
 			// and reset data in all nodes between each iteration
 			invertVertexes(lastPath(*paths));
+			printLinks(anthill->rooms);
 		}
+		
 
 		resetCost(start);
 
+		// printLinks(anthill->rooms);
+
 		/* ========== STEP 3 ========== */
 		// Repeat step 1 and 2 for n shortest paths
+	}
+}
+
+void	printPaths(t_path *paths) {
+	while (paths) {
+		printf("--- path ---\n");
+		for (int i = 0 ; paths->path[i] ; i++) {
+			printf("%s", paths->path[i]->name);
+			if (paths->path[i + 1])
+				printf(" -> ");
+		}
+		printf("\n");
+		paths = paths->next;
 	}
 }
 
@@ -195,6 +214,7 @@ t_path	*solve(t_data *anthill) {
 	Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
 	if (!paths)
 		exitError("No solution found for this map.\n");
+	// printPaths(paths);
 
 	/* ========== STEP 4 ========== */
 	// Add all shortest paths in the graph. (Done by calling FindShortestPath())
@@ -210,6 +230,7 @@ t_path	*solve(t_data *anthill) {
 		freePaths(paths);
 		paths = NULL;
 		Bhandari_Algorithm(anthill, start, end, &paths, &nbOfPath);
+		// printPaths(paths);
 	}
 	letsFuckingGo(anthill, paths, nbOfPath);
 	freePaths(paths);
