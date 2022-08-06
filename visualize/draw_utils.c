@@ -14,7 +14,10 @@ void	freeSteps(solveStep *steps) {
 }
 
 void    ft_exit_with_sdl(bool isError, SDL_Window *window, SDL_Renderer *renderer, char *funcName, t_data *anthill, solveStep *steps) {
-    if (isError) {
+   	
+	// system("leaks visualizer");
+
+	if (isError) {
         const char    *sdlError = SDL_GetError();
         write(STDERR, funcName, ft_strlen(funcName));
         write(STDERR, " : ", 3);

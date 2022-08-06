@@ -6,7 +6,7 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/08/06 06:23:26 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/07 01:37:27 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ int main(int ac, char **av) {
 	}
 	ft_putstr("\n");
 	
-	// system("leaks lem-in");
 	return (0);
 }

@@ -181,19 +181,6 @@ void	Bhandari_Algorithm(t_data *anthill, t_room *start, t_room* end, t_path **pa
 	}
 }
 
-// void	printPaths(t_path *paths) {
-// 	while (paths) {
-// 		printf("--- path ---\n");
-// 		for (int i = 0 ; paths->path[i] ; i++) {
-// 			printf("%s", paths->path[i]->name);
-// 			if (paths->path[i + 1])
-// 				printf(" -> ");
-// 		}
-// 		printf("\n");
-// 		paths = paths->next;
-// 	}
-// }
-
 t_path	*solve(t_data *anthill) {
 
 	t_path	*paths = NULL;
