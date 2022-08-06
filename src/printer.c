@@ -67,6 +67,6 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 			currPath = currPath->next;
 		} // end paths
 
-	write(1, "\n", 1);
+		write(1, "\n", 1);
 	}	// end ants have reached
 }

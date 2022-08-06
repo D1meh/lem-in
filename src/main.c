@@ -6,19 +6,20 @@
 /*   By: epfennig <epfennig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:05:00 by epfennig          #+#    #+#             */
-/*   Updated: 2022/08/05 19:20:52 by epfennig         ###   ########.fr       */
+/*   Updated: 2022/08/06 06:23:26 by epfennig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
 void	printAnthill(char **lines) {
-
-	for (size_t i = 0; lines[i] ; i++) {
+	size_t i = 0;
+	while (lines[i]) {
 		ft_putstr(lines[i]);
 		ft_putstr("\n");
+		i++;
 	}
-	// ft_putstr("\n");
+	ft_putstr("\n");
 }
 
 void	mainDebug(t_data anthill) {
@@ -70,7 +71,7 @@ int main(int ac, char **av) {
 		solve(&anthill);
 	}
 	ft_putstr("\n");
-
+	
 	// system("leaks lem-in");
 	return (0);
 }

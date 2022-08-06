@@ -8,10 +8,12 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-#include <time.h>
+# include <time.h>
+# include <limits.h>
+
 # include "lib.h"
 
-# define	BUFFER_SIZE		1024
+# define	BUFFER_SIZE		2048
 # define	STDIN			0
 # define	STDOUT			1
 # define	STDERR			2
@@ -33,58 +35,52 @@ typedef enum bool {
 	true,
 } bool;
 
-typedef struct s_room {
-
-	char			*name;
-	int				id;
-	unsigned int	x;
-	unsigned int	y;
-	int				type;	// 0 = normal, 1 = start, 2 = end
-	bool			visited;
-
-	int				idAnt;
-	bool			hasAnAnt;
-
-	int				currCost;
-	struct s_link	*links;
-
-	struct s_link	*saveLinks;
-
-	struct s_room	*prev;
-	struct s_room	*next;
-}	t_room;
-
 typedef struct s_link {
-	t_room			*node;
 	int				distance;
+	struct s_room	*node;
+
 	struct s_link	*next;
 	struct s_link	*prev;
 }	t_link;
 
 typedef struct s_path {
 
-	t_room			**path;
+	struct s_room	**path;
 	struct s_path	*next;
 	struct s_path	*prev;
 
 }	t_path;
 
-typedef struct s_ant {
+typedef struct s_room {
 
-	int		id;
-	t_room	*currRoom;
+	char			*name;
+	int				id;
+	long int		x;
+	long int		y;
+	int				type;	// 0 = normal, 1 = start, 2 = end
+	
+	/* For path finding algorithm */
+	bool			visited;
+	int				currCost;
+	t_link			*links;
+	t_link			*saveLinks;
 
-}	t_ant;
+	/* For solution output */
+	int				idAnt;
+	bool			hasAnAnt;
+
+	struct s_room	*prev;
+	struct s_room	*next;
+}	t_room;
 
 typedef struct s_data {
 
 	t_room			*rooms;
-	t_ant			*ants;
 
 	size_t			nbRooms;
 	long int		nbAnts;
-	unsigned int	maxX;
-	unsigned int	maxY;
+	long int		maxX;
+	long int		maxY;
 
 	bool			debug;
 	bool			time;
