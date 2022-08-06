@@ -4,7 +4,7 @@
 #include <math.h>
 #include "../includes/lem_in.h"
 
-#define linksNumb 3;
+#define linksNumb 3
 
 void  generateNode(int fd, char *name, unsigned int x, unsigned int y) {
     char *itx = ft_itoa(x);
@@ -57,7 +57,7 @@ void    generateAllLinks(int fd, unsigned int len, char **tabNames) {
     unsigned int i = 0;
     while (tabNames[i]) {
 
-		int numberOfLinks = rand() % linksNumb; // Number between 1 and 2 links
+		int numberOfLinks = rand() % linksNumb + 1; // Number between 1 and 3 links
 		numberOfLinks += 1;
 		while (numberOfLinks--) {
 			int	randIdx = rand() % len;
