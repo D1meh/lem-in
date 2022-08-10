@@ -1,6 +1,6 @@
 #include "../../includes/lib.h"
 
-static int tabLen(char **tab) {
+int tabLen(char **tab) {
 	int i = 0;
 	if (!tab) return 0;
 	while (tab[i]) i++;

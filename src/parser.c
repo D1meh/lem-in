@@ -54,7 +54,7 @@ void	storeNbAnts(char *line, t_data *anthill) {
 	if (!ft_strisdigit(line))
 		exitError("Invalid format for 'number of ants'.\n");
 	long int nbAnts = ft_atoi(line);
-	if (nbAnts <= 0 || nbAnts >= INT_MAX)
+	if (nbAnts <= 0 || nbAnts > INT_MAX)
 		exitError("Invalid number of ants.\n");
 	anthill->nbAnts = nbAnts;
 }
@@ -74,7 +74,7 @@ bool storeRoom(char *line, int type, t_data *anthill) {
 	unsigned int x = ft_atoi(tab[1]);
 	unsigned int y = ft_atoi(tab[2]);
 	t_room	*new = createRoom(ft_strdup(tab[0]), x, y, type);
-	if (!avoidDoubeRoom(anthill->rooms, new)) {
+	if (!avoidDoubleRoom(anthill->rooms, new)) {
 		freeTab(tab);
 		free(new->name);
 		free(new);
@@ -114,6 +114,18 @@ bool	storeLinks(char *line, t_data *anthill) {
 	return true;
 }
 
+bool checkIfLink(char *line) {
+	char **splitLine = ft_split(line, ' ');
+	bool ret;
+
+	if (tabLen(splitLine) == 3)
+		ret = false;
+	else
+		ret = true;
+	freeTab(splitLine);
+	return ret;
+}
+
 void	parseLines(char **lines, t_data *anthill) {
 	int	 part = 0; // number_of_ants - the_rooms - the_links
 	int	 type = 0;
@@ -141,7 +153,7 @@ void	parseLines(char **lines, t_data *anthill) {
 		/* Store the_rooms */
 		else if (part == 1) {
 			/* Go to part 3 if there is a '-' */
-			if (ft_strchr(lines[i], '-')) {
+			if (ft_strchr(lines[i], '-') && checkIfLink(lines[i])) {
 				i--;
 				part++;
 				continue ;

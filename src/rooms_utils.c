@@ -155,7 +155,7 @@ bool avoidDoubleLink(t_room *room, char *link) {
 	return true;
 }
 
-bool	avoidDoubeRoom(t_room *roomList, t_room *elt) {
+bool	avoidDoubleRoom(t_room *roomList, t_room *elt) {
 	while (roomList) {
 		if (ft_strcmp(roomList->name, elt->name) == 0 || (roomList->x == elt->x && roomList->y == elt->y))
 			return false;

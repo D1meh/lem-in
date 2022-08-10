@@ -106,7 +106,7 @@ int		pathLen(t_room **path);
 size_t	roomSizeList(t_room *rooms);
 bool	avoidDoubleLink(t_room *room, char *link);
 bool	validStartEnd(t_room *roomlist);
-bool	avoidDoubeRoom(t_room *roomList, t_room *elt);
+bool	avoidDoubleRoom(t_room *roomList, t_room *elt);
 t_room	*createRoom(char *name, unsigned int x, unsigned int y, int type);
 t_room	*lastRoom(t_room *roomList);
 t_room	*findRoomByName(char *name, t_room *rooms);

@@ -71,6 +71,5 @@ int main(int ac, char **av) {
 		solve(&anthill);
 	}
 	ft_putstr("\n");
-	
 	return (0);
 }

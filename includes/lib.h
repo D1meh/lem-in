@@ -19,6 +19,7 @@ int			ft_isspace(char c);
 int			ft_strnoisspace(char *s);
 int			ft_isdigit(char c);
 int			ft_strisdigit(char *s);
+int			tabLen(char **tab);
 
 char		*ft_memalloc(size_t size);
 char		*ft_strjoin(char *s1, char *s2);

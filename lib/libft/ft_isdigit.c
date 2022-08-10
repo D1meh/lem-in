@@ -9,6 +9,8 @@ int ft_isdigit(char c) {
 int ft_strisdigit(char *s) {
 	int i = 0;
 
+	if (s[i] == '-')
+		i++;
 	while (s[i]) {
 		if (s[i] > '9' || s[i] < '0')
 			return 0;
