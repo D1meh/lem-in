@@ -22,6 +22,9 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 	while (hasReached < anthill->nbAnts) {
 		t_path *currPath = pathList;
 		int left = pathsToUse;
+		
+		for (int i = left; i > 1; i--)
+			currPath = currPath->next;
 
 		while (left) {
 			int currRoom = endNode(currPath);
@@ -64,7 +67,7 @@ void printer(t_data *anthill, t_path *pathList, int *comb) {
 			}
 
 			left--;
-			currPath = currPath->next;
+			currPath = currPath->prev;
 		} // end paths
 
 		write(1, "\n", 1);
